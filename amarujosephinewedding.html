@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>💘 AMARU & JOSEPHINE 💘 DEN ULTIMATA KÄRLEKSHISTORIEN</title>
+  <style>
+    /* ====== VÄLKOMMEN TILL INTERNETS HÄFTIGASTE HEMSIDA 1997 ====== */
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+      background: #000022;
+      color: #00FF00;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    canvas#stars {
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .slideshow {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+    }
+
+    .slide {
+      display: none;
+      position: absolute;
+      inset: 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 16px 20px 108px 20px;
+    }
+    .slide.active { display: flex; }
+
+    /* ── Slide backgrounds ── */
+    #slide-1 {
+      background: linear-gradient(135deg, #FF00FF 0%, #00FFFF 25%, #FFFF00 50%, #FF00FF 75%, #00FF00 100%);
+      background-size: 400% 400%;
+      animation: psychedelic 3s ease infinite;
+    }
+    #slide-2  { background: linear-gradient(160deg, #000080, #4B0082, #000033); }
+    #slide-3  { background: linear-gradient(135deg, #003300, #006400, #39FF14 200%); }
+    #slide-4  { background: linear-gradient(135deg, #001133, #003377, #0066AA); }
+    #slide-5  { background: linear-gradient(135deg, #660066, #FF0099, #FF6600); }
+    #slide-6  { background: linear-gradient(160deg, #000033, #000080, #0066CC); }
+    #slide-7  { background: linear-gradient(135deg, #331100, #883300, #FFCC00); }
+    #slide-8  { background: linear-gradient(160deg, #80004d, #FF1493, #FF69B4); }
+    #slide-9  { background: linear-gradient(135deg, #5c0000, #006600, #003300); }
+    #slide-10 { background: linear-gradient(135deg, #1a0033, #4B0082, #8B008B); }
+    #slide-11 { background: #000000; }
+    #slide-12 {
+      background: linear-gradient(45deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #8B00FF);
+      background-size: 600% 600%;
+      animation: psychedelic 2s ease infinite;
+    }
+
+    @keyframes psychedelic {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* ── Typography ── */
+    .wordart {
+      font-size: clamp(2.2em, 7vw, 5.5em);
+      font-weight: 900;
+      font-style: italic;
+      color: #FFFF00;
+      text-shadow: -3px -3px 0 #FF0000, 3px 3px 0 #0000FF, 0 0 30px #FFFFFF;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+    }
+
+    .rainbow-text {
+      font-size: clamp(1.4em, 4vw, 3em);
+      font-weight: 900;
+      background: linear-gradient(to right, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #FF00FF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .chapter-title {
+      font-size: clamp(1.2em, 3vw, 2em);
+      color: #FFFF00;
+      text-shadow: 2px 2px #FF00FF, 4px 4px #00FFFF;
+      margin-bottom: 12px;
+      border: 3px dashed #FF00FF;
+      padding: 7px 20px;
+      background: rgba(0,0,0,0.55);
+      flex-shrink: 0;
+    }
+
+    .body-text {
+      font-size: clamp(0.82em, 1.7vw, 1.12em);
+      color: #FFFFFF;
+      text-shadow: 1px 1px #000;
+      max-width: 780px;
+      line-height: 1.65;
+      background: rgba(0,0,0,0.6);
+      padding: 12px 16px;
+      border: 2px solid #00FF00;
+      box-shadow: 0 0 10px #00FF00;
+      flex-shrink: 0;
+    }
+
+    .blink { animation: blink 0.85s step-start infinite; }
+    @keyframes blink { 50% { visibility: hidden; } }
+
+    /* ── Marquee ── */
+    .marquee-bar {
+      position: fixed;
+      bottom: 56px;
+      width: 100%;
+      background: #FF00FF;
+      color: #FFFF00;
+      font-size: 1.05em;
+      padding: 6px 0;
+      z-index: 100;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-inner {
+      display: inline-block;
+      white-space: nowrap;
+      animation: marquee 30s linear infinite;
+    }
+    @keyframes marquee {
+      from { transform: translateX(100vw); }
+      to   { transform: translateX(-100%); }
+    }
+
+    /* ── Navigation ── */
+    .nav {
+      position: fixed;
+      bottom: 8px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 18px;
+      z-index: 200;
+    }
+    .nav-btn {
+      font-family: 'Comic Sans MS', cursive;
+      font-size: 1em;
+      padding: 6px 18px;
+      background: #000000;
+      color: #00FF00;
+      border: 3px solid #00FF00;
+      cursor: pointer;
+      text-shadow: 0 0 8px #00FF00;
+      box-shadow: 0 0 8px #00FF00;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-btn:hover { background: #00FF00; color: #000; }
+    .slide-counter { color: #FFFF00; font-size: 0.95em; text-shadow: 0 0 5px #FFFF00; }
+
+    /* ── Hit counter ── */
+    .hit-counter {
+      position: fixed;
+      top: 8px;
+      right: 10px;
+      background: #000;
+      border: 2px solid #FF0000;
+      color: #FF0000;
+      padding: 4px 10px;
+      font-size: 0.65em;
+      z-index: 200;
+    }
+
+    /* ── Polaroid photos ── */
+    .photo-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 8px 0;
+      flex-shrink: 0;
+    }
+
+    .polaroid {
+      background: white;
+      padding: 8px 8px 34px 8px;
+      box-shadow: 5px 5px 18px rgba(0,0,0,0.9), 0 0 20px #FF00FF;
+      transform: rotate(-2.5deg);
+      flex-shrink: 0;
+    }
+    .polaroid:nth-child(2) { transform: rotate(2deg); }
+    .polaroid:nth-child(3) { transform: rotate(-1.5deg); }
+
+    /* Four photos per slide */
+    .polaroid.xs img { width: 240px; height: 255px; object-fit: cover; display: block; }
+    /* Three photos per slide */
+    .polaroid.sm img { width: 290px; height: 310px; object-fit: cover; display: block; }
+    /* Two photos per slide */
+    .polaroid.md img { width: 360px; height: 395px; object-fit: cover; display: block; }
+    /* Single large photo */
+    .polaroid.lg img { width: 440px; height: 480px; object-fit: cover; display: block; }
+
+    .polaroid .caption {
+      text-align: center;
+      color: #333;
+      font-size: 0.8em;
+      margin-top: 6px;
+      font-family: 'Comic Sans MS', cursive;
+      width: 100%;
+    }
+
+    /* ── Character cards ── */
+    .chars-row {
+      display: flex;
+      gap: 26px;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+
+    .char-card {
+      background: rgba(0,0,0,0.75);
+      border: 3px solid;
+      padding: 12px;
+      width: 265px;
+      text-align: left;
+      flex-shrink: 0;
+    }
+    .char-card.amaru     { border-color: #FF00FF; box-shadow: 0 0 18px #FF00FF; }
+    .char-card.josephine { border-color: #00FFFF; box-shadow: 0 0 18px #00FFFF; }
+    .char-name {
+      font-size: 1.35em;
+      font-weight: bold;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .amaru     .char-name { color: #FF00FF; text-shadow: 0 0 10px #FF00FF; }
+    .josephine .char-name { color: #00FFFF; text-shadow: 0 0 10px #00FFFF; }
+    .char-card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      object-position: center top;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .stat { color: #FFFF00; font-size: 0.8em; margin: 3px 0; }
+    .stat span { color: #FFFFFF; }
+    .love-bar-wrap { background: #333; border: 1px solid #fff; height: 12px; margin: 4px 0; }
+    .love-bar {
+      height: 100%;
+      background: linear-gradient(to right, #FF0000, #FF69B4);
+      animation: lovePulse 1s ease-in-out infinite alternate;
+    }
+    @keyframes lovePulse { from { opacity: 0.7; } to { opacity: 1; } }
+
+    .vs-text {
+      font-size: 2.5em;
+      font-weight: 900;
+      color: #FF00FF;
+      text-shadow: 0 0 15px #FF00FF;
+      align-self: center;
+    }
+
+    /* ── Artistic final photo slide ── */
+    .couple-finale {
+      max-height: 68vh;
+      max-width: 70vw;
+      object-fit: cover;
+      border: 6px solid #FFFFFF;
+      box-shadow: 0 0 50px rgba(255,255,255,0.4), 0 0 100px rgba(255,255,255,0.2);
+    }
+
+    /* ── Final GAME OVER slide ── */
+    .game-over {
+      font-size: clamp(2em, 6.5vw, 4.5em);
+      color: #FFFF00;
+      font-weight: 900;
+      animation: glow 1s ease-in-out infinite alternate;
+      line-height: 1.2;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 12px #FF0000, 0 0 25px #FF6600; }
+      to   { text-shadow: 0 0 22px #FFFF00, 0 0 45px #FF6600, 0 0 70px #FF0000; }
+    }
+
+    .ring {
+      font-size: 3.5em;
+      display: inline-block;
+      animation: bounce 0.55s ease-in-out infinite alternate;
+    }
+    @keyframes bounce {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-16px); }
+    }
+
+    .spin { display: inline-block; animation: spin 2s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Helpers ── */
+    .row       { display: flex; gap: 18px; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .mt        { margin-top: 10px; }
+    .mb        { margin-bottom: 10px; }
+    .highlight { color: #FFFF00; font-weight: bold; }
+    .cyan      { color: #00FFFF; }
+    .pink      { color: #FF69B4; }
+    .neon-tag  { display: inline-block; background: #FF00FF; color: #000; padding: 2px 10px; font-weight: bold; font-size: 0.82em; }
+  </style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<div class="hit-counter">BESÖKARE: <b>1&thinsp;337&thinsp;420</b></div>
+
+<div class="slideshow">
+
+  <!-- ══════════════════════════════════════
+       SLIDE 1 — TITEL
+  ══════════════════════════════════════ -->
+  <div class="slide active" id="slide-1">
+    <div style="color:#000; font-size:1.5em; margin-bottom:8px;" class="blink">
+      ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★
+    </div>
+    <div class="wordart">💘 AMARU &amp; JOSEPHINE 💘</div>
+    <div class="rainbow-text mt">DEN ULTIMATA KÄRLEKSHISTORIEN</div>
+    <div style="margin:14px 0; color:#000; font-size:1.2em; background:#FFFF00; padding:8px 24px; font-weight:bold;">
+      ✨ VÄRLDSPREMIÄR — IDAG ✨
+    </div>
+    <div style="color:#000; background:#00FF00; padding:7px 18px;" class="blink">
+      ► BÄST UPPLEVT I NETSCAPE NAVIGATOR 4.0 ◄
+    </div>
+    <div style="margin-top:16px; color:#000; font-size:0.95em;">
+      <span class="spin">⚙</span>
+      &nbsp;DENNA PRESENTATION ÄR UNDER KONSTRUKTION MEN KÄRLEKEN ÄR KLAR&nbsp;
+      <span class="spin">⚙</span>
+    </div>
+    <div style="color:#000; font-size:1.5em; margin-top:10px;" class="blink">
+      ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 2 — KARAKTÄRSVAL
+  ══════════════════════════════════════ -->
+  <div class="slide" id="slide-2">
+    <div class="chapter-title">⚔&thinsp; KARAKTÄRSVAL &thinsp;⚔</div>
+    <div style="color:#AAAAFF; margin-bottom:10px; font-size:0.9em;">
+      VÄLJ DIN FIGHTER — (de valde varandra)
+    </div>
+    <div class="chars-row">
+
+      <div class="char-card amaru">
+        <div class="char-name">★ AMARU ★</div>
+        <img src="952U6E2A.jpg" alt="Amaru utklädd till Josephine"
+             style="object-position: 50% 0%; object-fit: cover;">
+        <div class="stat">🧠 Yrke: <span>Ingenjör / AI-utvecklare</span></div>
+        <div class="stat">🎲 Superpower: <span>Vinner ALLTID i brädspel</span></div>
+        <div class="stat">🏙 Hjärta: <span>Inner city kid — vägrar lämna stan</span></div>
+        <div class="stat">💸 Princip: <span>Köper ALDRIG något nytt</span></div>
+        <div class="stat">🌮 Hobby: <span>Konstig mat + smala filmer</span></div>
+        <div class="stat">🤝 Karaktär: <span>Ja-sägare, lojal, halvperuansk nörd</span></div>
+        <div class="stat">❤️ KÄRLEKS-HP:</div>
+        <div class="love-bar-wrap"><div class="love-bar" style="width:100%"></div></div>
+      </div>
+
+      <div class="vs-text">VS</div>
+
+      <div class="char-card josephine">
+        <div class="char-name">★ JOSEPHINE ★</div>
+        <img src="IMG_20180921_190928.jpg" alt="Josephine utklädd till Amaru"
+             style="object-position: center top;">
+        <div class="stat">🎨 Yrke: <span>Konstnär + keramiker (egna studion)</span></div>
+        <div class="stat">🏺 Konststil: <span>Konvergerar mot penisar*</span></div>
+        <div class="stat">🐕 Svaghet: <span>ÄLSKAR hundar. Varenda en.</span></div>
+        <div class="stat">🚗 Special: <span>Älskar köra bil — Amaru: 0 körlektioner</span></div>
+        <div class="stat">🌾 Dröm: <span>Flytta till landet (pågående förhandling)</span></div>
+        <div class="stat">💪 Karaktär: <span>Envis, öppen, nyfiken</span></div>
+        <div class="stat">❤️ KÄRLEKS-HP:</div>
+        <div class="love-bar-wrap"><div class="love-bar" style="width:100%"></div></div>
+      </div>
+
+    </div>
+    <div style="color:#FFFF00; margin-top:10px; font-size:0.9em;">
+      RESULTAT: INGET VS — DE FORMADE ETT LAG 💪
+    </div>
+    <div style="color:#AAAAAA; font-size:0.7em; margin-top:4px;">* Hon vägrar erkänna detta</div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 3 — HUR DET BÖRJADE
+  ══════════════════════════════════════ -->
+  <div class="slide" id="slide-3">
+    <div class="chapter-title">📼&thinsp; KAPITEL 1: HUR DET BÖRJADE &thinsp;📼</div>
+    <div class="row">
+      <div class="polaroid md">
+        <img src="746384381_1428855205743940_6156592407962549186_n.jpg"
+             style="object-position: center top;" alt="Stockholmsbesöket">
+        <div class="caption">Josephine möter Amarus viktigaste vänner</div>
+      </div>
+      <div class="body-text" style="max-width:420px; text-align:left; font-size: clamp(0.85em,1.6vw,1.1em);">
+        <p style="color:#FFFF00; font-weight:bold;">NYÅRSAFTON 2015 → 2016</p>
+        <p style="font-size:0.85em; color:#AAAAFF;">Köpenhamn, Danmark</p>
+        <br>
+        <p>Josephine — Danska originalet — bjöd hem folk på nyårsfest.</p>
+        <br>
+        <p>Amaru — via <span class="highlight">TINDER</span> — dök upp.</p>
+        <br>
+        <p>Vid midnatt, medan fyrverkerier smällde utanför,<br>
+        klickade något på insidan.</p>
+        <br>
+        <p style="color:#00FF00;">Det var inte bara champagnen.<br>
+        <em class="pink">(Fast champagnen hjälpte säkert.)</em></p>
+      </div>
+    </div>
+    <div class="mt" style="font-size:0.85em;">
+      <span class="neon-tag">MATCH: LYCKAD</span>
+      &emsp;
+      <span class="neon-tag">SWIPE HÖGER: RÄTT BESLUT</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 4 — KÖPENHAMN → STOCKHOLM
+  ══════════════════════════════════════ -->
+  <div class="slide" id="slide-4">
+    <div class="chapter-title">🏙&thinsp; KAPITEL 2: DEN STORA FLYTTEN &thinsp;🏙</div>
+    <div class="row">
+      <div class="polaroid md">
+        <img src="743276314_1696485184967774_2701693072136770101_n.jpg"
+             alt="Paret" style="object-position: center top;">
+        <div class="caption">Köpenhamn → Stockholm = UPPGRADERING</div>
+      </div>
+      <div class="body-text" style="max-width:400px; text-align:left; font-size: clamp(0.82em,1.55vw,1.05em);">
+        <p>Josephine bodde kvar i Köpenhamn ett par år.</p>
+        <p>Amaru pendlade. Kärlek slår tågbiljetter.</p>
+        <br>
+        <p>Sen hände det: <span class="highlight">DE FLYTTADE IHOP I STOCKHOLM</span>.</p>
+        <br>
+        <p>Liten lägenhet. Mycket böcker. Perfekt.</p>
+        <br>
+        <p style="color:#FF6666; font-weight:bold;">Josephines dröm: flytta till landet 🌾</p>
+        <p style="color:#00FF00; font-weight:bold;">Amarus svar: nej 🏢</p>
+        <br>
+        <p style="font-size:0.85em; color:#AAAAAA;">
+          Status idag: <em>fortfarande samma lilla lägenhet.</em><br>
+          Status om landet: <em>fortfarande aktivt förhandlat.</em>
+        </p>
+      </div>
+    </div>
+    <div class="mt">
+      <span class="neon-tag blink">KONFLIKTEN PÅGÅR ÄN IDAG</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 5 — RESOR & ÄVENTYR
+  ══════════════════════════════════════ -->
+  <div class="slide" id="slide-5">
+    <div class="chapter-title">🗺&thinsp; KAPITEL 3: VÄRLDSERÖVRARNA &thinsp;🗺</div>
+    <div class="photo-row">
+      <div class="polaroid xs">
+        <img src="DSC_6457.jpg" alt="Fjällvandring">
+        <div class="caption">Mygg: 1 — Vi: 0 🦟</div>
+      </div>
+      <div class="polaroid xs">
+        <img src="747098856_2607479173036067_8679470379954893048_n.jpg" alt="Semester">
+        <div class="caption">Penntroll i Rumänien</div>
+      </div>
+      <div class="polaroid xs">
+        <img src="747450072_1692661718454695_4817890597405731552_n.jpg" alt="Flaxenvik">
+        <div class="caption">Flaxenvik, midsommar ⭐⭐⭐⭐⭐</div>
+      </div>
+      <div class="polaroid xs">
+        <img src="IMG_6184.JPG" alt="Tallinn" style="object-position: center top;">
+        <div class="caption">Tallinn, nyårsafton 🖕</div>
+      </div>
+    </div>
+    <div class="body-text mt">
+      Amaru &amp; Josephine har besökt: <span class="highlight">ÖVERALLT</span>.<br>
+      Resultatet varierar.
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 6 — TILL SJÖSS
+  ══════════════════════════════════════ -->
+  <div class="slide" id="slide-6">
+    <div class="chapter-title">⛵&thinsp; KAPITEL 4: TILL SJÖSS &thinsp;⛵</div>
+    <div class="row">
+      <div class="polaroid lg">
+        <img src="742831751_1349405410081448_1203041913421797257_n.jpg"
+             style="object-position: center center;" alt="Segling">
+        <div class="caption">Amaru: Fokuserad. Josephine: ✌️🍉</div>
+      </div>
+      <div class="body-text" style="max-width:370px; text-align:left;">
+        <p>Amaru säger:</p>
+        <p><em class="cyan">"Vi måste hålla kursen, trimma seglet, kontrollera vinden—"</em></p>
+        <br>
+        <p>Josephine gör peace-tecken och äter vattenmelon.</p>
+        <br>
+        <p class="highlight">Det är ett perfekt team.</p>
+        <br>
+        <p>⚓ Kärlekslängd:<br>sträcker sig från skärgård till skärgård.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 7 — SVENSKA TRADITIONER
+  ══════════════════════════════════════ -->
+  <div class="slide" id="slide-7">
+    <div class="chapter-title">🌸&thinsp; KAPITEL 5: 100% SVENSKA TRADITIONER &thinsp;🌸</div>
+    <div class="photo-row">
+      <div class="polaroid sm">
+        <img src="20170113_220856.jpg"
+             style="object-position: left center;" alt="Snus">
+        <div class="caption">Josephines förstasnus 🤢→😍</div>
+      </div>
+      <div class="polaroid sm">
+        <img src="IMG_4422.JPG"
+             style="object-position: center top;" alt="Kräftskiva">
+        <div class="caption">Partyhatt: Obligatorisk 🎉</div>
+      </div>
+      <div class="polaroid sm">
+        <img src="IMG_6197.JPG"
+             style="object-position: center top;" alt="Bastu">
+        <div class="caption">Bastu: Klassiskt 🧖</div>
+      </div>
+    </div>
+    <div class="body-text mt" style="font-size:0.88em; padding:9px 16px;">
+      🦷 Snus — hooked efter ett försök ✅&emsp;🦞 Kräftskiva med partyhatt ✅&emsp;🧖 Bastu i handduk ✅
+      <br><span class="highlight">INTEGRATION: FULLBORDAD</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 8 — MUMRIK
+  ══════════════════════════════════════ -->
+  <div class="slide" id="slide-8">
+    <div class="chapter-title">🐾&thinsp; KAPITEL 6: MUMRIK — TREDJE FAMILJEMEDLEMMEN &thinsp;🐾</div>
+    <div class="photo-row">
+      <div class="polaroid sm">
+        <img src="743805329_2093011011249638_3153763571608130468_n.jpg"
+             style="object-position: center top;" alt="Mumrik på middag">
+        <div class="caption">2022 — Dag 1. "Vad har vi gjort?"</div>
+      </div>
+      <div class="polaroid sm">
+        <img src="743203571_2479668695887203_1798296347001382830_n.jpg" alt="Mumrik i korg">
+        <div class="caption">Transport: Löst</div>
+      </div>
+      <div class="polaroid sm">
+        <img src="747512891_1013919824874106_8173221104524315341_n.jpg" alt="Mumrik slickar">
+        <div class="caption">Mumrik godkänner Amaru</div>
+      </div>
+    </div>
+    <div class="body-text mt">
+      <span class="pink">MUMRIK</span> — fluffigaste och mest krävande i familjen. Rekryterad 2022.<br>
+      Sitter i cykelkorg ✅ &nbsp; Slickar dig i ansiktet ✅ &nbsp; Bestämmer vem som vinner argument ✅<br>
+      <span class="blink highlight">10/10 — REKOMMENDERAS.</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 9 — JUL
+  ══════════════════════════════════════ -->
+  <div class="slide" id="slide-9">
+    <div class="chapter-title">🎄&thinsp; KAPITEL 7: DEN FULASTE JULEN &thinsp;🎄</div>
+    <div class="row">
+      <div class="polaroid lg">
+        <img src="743876605_1573810097700718_2189214271304153389_n.jpg"
+             style="object-position: center top;" alt="Jultröjor">
+        <div class="caption">"Santa ❤️ YOU" — och Josephine också</div>
+      </div>
+      <div class="body-text" style="max-width:370px; text-align:left;">
+        <p>Varje jul: tävling om <span style="color:#FF0000; font-weight:bold;">FULAST JULTRÖJA</span>.</p>
+        <br>
+        <p>Amaru: <em style="color:#00FF00">"Santa ❤️ YOU"</em> — stark favorit.</p>
+        <br>
+        <p>Josephines svar: tungan rakt ut.</p>
+        <br>
+        <p>Domslut: <span class="blink highlight">BÅDA VANN.</span></p>
+        <br>
+        <p style="font-size:0.85em; color:#AAAAAA;">
+          * Inga pepparkakor skadades.<br>Möjligtvis.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 10 — VÄNNER & GALENSKAPER
+  ══════════════════════════════════════ -->
+  <div class="slide" id="slide-10">
+    <div class="chapter-title">🎉&thinsp; KAPITEL 8: TEAMET RUNT LAGET &thinsp;🎉</div>
+    <div class="photo-row">
+      <div class="polaroid xs">
+        <img src="743269982_1429482155669611_6544241856129732243_n.jpg"
+             style="object-position: center top;" alt="Vänner">
+        <div class="caption">Nyårsafton 🥂</div>
+      </div>
+      <div class="polaroid xs">
+        <img src="1RCSCGlj.jpg" alt="Mustaschfest"
+             style="object-position: center top;">
+        <div class="caption">Alla utklädd till Amaru 🧔</div>
+      </div>
+      <div class="polaroid xs">
+        <img src="746982689_1242317944588507_4345505585339811354_n.jpg"
+             style="object-position: center top;" alt="Vänner">
+        <div class="caption">Vänner med stor stil 😎</div>
+      </div>
+      <div class="polaroid xs">
+        <img src="746020851_1009578708515602_3785988711329985401_n.jpg"
+             style="object-position: center 35%;" alt="Vänner">
+        <div class="caption">Oslagbart gäng 🏆</div>
+      </div>
+    </div>
+    <div class="body-text mt">
+      Runt dessa två finns ett gäng absolut <span class="highlight">OUMBÄRLIGA LEGENDER</span>.<br>
+      De anordnar mustaschfester, besöker tvivelaktiga museer och vet hur man håller en god toast.<br>
+      De är precis de vänner man vill ha på ett bröllop. 🏆
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 11 — STOR PARABILD (B&W)
+  ══════════════════════════════════════ -->
+  <div class="slide" id="slide-11">
+    <div style="color:#FFFFFF; font-size:clamp(0.9em,2vw,1.3em); letter-spacing:0.3em;
+                text-shadow: 0 0 20px #FFFFFF; margin-bottom: 16px; font-weight: bold;">
+      ★ &nbsp; AMARU &amp; JOSEPHINE &nbsp; ★
+    </div>
+    <img src="DSC_6997-01(1).jpg"
+         class="couple-finale" alt="Amaru och Josephine">
+    <div style="color:#AAAAAA; font-size:0.8em; margin-top: 14px; letter-spacing:0.15em;">
+      och nu gifter de sig
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SLIDE 12 — GAME OVER: BRÖLLOP
+  ══════════════════════════════════════ -->
+  <div class="slide" id="slide-12">
+    <div class="game-over">🏆 CONGRATULATIONS! 🏆</div>
+    <div class="rainbow-text mt">LEVEL COMPLETED: BRÖLLOP</div>
+    <div style="margin:8px 0; font-size:clamp(1em,2.6vw,1.5em); color:#FFFF00;
+                text-shadow:0 0 10px #FFFF00; font-weight:bold;">
+      AMARU &amp; JOSEPHINE GIFTER SIG!
+    </div>
+    <div><span class="ring">💍</span></div>
+    <div class="body-text" style="margin:10px 0; font-size:0.9em;">
+      Efter år av:<br>
+      🇩🇰 Tinder i Köpenhamn &emsp; ⛵ Segling &emsp; 🐕 Mumrik &emsp; 🌸 Midsommar &emsp; 🎄 Fula jultröjor &emsp; 🏕 Camping
+      <br><br>
+      …är det dags för det <span class="highlight">ULTIMATA ÄVENTYRET</span>.<br>
+      <span style="font-size:0.85em; color:#AAAAAA;">(Josephine hoppas det är ett hus på landet.)</span>
+    </div>
+    <div style="color:#00FF00; font-size:1.1em;" class="blink">
+      ► TRYCK PÅ KYSS FÖR ATT FORTSÄTTA ◄
+    </div>
+    <div style="font-size:1.8em; margin-top:8px;">❤️ 💛 💚 💙 💜 🩷</div>
+  </div>
+
+</div><!-- /slideshow -->
+
+<!-- Marquee bar -->
+<div class="marquee-bar">
+  <span class="marquee-inner">
+    ★ AMARU &amp; JOSEPHINE ★ FÖR ALLTID ★ OCH LITE TILL ★ GRATTIS TILL BRÖLLOPET ★ VI ÄLSKAR ER ★ OCH MUMRIK ★ ⛵ KÄRLEK PÅ HAVEN ★ 💍 LEVEL UP: GIFTA ★ SANTA ❤️ YOU ★ JOSEPHINE ❤️ YOU MER ★ FLYTT TILL LANDET: PENDING ★
+  </span>
+</div>
+
+<!-- Navigation -->
+<div class="nav">
+  <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)">◄ BAKÅT</button>
+  <span class="slide-counter" id="counter">1 / 12</span>
+  <button class="nav-btn" id="next-btn" onclick="changeSlide(1)">NÄSTA ►</button>
+</div>
+
+<script>
+  /* ── Starfield ── */
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  const stars = Array.from({length: 230}, () => ({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    r: Math.random() * 1.8 + 0.3,
+    s: Math.random() * 0.22 + 0.07,
+    o: Math.random()
+  }));
+
+  (function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    stars.forEach(st => {
+      st.o += (Math.random() - 0.5) * 0.07;
+      st.o  = Math.max(0.1, Math.min(1, st.o));
+      ctx.beginPath();
+      ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${st.o})`;
+      ctx.fill();
+      st.y += st.s;
+      if (st.y > canvas.height) { st.y = 0; st.x = Math.random() * canvas.width; }
+    });
+    requestAnimationFrame(animate);
+  })();
+
+  /* ── Slideshow ── */
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total  = slides.length;
+  let cur = 0;
+
+  function showSlide(n) {
+    slides[cur].classList.remove('active');
+    cur = ((n % total) + total) % total;
+    slides[cur].classList.add('active');
+    document.getElementById('counter').textContent = `${cur + 1} / ${total}`;
+    document.getElementById('prev-btn').style.visibility = cur === 0       ? 'hidden' : 'visible';
+    document.getElementById('next-btn').style.visibility = cur === total-1 ? 'hidden' : 'visible';
+  }
+
+  function changeSlide(dir) { showSlide(cur + dir); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+    if (e.key === 'ArrowLeft')                    changeSlide(-1);
+  });
+
+  showSlide(0);
+</script>
+</body>
+</html>
