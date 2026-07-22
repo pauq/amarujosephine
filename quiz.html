@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>💘 AMARU & JOSEPHINE 💘 QUIZ</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
+      background: #000022;
+      color: #00FF00;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
+    canvas#stars {
+      position: fixed; top: 0; left: 0;
+      z-index: 0; pointer-events: none;
+    }
+
+    .slideshow { position: relative; width: 100vw; height: 100vh; z-index: 1; }
+
+    .slide {
+      display: none; position: absolute; inset: 0;
+      flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 16px 20px 108px 20px;
+    }
+    .slide.active { display: flex; }
+
+    /* ── Original slide backgrounds ── */
+    #slide-1 {
+      background: linear-gradient(135deg, #FF00FF 0%, #00FFFF 25%, #FFFF00 50%, #FF00FF 75%, #00FF00 100%);
+      background-size: 400% 400%; animation: psychedelic 3s ease infinite;
+    }
+    #slide-2  { background: linear-gradient(160deg, #000080, #4B0082, #000033); }
+    #slide-3  { background: linear-gradient(135deg, #003300, #006400, #39FF14 200%); }
+    #slide-4  { background: linear-gradient(135deg, #001133, #003377, #0066AA); }
+    #slide-5  { background: linear-gradient(135deg, #660066, #FF0099, #FF6600); }
+    #slide-6  { background: linear-gradient(160deg, #000033, #000080, #0066CC); }
+    #slide-7  { background: linear-gradient(135deg, #331100, #883300, #FFCC00); }
+    #slide-8  { background: linear-gradient(160deg, #80004d, #FF1493, #FF69B4); }
+    #slide-9  { background: linear-gradient(135deg, #1a0033, #4B0082, #8B008B); }
+    #slide-10 { background: #000000; }
+    #slide-11 {
+      background: linear-gradient(45deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #8B00FF);
+      background-size: 600% 600%; animation: psychedelic 2s ease infinite;
+    }
+
+    /* ── Quiz slide backgrounds ── */
+    #slide-12 {
+      background: linear-gradient(135deg, #1a0033, #0a0033, #000066);
+      border-top: 4px solid #FF00FF;
+    }
+    #slide-13, #slide-14, #slide-15, #slide-16, #slide-17, #slide-18 {
+      background: linear-gradient(160deg, #000033, #110033, #220055);
+    }
+    #slide-19, #slide-20, #slide-21, #slide-22, #slide-23 {
+      background: linear-gradient(160deg, #2d0033, #1a0022, #330022);
+    }
+    #slide-24 {
+      background: linear-gradient(135deg, #1a1100, #332200, #554400);
+      animation: goldpulse 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes psychedelic {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    @keyframes goldpulse {
+      from { filter: brightness(0.9); }
+      to   { filter: brightness(1.2); }
+    }
+
+    /* ── Typography ── */
+    .wordart {
+      font-size: clamp(2.2em, 7vw, 5.5em); font-weight: 900; font-style: italic;
+      color: #FFFF00;
+      text-shadow: -3px -3px 0 #FF0000, 3px 3px 0 #0000FF, 0 0 30px #FFFFFF;
+      letter-spacing: 0.04em; line-height: 1.1;
+    }
+    .rainbow-text {
+      font-size: clamp(1.4em, 4vw, 3em); font-weight: 900;
+      background: linear-gradient(to right, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #FF00FF);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .chapter-title {
+      font-size: clamp(1.2em, 3vw, 2em); color: #FFFF00;
+      text-shadow: 2px 2px #FF00FF, 4px 4px #00FFFF;
+      margin-bottom: 12px; border: 3px dashed #FF00FF;
+      padding: 7px 20px; background: rgba(0,0,0,0.55); flex-shrink: 0;
+    }
+    .body-text {
+      font-size: clamp(0.82em, 1.7vw, 1.12em); color: #FFFFFF;
+      text-shadow: 1px 1px #000; max-width: 780px; line-height: 1.65;
+      background: rgba(0,0,0,0.6); padding: 12px 16px;
+      border: 2px solid #00FF00; box-shadow: 0 0 10px #00FF00; flex-shrink: 0;
+    }
+    .blink { animation: blink 0.85s step-start infinite; }
+    @keyframes blink { 50% { visibility: hidden; } }
+
+    /* ── Marquee ── */
+    .marquee-bar {
+      position: fixed; bottom: 56px; width: 100%;
+      background: #FF00FF; color: #FFFF00;
+      font-size: 1.05em; padding: 6px 0; z-index: 100;
+      overflow: hidden; white-space: nowrap;
+    }
+    .marquee-inner {
+      display: inline-block; white-space: nowrap;
+      animation: marquee 30s linear infinite;
+    }
+    @keyframes marquee {
+      from { transform: translateX(100vw); }
+      to   { transform: translateX(-100%); }
+    }
+
+    /* ── Navigation ── */
+    .nav {
+      position: fixed; bottom: 8px; width: 100%;
+      display: flex; justify-content: space-between;
+      align-items: center; padding: 0 18px; z-index: 200;
+    }
+    .nav-btn {
+      font-family: 'Comic Sans MS', cursive; font-size: 1em;
+      padding: 6px 18px; background: #000000; color: #00FF00;
+      border: 3px solid #00FF00; cursor: pointer;
+      text-shadow: 0 0 8px #00FF00; box-shadow: 0 0 8px #00FF00;
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav-btn:hover { background: #00FF00; color: #000; }
+    .slide-counter { color: #FFFF00; font-size: 0.95em; text-shadow: 0 0 5px #FFFF00; }
+
+    /* ── Hit counter ── */
+    .hit-counter {
+      position: fixed; top: 8px; right: 10px;
+      background: #000; border: 2px solid #FF0000;
+      color: #FF0000; padding: 4px 10px; font-size: 0.65em; z-index: 200;
+    }
+
+    /* ── Language toggle ── */
+    .lang-toggle {
+      position: fixed; top: 8px; left: 10px;
+      display: flex; gap: 3px; z-index: 200;
+    }
+    .lang-btn {
+      font-family: 'Comic Sans MS', cursive; font-size: 1em;
+      padding: 3px 7px; background: #000; color: #00FF00;
+      border: 2px solid #00FF00; cursor: pointer;
+      box-shadow: 0 0 5px #00FF00; line-height: 1;
+    }
+    .lang-btn:hover { background: #003300; }
+    .lang-btn.active { background: #00FF00; color: #000; font-weight: bold; }
+
+    /* ── Polaroid photos ── */
+    .photo-row {
+      display: flex; gap: 16px; align-items: flex-start;
+      justify-content: center; flex-wrap: wrap;
+      margin: 8px 0; flex-shrink: 0;
+    }
+    .polaroid {
+      background: white; padding: 8px 8px 34px 8px;
+      box-shadow: 5px 5px 18px rgba(0,0,0,0.9), 0 0 20px #FF00FF;
+      transform: rotate(-2.5deg); flex-shrink: 0;
+    }
+    .polaroid:nth-child(2) { transform: rotate(2deg); }
+    .polaroid:nth-child(3) { transform: rotate(-1.5deg); }
+    .polaroid.xs img { width: 240px; height: 255px; object-fit: cover; display: block; }
+    .polaroid.sm img { width: 290px; height: 310px; object-fit: cover; display: block; }
+    .polaroid.md img { width: 360px; height: 395px; object-fit: cover; display: block; }
+    .polaroid.lg img { width: 440px; height: 480px; object-fit: cover; display: block; }
+    .polaroid .caption {
+      text-align: center; color: #333; font-size: 0.8em;
+      margin-top: 6px; font-family: 'Comic Sans MS', cursive; width: 100%;
+    }
+
+    /* ── Character cards ── */
+    .chars-row {
+      display: flex; gap: 26px; align-items: flex-start;
+      justify-content: center; flex-wrap: wrap; flex-shrink: 0;
+    }
+    .char-card {
+      background: rgba(0,0,0,0.75); border: 3px solid;
+      padding: 12px; width: 265px; text-align: left; flex-shrink: 0;
+    }
+    .char-card.amaru     { border-color: #FF00FF; box-shadow: 0 0 18px #FF00FF; }
+    .char-card.josephine { border-color: #00FFFF; box-shadow: 0 0 18px #00FFFF; }
+    .char-name { font-size: 1.35em; font-weight: bold; text-align: center; margin-bottom: 8px; }
+    .amaru     .char-name { color: #FF00FF; text-shadow: 0 0 10px #FF00FF; }
+    .josephine .char-name { color: #00FFFF; text-shadow: 0 0 10px #00FFFF; }
+    .char-card img {
+      width: 100%; height: 250px; object-fit: cover;
+      object-position: center top; margin-bottom: 8px; display: block;
+    }
+    .stat { color: #FFFF00; font-size: 0.8em; margin: 3px 0; }
+    .stat span { color: #FFFFFF; }
+    .love-bar-wrap { background: #333; border: 1px solid #fff; height: 12px; margin: 4px 0; }
+    .love-bar {
+      height: 100%;
+      background: linear-gradient(to right, #FF0000, #FF69B4);
+      animation: lovePulse 1s ease-in-out infinite alternate;
+    }
+    @keyframes lovePulse { from { opacity: 0.7; } to { opacity: 1; } }
+    .vs-text {
+      font-size: 2.5em; font-weight: 900; color: #FF00FF;
+      text-shadow: 0 0 15px #FF00FF; align-self: center;
+    }
+    .couple-finale {
+      max-height: 68vh; max-width: 70vw; object-fit: cover;
+      border: 6px solid #FFFFFF;
+      box-shadow: 0 0 50px rgba(255,255,255,0.4), 0 0 100px rgba(255,255,255,0.2);
+    }
+    .game-over {
+      font-size: clamp(2em, 6.5vw, 4.5em); color: #FFFF00;
+      font-weight: 900; animation: glow 1s ease-in-out infinite alternate; line-height: 1.2;
+    }
+    @keyframes glow {
+      from { text-shadow: 0 0 12px #FF0000, 0 0 25px #FF6600; }
+      to   { text-shadow: 0 0 22px #FFFF00, 0 0 45px #FF6600, 0 0 70px #FF0000; }
+    }
+    .ring {
+      font-size: 3.5em; display: inline-block;
+      animation: bounce 0.55s ease-in-out infinite alternate;
+    }
+    @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-16px); } }
+    .spin { display: inline-block; animation: spin 2s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .row { display: flex; gap: 18px; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .mt { margin-top: 10px; } .mb { margin-bottom: 10px; }
+    .highlight { color: #FFFF00; font-weight: bold; }
+    .cyan { color: #00FFFF; } .pink { color: #FF69B4; }
+    .neon-tag { display: inline-block; background: #FF00FF; color: #000; padding: 2px 10px; font-weight: bold; font-size: 0.82em; }
+
+    /* ══════════════════════════════════
+       QUIZ-SPECIFIK CSS
+    ══════════════════════════════════ */
+
+    .quiz-header {
+      font-size: clamp(0.75em, 1.4vw, 0.95em);
+      letter-spacing: 0.12em;
+      padding: 4px 16px;
+      border-radius: 0;
+      margin-bottom: 14px;
+      flex-shrink: 0;
+    }
+    .quiz-header.amaru-q {
+      background: #FF00FF; color: #000; font-weight: bold;
+    }
+    .quiz-header.jose-q {
+      background: #00FFFF; color: #000; font-weight: bold;
+    }
+
+    .quiz-question {
+      font-size: clamp(1.1em, 2.8vw, 1.9em);
+      color: #FFFF00;
+      text-shadow: 2px 2px #330000;
+      max-width: 760px;
+      line-height: 1.45;
+      background: rgba(0,0,0,0.75);
+      padding: 18px 24px;
+      border: 3px solid #FFFF00;
+      box-shadow: 0 0 16px rgba(255,255,0,0.3);
+      margin-bottom: 14px;
+      flex-shrink: 0;
+    }
+
+    .reveal-btn {
+      font-family: 'Comic Sans MS', cursive;
+      font-size: clamp(1em, 2vw, 1.3em);
+      padding: 10px 30px;
+      background: #000;
+      color: #FF00FF;
+      border: 3px solid #FF00FF;
+      cursor: pointer;
+      box-shadow: 0 0 14px #FF00FF;
+      transition: background 0.15s, color 0.15s;
+      flex-shrink: 0;
+    }
+    .reveal-btn:hover { background: #FF00FF; color: #000; }
+
+    .quiz-answer {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      background: rgba(0,0,0,0.88);
+      border: 3px solid #00FF00;
+      box-shadow: 0 0 22px #00FF00;
+      padding: 16px 28px;
+      max-width: 700px;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+    .quiz-answer.visible { display: flex; }
+
+    .answer-line {
+      font-size: clamp(1.1em, 2.8vw, 1.8em);
+      color: #00FF00;
+      text-shadow: 0 0 12px #00FF00;
+      font-weight: bold;
+      line-height: 1.3;
+    }
+    .answer-sub {
+      font-size: clamp(0.75em, 1.5vw, 0.95em);
+      color: #AAAAAA;
+      font-style: italic;
+      margin-top: 2px;
+    }
+    .points-row {
+      display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-top: 6px;
+    }
+    .point-badge {
+      background: #FFFF00; color: #000;
+      font-weight: bold; padding: 3px 12px; font-size: 0.82em;
+    }
+    .tbd-badge {
+      background: #FF6600; color: #000;
+      font-weight: bold; padding: 3px 12px; font-size: 0.82em;
+    }
+
+    .scoreboard {
+      display: flex; gap: 30px; justify-content: center;
+      margin: 16px 0; flex-shrink: 0;
+    }
+    .team-score {
+      background: rgba(0,0,0,0.8);
+      border: 3px solid;
+      padding: 16px 28px;
+      text-align: center;
+      min-width: 180px;
+    }
+    .team-score.amaru-team { border-color: #FF00FF; box-shadow: 0 0 18px #FF00FF; }
+    .team-score.jose-team  { border-color: #00FFFF; box-shadow: 0 0 18px #00FFFF; }
+    .team-name { font-size: 1em; font-weight: bold; margin-bottom: 8px; }
+    .amaru-team .team-name { color: #FF00FF; }
+    .jose-team  .team-name { color: #00FFFF; }
+    .score-big { font-size: 3.5em; color: #FFFF00; font-weight: bold; line-height: 1; }
+    .score-label { font-size: 0.7em; color: #AAAAAA; margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+<div class="hit-counter">BESÖKARE: <b>1&thinsp;337&thinsp;420</b></div>
+
+<div class="lang-toggle">
+  <button class="lang-btn active" data-lang="sv" onclick="setLang('sv')">🇸🇪</button>
+  <button class="lang-btn" data-lang="en" onclick="setLang('en')">🇬🇧</button>
+  <button class="lang-btn" data-lang="da" onclick="setLang('da')">🇩🇰</button>
+  <button class="lang-btn" data-lang="es" onclick="setLang('es')">🇪🇸</button>
+  <button class="lang-btn" data-lang="qu" onclick="setLang('qu')">🇵🇪</button>
+  <button class="lang-btn" data-lang="et" onclick="setLang('et')">🇪🇪</button>
+</div>
+
+<div class="slideshow">
+
+<!-- ═══════════════════════════════ PRESENTATION ═══════════════════════════ -->
+
+  <div class="slide active" id="slide-1">
+    <div style="color:#000;font-size:1.5em;margin-bottom:8px;" class="blink">★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★</div>
+    <div class="wordart">💘 AMARU &amp; JOSEPHINE 💘</div>
+    <div class="rainbow-text mt" data-i18n="s1_subtitle">DEN ULTIMATA KÄRLEKSHISTORIEN</div>
+    <div style="margin:14px 0;color:#000;font-size:1.2em;background:#FFFF00;padding:8px 24px;font-weight:bold;" data-i18n="s1_premiere">✨ VÄRLDSPREMIÄR — IDAG ✨</div>
+    <div style="color:#000;background:#00FF00;padding:7px 18px;" class="blink" data-i18n="s1_browser">► BÄST UPPLEVT I NETSCAPE NAVIGATOR 4.0 ◄</div>
+    <div style="margin-top:16px;color:#000;font-size:0.95em;">
+      <span class="spin">⚙</span>&nbsp;<span data-i18n="s1_construction">DENNA PRESENTATION ÄR UNDER KONSTRUKTION MEN KÄRLEKEN ÄR KLAR</span>&nbsp;<span class="spin">⚙</span>
+    </div>
+    <div style="color:#000;font-size:1.5em;margin-top:10px;" class="blink">★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★ ★</div>
+  </div>
+
+  <div class="slide" id="slide-2">
+    <div class="chapter-title" data-i18n="s2_chapter">⚔&thinsp; KARAKTÄRSVAL &thinsp;⚔</div>
+    <div style="color:#AAAAFF;margin-bottom:10px;font-size:0.9em;" data-i18n="s2_sub">VÄLJ DIN FIGHTER — (de valde varandra)</div>
+    <div class="chars-row">
+      <div class="char-card amaru">
+        <div class="char-name">★ AMARU ★</div>
+        <img src="952U6E2A.jpg" alt="Amaru" style="object-position:50% 0%;object-fit:cover;">
+        <div class="stat" data-i18n="amaru_s2">🎲 Superpower: <span>Vinner ALLTID i brädspel</span></div>
+        <div class="stat" data-i18n="amaru_s3">🏙 Hjärta: <span>Inner city kid — vägrar lämna stan</span></div>
+        <div class="stat" data-i18n="amaru_s4">💸 Princip: <span>Köper ALDRIG något nytt</span></div>
+        <div class="stat" data-i18n="amaru_s6">🤝 Karaktär: <span>Ja-sägare, intellektuell, lojal</span></div>
+        <div class="stat" data-i18n="amaru_weak">🚗 Svaghet: <span>Har fortfarande inte tagit körkort</span></div>
+        <div class="stat" data-i18n="lovehp">❤️ KÄRLEKS-HP:</div>
+        <div class="love-bar-wrap"><div class="love-bar" style="width:100%"></div></div>
+      </div>
+      <div class="vs-text">VS</div>
+      <div class="char-card josephine">
+        <div class="char-name">★ JOSEPHINE ★</div>
+        <img src="IMG_20180921_190928.jpg" alt="Josephine" style="object-position:center top;">
+        <div class="stat" data-i18n="jose_pow">🎲 Superpower: <span>Kan göra vilken konst som helst till penisar (hon förnekar det)</span></div>
+        <div class="stat" data-i18n="jose_s3">🐕 Svaghet: <span>ÄLSKAR hundar. Varenda en.</span></div>
+        <div class="stat" data-i18n="jose_s5">🌾 Dröm: <span>Flytta till landet (pågående förhandling)</span></div>
+        <div class="stat" data-i18n="jose_s6">💪 Karaktär: <span>Konstnärlig, envis, kärleksfull</span></div>
+        <div class="stat" data-i18n="lovehp">❤️ KÄRLEKS-HP:</div>
+        <div class="love-bar-wrap"><div class="love-bar" style="width:100%"></div></div>
+      </div>
+    </div>
+    <div style="color:#FFFF00;margin-top:10px;font-size:0.9em;" data-i18n="s2_result">RESULTAT: INGET VS — DE FORMADE ETT LAG 💪</div>
+  </div>
+
+  <div class="slide" id="slide-3">
+    <div class="chapter-title" data-i18n="s3_chapter">📼&thinsp; KAPITEL 1: HUR DET BÖRJADE &thinsp;📼</div>
+    <div class="row">
+      <div class="polaroid md">
+        <img src="746384381_1428855205743940_6156592407962549186_n.jpg" style="object-position:center top;" alt="Stockholmsbesöket">
+        <div class="caption" data-i18n="s3_cap">Josephine möter Amarus viktigaste vänner</div>
+      </div>
+      <div class="body-text" style="max-width:420px;text-align:left;font-size:clamp(0.85em,1.6vw,1.1em);" data-i18n="s3_body">
+        <p style="color:#FFFF00;font-weight:bold;">NYÅRSAFTON 2015 → 2016</p>
+        <p style="font-size:0.85em;color:#AAAAFF;">Köpenhamn, Danmark</p><br>
+        <p>Josephine — den coola danska tjejen med eyeliner och näsring — bjöd hem sina vänner på nyårsfest.</p><br>
+        <p>Amaru — via <span class="highlight">TINDER</span> — dök upp.</p><br>
+        <p>Vid midnatt klickade något på insidan.</p><br>
+        <p style="color:#00FF00;">Det var inte bara champagnen.<br><em class="pink">(Fast champagnen hjälpte säkert.)</em></p>
+      </div>
+    </div>
+    <div class="mt">
+      <span class="neon-tag" data-i18n="s3_tag1">MATCH: LYCKAD</span>&emsp;
+      <span class="neon-tag" data-i18n="s3_tag2">SWIPE HÖGER: RÄTT BESLUT</span>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-4">
+    <div class="chapter-title" data-i18n="s4_chapter">🏙&thinsp; KAPITEL 2: DEN STORA FLYTTEN &thinsp;🏙</div>
+    <div class="row">
+      <div class="polaroid md">
+        <img src="743276314_1696485184967774_2701693072136770101_n.jpg" alt="Paret" style="object-position:center top;">
+        <div class="caption" data-i18n="s4_cap">Köpenhamn → Stockholm = UPPGRADERING</div>
+      </div>
+      <div class="body-text" style="max-width:400px;text-align:left;font-size:clamp(0.82em,1.55vw,1.05em);" data-i18n="s4_body">
+        <p>Josephine bodde kvar i Köpenhamn ett par år.</p>
+        <p>Amaru pendlade. Kärlek slår tågbiljetter.</p><br>
+        <p>Sen hände det: <span class="highlight">DE FLYTTADE IHOP I STOCKHOLM</span>.</p><br>
+        <p>Liten lägenhet. Mycket böcker. Perfekt.</p><br>
+        <p style="color:#FF6666;font-weight:bold;">Josephines dröm: flytta till landet 🌾</p>
+        <p style="color:#00FF00;font-weight:bold;">Amarus svar: nej 🏢</p><br>
+        <p style="font-size:0.85em;color:#AAAAAA;">Flytt från stan: <em>fortfarande aktivt förhandlat.</em></p>
+      </div>
+    </div>
+    <div class="mt"><span class="neon-tag blink" data-i18n="s4_tag">KONFLIKTEN PÅGÅR ÄN IDAG</span></div>
+  </div>
+
+  <div class="slide" id="slide-5">
+    <div class="chapter-title" data-i18n="s5_chapter">🗺&thinsp; KAPITEL 3: VÄRLDSERÖVRARNA &thinsp;🗺</div>
+    <div class="photo-row">
+      <div class="polaroid xs"><img src="DSC_6457.jpg" alt="Fjällvandring"><div class="caption" data-i18n="s5_cap1">Mygg: 1 — Vi: 0 🦟</div></div>
+      <div class="polaroid xs"><img src="747098856_2607479173036067_8679470379954893048_n.jpg" alt="Semester"><div class="caption" data-i18n="s5_cap2">Penntroll i Rumänien</div></div>
+      <div class="polaroid xs"><img src="747450072_1692661718454695_4817890597405731552_n.jpg" alt="Flaxenvik"><div class="caption" data-i18n="s5_cap3">Flaxenvik, midsommar ⭐⭐⭐⭐⭐</div></div>
+      <div class="polaroid xs"><img src="IMG_6184.JPG" alt="Tallinn" style="object-position:center top;"><div class="caption" data-i18n="s5_cap4">Tallinn, nyårsafton 🖕</div></div>
+    </div>
+    <div class="body-text mt" data-i18n="s5_body">Amaru &amp; Josephine har besökt: <span class="highlight">ÖVERALLT</span>.<br>Resultatet varierar.</div>
+  </div>
+
+  <div class="slide" id="slide-6">
+    <div class="chapter-title" data-i18n="s6_chapter">⛵&thinsp; KAPITEL 4: KÄRLEK I ALLA VÄDER &thinsp;❄️</div>
+    <div class="photo-row">
+      <div class="polaroid md">
+        <img src="742831751_1349405410081448_1203041913421797257_n.jpg" style="object-position:center center;" alt="Segling">
+        <div class="caption" data-i18n="s6_cap">Amaru: Fokuserad. Josephine: ✌️🍉</div>
+      </div>
+      <div class="polaroid md">
+        <img src="743876605_1573810097700718_2189214271304153389_n.jpg" style="object-position:center top;" alt="Jultröjor">
+        <div class="caption" data-i18n="s6_cap2">"Santa ❤️ YOU" — och Josephine också</div>
+      </div>
+    </div>
+    <div class="body-text mt" data-i18n="s6_body">☀️ Sommar: peace-tecken och vattenmelon till havs.<br>❄️ Vinter: kamp om fulaste jultröja hemma.<br><br>Oavsett årstid — kärleken klarar det.</div>
+  </div>
+
+  <div class="slide" id="slide-7">
+    <div class="chapter-title" data-i18n="s7_chapter">🌸&thinsp; KAPITEL 5: 100% SVENSKA TRADITIONER &thinsp;🌸</div>
+    <div class="photo-row">
+      <div class="polaroid sm"><img src="20170113_220856.jpg" style="object-position:left center;" alt="Snus"><div class="caption" data-i18n="s7_cap1">Josephines förstasnus 🤢→😍</div></div>
+      <div class="polaroid sm"><img src="IMG_4422.JPG" style="object-position:center top;" alt="Kräftskiva"><div class="caption" data-i18n="s7_cap2">Partyhatt: Obligatorisk 🎉</div></div>
+      <div class="polaroid sm"><img src="IMG_6197.JPG" style="object-position:center top;" alt="Bastu"><div class="caption" data-i18n="s7_cap3">Bastu: Klassiskt 🧖</div></div>
+    </div>
+    <div class="body-text mt" style="font-size:0.88em;padding:9px 16px;" data-i18n="s7_body">
+      🦷 Snus — hooked efter ett försök ✅&emsp;🦞 Kräftskiva med partyhatt ✅&emsp;🧖 Bastu i handduk ✅<br><span class="highlight">INTEGRATION: FULLBORDAD</span>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-8">
+    <div class="chapter-title" data-i18n="s8_chapter">🐾&thinsp; KAPITEL 6: MUMRIK — TREDJE FAMILJEMEDLEMMEN &thinsp;🐾</div>
+    <div class="photo-row">
+      <div class="polaroid sm"><img src="743805329_2093011011249638_3153763571608130468_n.jpg" style="object-position:center top;" alt="Mumrik"><div class="caption" data-i18n="s8_cap1">2022 — Dag 1. "Vad har vi gjort?"</div></div>
+      <div class="polaroid sm"><img src="743203571_2479668695887203_1798296347001382830_n.jpg" alt="Mumrik korg"><div class="caption" data-i18n="s8_cap2">Transport: Löst</div></div>
+      <div class="polaroid sm"><img src="747512891_1013919824874106_8173221104524315341_n.jpg" alt="Mumrik slickar"><div class="caption" data-i18n="s8_cap3">Mumrik godkänner Amaru</div></div>
+    </div>
+    <div class="body-text mt" data-i18n="s8_body">
+      <span class="pink">MUMRIK</span> — fluffigaste och mest krävande i familjen. Rekryterad 2022.<br>
+      Sitter i cykelkorg ✅ &nbsp; Slickar dig i ansiktet ✅ &nbsp; Bestämmer vem som vinner argument ✅<br>
+      <span class="blink highlight">10/10 — REKOMMENDERAS.</span>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-9">
+    <div class="chapter-title" data-i18n="s10_chapter">🎉&thinsp; KAPITEL 7: TEAMET RUNT LAGET &thinsp;🎉</div>
+    <div class="photo-row">
+      <div class="polaroid xs"><img src="743269982_1429482155669611_6544241856129732243_n.jpg" style="object-position:center top;" alt="Vänner"><div class="caption" data-i18n="s10_cap1">Nyårsafton 🥂</div></div>
+      <div class="polaroid xs"><img src="1RCSCGlj.jpg" alt="Mustaschfest" style="object-position:center top;"><div class="caption" data-i18n="s10_cap2">Alla utklädd till Amaru 🧔</div></div>
+      <div class="polaroid xs"><img src="746982689_1242317944588507_4345505585339811354_n.jpg" style="object-position:center top;" alt="Vänner"><div class="caption" data-i18n="s10_cap3">Vänner med stor stil 😎</div></div>
+      <div class="polaroid xs"><img src="746020851_1009578708515602_3785988711329985401_n.jpg" style="object-position:center 35%;" alt="Vänner"><div class="caption" data-i18n="s10_cap4">Oslagbart gäng 🏆</div></div>
+    </div>
+    <div class="body-text mt" data-i18n="s10_body">
+      Runt dessa två finns ett gäng absolut <span class="highlight">OUMBÄRLIGA LEGENDER</span>.<br>
+      De anordnar mustaschfester, ser tvivelaktiga filmer och vet hur man håller en god toast.<br>
+      De är precis de vänner man vill ha på ett bröllop. 🏆
+    </div>
+  </div>
+
+  <div class="slide" id="slide-10">
+    <div style="color:#FFFFFF;font-size:clamp(0.9em,2vw,1.3em);letter-spacing:0.3em;text-shadow:0 0 20px #FFFFFF;margin-bottom:16px;font-weight:bold;">
+      ★ &nbsp; AMARU &amp; JOSEPHINE &nbsp; ★
+    </div>
+    <img src="DSC_6997-01(1).jpg" class="couple-finale" alt="Amaru och Josephine">
+    <div style="color:#AAAAAA;font-size:0.8em;margin-top:14px;letter-spacing:0.15em;" data-i18n="s11_sub">och nu gifter de sig</div>
+  </div>
+
+  <div class="slide" id="slide-11">
+    <div class="game-over">🏆 CONGRATULATIONS! 🏆</div>
+    <div class="rainbow-text mt" data-i18n="s12_level">LEVEL COMPLETED: BRÖLLOP</div>
+    <div style="margin:8px 0;font-size:clamp(1em,2.6vw,1.5em);color:#FFFF00;text-shadow:0 0 10px #FFFF00;font-weight:bold;" data-i18n="s12_married">AMARU &amp; JOSEPHINE GIFTER SIG!</div>
+    <div><span class="ring">💍</span></div>
+    <div class="body-text" style="margin:10px 0;font-size:0.9em;" data-i18n="s12_body">
+      Efter år av:<br>
+      🇩🇰 Tinder i Köpenhamn &emsp; ⛵ Segling &emsp; 🐕 Mumrik &emsp; 🌸 Midsommar &emsp; 🎄 Fula jultröjor &emsp; 🏕 Camping<br><br>
+      …är det dags för det <span class="highlight">ULTIMATA ÄVENTYRET</span>.<br>
+      <span style="font-size:0.85em;color:#AAAAAA;">(Josephine hoppas det är ett hus på landet.)</span>
+    </div>
+    <div style="color:#FF00FF;font-size:1.1em;margin-top:8px;font-weight:bold;">
+      ▼ NÄSTA: QUIZ-DAGS! ▼
+    </div>
+  </div>
+
+<!-- ═══════════════════════════════ QUIZ ═══════════════════════════════════ -->
+
+  <!-- QUIZ INTRO -->
+  <div class="slide" id="slide-12">
+    <div class="wordart" style="font-size:clamp(2em,7vw,5em);">🧠 QUIZ DAGS! 🧠</div>
+    <div class="rainbow-text mt" style="font-size:clamp(1.1em,3vw,2em);">KÄN DU PARET BÄTTRE ÄN DE KÄN VARANDRA?</div>
+    <div class="body-text mt" style="max-width:600px;">
+      <p style="color:#FFFF00;font-weight:bold;margin-bottom:8px;">SPELREGLER</p>
+      <p>🟣 Lag A — <span style="color:#FF00FF;font-weight:bold;">AMARUS SIDA</span> — svarar på frågor om Josephine</p>
+      <p>🩵 Lag B — <span style="color:#00FFFF;font-weight:bold;">JOSEPHINES SIDA</span> — svarar på frågor om Amaru</p>
+      <br>
+      <p>Rätt svar = poäng. Klicka <em>VISA SVAR</em> för att avslöja.</p>
+      <p style="color:#AAAAAA;font-size:0.85em;margin-top:8px;">Quizmaster: klicka NÄSTA för att gå till nästa fråga efter avslöjat svar.</p>
+    </div>
+    <div style="margin-top:14px;color:#FFFF00;" class="blink">► TRYCK NÄSTA FÖR ATT BÖRJA ◄</div>
+  </div>
+
+  <!-- ─── AMARU-FRÅGOR ─── -->
+
+  <div class="slide" id="slide-13">
+    <div class="quiz-header amaru-q">🟣 AMARU-FRÅGA 1 / 6 — 1 POÄNG</div>
+    <div class="quiz-question">
+      Vad hette Amarus scoutpatrull, där han träffade de flesta vänner som är här idag?
+    </div>
+    <button class="reveal-btn" onclick="reveal(this)">🔍 VISA SVAR</button>
+    <div class="quiz-answer">
+      <div class="answer-line">Ormen Korte</div>
+      <div class="points-row"><span class="point-badge">+1 POÄNG</span></div>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-14">
+    <div class="quiz-header amaru-q">🟣 AMARU-FRÅGA 2 / 6 — 1 POÄNG</div>
+    <div class="quiz-question">
+      Vad hette den scoutpatrull som Amaru var avundsjuk på?
+    </div>
+    <button class="reveal-btn" onclick="reveal(this)">🔍 VISA SVAR</button>
+    <div class="quiz-answer">
+      <div class="answer-line">Ormen Långe</div>
+      <div class="answer-sub">(Ormen Korte ville ALLTID vara Ormen Långe)</div>
+      <div class="points-row"><span class="point-badge">+1 POÄNG</span></div>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-15">
+    <div class="quiz-header amaru-q">🟣 AMARU-FRÅGA 3 / 6 — 3 POÄNG</div>
+    <div class="quiz-question">
+      Vilket märke är det på Amarus jackor — och hur många äger han?<br>
+      <span style="font-size:0.7em;color:#AAAAFF;">Bonusfråga: hur många äger han och hans bröder tillsammans?</span>
+    </div>
+    <button class="reveal-btn" onclick="reveal(this)">🔍 VISA SVAR</button>
+    <div class="quiz-answer">
+      <div class="answer-line" style="color:#FF6600;">🔜 MÄRKE: [lägg till]</div>
+      <div class="answer-line" style="color:#FF6600;">🔜 ANTAL HAN ÄGER: [lägg till]</div>
+      <div class="answer-line" style="color:#FF6600;">🔜 BRÖDERNAS TOTALT: [lägg till, troligen 4]</div>
+      <div class="points-row">
+        <span class="tbd-badge">FYLL I SVAR</span>
+        <span class="point-badge">+1 P / RÄTT DEL</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-16">
+    <div class="quiz-header amaru-q">🟣 AMARU-FRÅGA 4 / 6 — 1 POÄNG</div>
+    <div class="quiz-question">
+      Vilken subkultur tillhörde Amaru under tonåren?
+    </div>
+    <button class="reveal-btn" onclick="reveal(this)">🔍 VISA SVAR</button>
+    <div class="quiz-answer">
+      <div class="answer-line">Indie-pojke 🎸</div>
+      <div class="answer-sub">Definitivt en liten indie-kille</div>
+      <div class="points-row"><span class="point-badge">+1 POÄNG</span></div>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-17">
+    <div class="quiz-header amaru-q">🟣 AMARU-FRÅGA 5 / 6 — 3 POÄNG</div>
+    <div class="quiz-question">
+      Vad gör Amaru egentligen på jobbet?<br>
+      <span style="font-size:0.7em;color:#AAAAFF;">Tre delsvar — ett poäng vardera</span>
+    </div>
+    <button class="reveal-btn" onclick="reveal(this)">🔍 VISA SVAR</button>
+    <div class="quiz-answer">
+      <div class="answer-line">AI &nbsp;+&nbsp; Teamledare &nbsp;+&nbsp; Forskning</div>
+      <div class="answer-sub">Specifikt: AI-utveckling / teamledning / random research</div>
+      <div class="points-row">
+        <span class="point-badge">+1 AI</span>
+        <span class="point-badge">+1 TEAMLEDARE</span>
+        <span class="point-badge">+1 FORSKNING</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-18">
+    <div class="quiz-header amaru-q">🟣 AMARU-FRÅGA 6 / 6 — 2 POÄNG</div>
+    <div class="quiz-question">
+      Vilka sporter har Amaru spelat?<br>
+      <span style="font-size:0.7em;color:#AAAAFF;">Ett poäng per rätt sport</span>
+    </div>
+    <button class="reveal-btn" onclick="reveal(this)">🔍 VISA SVAR</button>
+    <div class="quiz-answer">
+      <div class="answer-line">Squash &nbsp;+&nbsp; Bågskytte 🏹</div>
+      <div class="points-row">
+        <span class="point-badge">+1 SQUASH</span>
+        <span class="point-badge">+1 BÅGSKYTTE</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── JOSEPHINE-FRÅGOR ─── -->
+
+  <div class="slide" id="slide-19">
+    <div class="quiz-header jose-q">🩵 JOSEPHINE-FRÅGA 1 / 5 — 1 POÄNG</div>
+    <div class="quiz-question">
+      Vilken svensk maträtt finner Josephine mest provocerande?
+    </div>
+    <button class="reveal-btn" onclick="reveal(this)">🔍 VISA SVAR</button>
+    <div class="quiz-answer">
+      <div class="answer-line" style="color:#FF6600;">🔜 SVAR: [bekräfta — tunnbrödrulle?]</div>
+      <div class="points-row"><span class="tbd-badge">FYLL I SVAR</span></div>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-20">
+    <div class="quiz-header jose-q">🩵 JOSEPHINE-FRÅGA 2 / 5 — 1 POÄNG</div>
+    <div class="quiz-question">
+      Vad hette Josephines scoutpatrull?
+    </div>
+    <button class="reveal-btn" onclick="reveal(this)">🔍 VISA SVAR</button>
+    <div class="quiz-answer">
+      <div class="answer-line" style="color:#FF6600;">🔜 SVAR: [fråga Helene]</div>
+      <div class="points-row"><span class="tbd-badge">FYLL I SVAR</span></div>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-21">
+    <div class="quiz-header jose-q">🩵 JOSEPHINE-FRÅGA 3 / 5 — 1 POÄNG</div>
+    <div class="quiz-question">
+      Hur gör man en riktig surströmmingsklämma?
+    </div>
+    <button class="reveal-btn" onclick="reveal(this)">🔍 VISA SVAR</button>
+    <div class="quiz-answer">
+      <div class="answer-line" style="color:#FF6600;">🔜 SVAR: [slå upp recept]</div>
+      <div class="answer-sub">Tunnbröd, mandelpotatis, rödlök, gräddfil, dill — stämmer det?</div>
+      <div class="points-row"><span class="tbd-badge">FYLL I SVAR</span></div>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-22">
+    <div class="quiz-header jose-q">🩵 JOSEPHINE-FRÅGA 4 / 5 — 1 POÄNG</div>
+    <div class="quiz-question">
+      Vilken dansk maträtt finner Amaru mest provocerande?
+    </div>
+    <button class="reveal-btn" onclick="reveal(this)">🔍 VISA SVAR</button>
+    <div class="quiz-answer">
+      <div class="answer-line">Brune kartofler 🥔</div>
+      <div class="answer-sub">(karamelliserade potatisar — Paul's gissning)</div>
+      <div class="points-row"><span class="point-badge">+1 POÄNG</span></div>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-23">
+    <div class="quiz-header jose-q">🩵 JOSEPHINE-FRÅGA 5 / 5 — 1 POÄNG</div>
+    <div class="quiz-question">
+      Hur gör man en korrekt smørrebrød?
+    </div>
+    <button class="reveal-btn" onclick="reveal(this)">🔍 VISA SVAR</button>
+    <div class="quiz-answer">
+      <div class="answer-line" style="color:#FF6600;">🔜 SVAR: [slå upp]</div>
+      <div class="answer-sub">Rågbröd, smör, och sedan... vad exakt?</div>
+      <div class="points-row"><span class="tbd-badge">FYLL I SVAR</span></div>
+    </div>
+  </div>
+
+  <!-- QUIZ FINAL SCORE -->
+  <div class="slide" id="slide-24">
+    <div class="chapter-title" style="border-color:#FFFF00;text-shadow:0 0 10px #FFFF00;">
+      🏆&thinsp; SLUTRESULTAT &thinsp;🏆
+    </div>
+    <div class="scoreboard">
+      <div class="team-score amaru-team">
+        <div class="team-name">🟣 AMARUS SIDA</div>
+        <div class="score-big">?</div>
+        <div class="score-label">MAX ~8 POÄNG</div>
+      </div>
+      <div style="align-self:center;font-size:2.5em;color:#FFFF00;font-weight:900;">VS</div>
+      <div class="team-score jose-team">
+        <div class="team-name">🩵 JOSEPHINES SIDA</div>
+        <div class="score-big">?</div>
+        <div class="score-label">MAX ~8 POÄNG</div>
+      </div>
+    </div>
+    <div class="body-text" style="max-width:550px;">
+      <p style="color:#FFFF00;font-weight:bold;">MAXPOÄNG: ~16 TOTALT</p>
+      <p style="color:#AAAAAA;font-size:0.85em;margin-top:6px;">
+        (Frågor med [TBD] räknas inte förrän svar är ifyllda)
+      </p>
+      <br>
+      <p>Vinnarlaget köper nästa omgång. 🍻</p>
+      <p style="margin-top:8px;color:#FF69B4;">Oavsett — Amaru &amp; Josephine vinner alltid. 💍</p>
+    </div>
+    <div class="mt" style="color:#00FF00;" class="blink">❤️ GRATTIS TILL BRÖLLOPET ❤️</div>
+  </div>
+
+</div><!-- /slideshow -->
+
+<div class="marquee-bar">
+  <span class="marquee-inner" data-i18n="marquee">
+    ★ AMARU &amp; JOSEPHINE ★ FÖR ALLTID ★ OCH LITE TILL ★ GRATTIS TILL BRÖLLOPET ★ 🧠 QUIZ DAGS ★ ORMEN KORTE ★ INDIE-POJKE ★ BRUNE KARTOFLER ★ SMØRREBRØD ★ SQUASH &amp; BÅGSKYTTE ★ VINNAREN BJUDER ★
+  </span>
+</div>
+
+<div class="nav">
+  <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)" data-i18n="nav_prev">◄ BAKÅT</button>
+  <span class="slide-counter" id="counter">1 / 24</span>
+  <button class="nav-btn" id="next-btn" onclick="changeSlide(1)" data-i18n="nav_next">NÄSTA ►</button>
+</div>
+
+<script>
+/* ── Translations (original slides only) ── */
+const T = {
+  sv: {
+    nav_prev:`◄ BAKÅT`, nav_next:`NÄSTA ►`,
+    marquee:`★ AMARU &amp; JOSEPHINE ★ FÖR ALLTID ★ OCH LITE TILL ★ GRATTIS TILL BRÖLLOPET ★ 🧠 QUIZ DAGS ★ ORMEN KORTE ★ INDIE-POJKE ★ BRUNE KARTOFLER ★ SMØRREBRØD ★ SQUASH &amp; BÅGSKYTTE ★ VINNAREN BJUDER ★`,
+    s1_subtitle:`DEN ULTIMATA KÄRLEKSHISTORIEN`, s1_premiere:`✨ VÄRLDSPREMIÄR — IDAG ✨`,
+    s1_browser:`► BÄST UPPLEVT I NETSCAPE NAVIGATOR 4.0 ◄`,
+    s1_construction:`DENNA PRESENTATION ÄR UNDER KONSTRUKTION MEN KÄRLEKEN ÄR KLAR`,
+    s2_chapter:`⚔&thinsp; KARAKTÄRSVAL &thinsp;⚔`, s2_sub:`VÄLJ DIN FIGHTER — (de valde varandra)`,
+    amaru_s2:`🎲 Superpower: <span>Vinner ALLTID i brädspel</span>`,
+    amaru_s3:`🏙 Hjärta: <span>Inner city kid — vägrar lämna stan</span>`,
+    amaru_s4:`💸 Princip: <span>Köper ALDRIG något nytt</span>`,
+    amaru_s6:`🤝 Karaktär: <span>Ja-sägare, intellektuell, lojal</span>`,
+    amaru_weak:`🚗 Svaghet: <span>Har fortfarande inte tagit körkort</span>`,
+    lovehp:`❤️ KÄRLEKS-HP:`,
+    jose_pow:`🎲 Superpower: <span>Kan göra vilken konst som helst till penisar (hon förnekar det)</span>`,
+    jose_s3:`🐕 Svaghet: <span>ÄLSKAR hundar. Varenda en.</span>`,
+    jose_s5:`🌾 Dröm: <span>Flytta till landet (pågående förhandling)</span>`,
+    jose_s6:`💪 Karaktär: <span>Konstnärlig, envis, kärleksfull</span>`,
+    s2_result:`RESULTAT: INGET VS — DE FORMADE ETT LAG 💪`,
+    s3_chapter:`📼&thinsp; KAPITEL 1: HUR DET BÖRJADE &thinsp;📼`,
+    s3_cap:`Josephine möter Amarus viktigaste vänner`,
+    s3_body:`<p style="color:#FFFF00;font-weight:bold;">NYÅRSAFTON 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">Köpenhamn, Danmark</p><br><p>Josephine — den coola danska tjejen med eyeliner och näsring — bjöd hem sina vänner på nyårsfest.</p><br><p>Amaru — via <span class="highlight">TINDER</span> — dök upp.</p><br><p>Vid midnatt klickade något på insidan.</p><br><p style="color:#00FF00;">Det var inte bara champagnen.<br><em class="pink">(Fast champagnen hjälpte säkert.)</em></p>`,
+    s3_tag1:`MATCH: LYCKAD`, s3_tag2:`SWIPE HÖGER: RÄTT BESLUT`,
+    s4_chapter:`🏙&thinsp; KAPITEL 2: DEN STORA FLYTTEN &thinsp;🏙`, s4_cap:`Köpenhamn → Stockholm = UPPGRADERING`,
+    s4_body:`<p>Josephine bodde kvar i Köpenhamn ett par år.</p><p>Amaru pendlade. Kärlek slår tågbiljetter.</p><br><p>Sen hände det: <span class="highlight">DE FLYTTADE IHOP I STOCKHOLM</span>.</p><br><p>Liten lägenhet. Mycket böcker. Perfekt.</p><br><p style="color:#FF6666;font-weight:bold;">Josephines dröm: flytta till landet 🌾</p><p style="color:#00FF00;font-weight:bold;">Amarus svar: nej 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Flytt från stan: <em>fortfarande aktivt förhandlat.</em></p>`,
+    s4_tag:`KONFLIKTEN PÅGÅR ÄN IDAG`,
+    s5_chapter:`🗺&thinsp; KAPITEL 3: VÄRLDSERÖVRARNA &thinsp;🗺`,
+    s5_cap1:`Mygg: 1 — Vi: 0 🦟`, s5_cap2:`Penntroll i Rumänien`,
+    s5_cap3:`Flaxenvik, midsommar ⭐⭐⭐⭐⭐`, s5_cap4:`Tallinn, nyårsafton 🖕`,
+    s5_body:`Amaru &amp; Josephine har besökt: <span class="highlight">ÖVERALLT</span>.<br>Resultatet varierar.`,
+    s6_chapter:`⛵&thinsp; KAPITEL 4: KÄRLEK I ALLA VÄDER &thinsp;❄️`,
+    s6_cap:`Amaru: Fokuserad. Josephine: ✌️🍉`, s6_cap2:`"Santa ❤️ YOU" — och Josephine också`,
+    s6_body:`☀️ Sommar: peace-tecken och vattenmelon till havs.<br>❄️ Vinter: kamp om fulaste jultröja hemma.<br><br>Oavsett årstid — kärleken klarar det.`,
+    s7_chapter:`🌸&thinsp; KAPITEL 5: 100% SVENSKA TRADITIONER &thinsp;🌸`,
+    s7_cap1:`Josephines förstasnus 🤢→😍`, s7_cap2:`Partyhatt: Obligatorisk 🎉`, s7_cap3:`Bastu: Klassiskt 🧖`,
+    s7_body:`🦷 Snus — hooked efter ett försök ✅&emsp;🦞 Kräftskiva med partyhatt ✅&emsp;🧖 Bastu i handduk ✅<br><span class="highlight">INTEGRATION: FULLBORDAD</span>`,
+    s8_chapter:`🐾&thinsp; KAPITEL 6: MUMRIK — TREDJE FAMILJEMEDLEMMEN &thinsp;🐾`,
+    s8_cap1:`2022 — Dag 1. "Vad har vi gjort?"`, s8_cap2:`Transport: Löst`, s8_cap3:`Mumrik godkänner Amaru`,
+    s8_body:`<span class="pink">MUMRIK</span> — fluffigaste och mest krävande i familjen. Rekryterad 2022.<br>Sitter i cykelkorg ✅ &nbsp; Slickar dig i ansiktet ✅ &nbsp; Bestämmer vem som vinner argument ✅<br><span class="blink highlight">10/10 — REKOMMENDERAS.</span>`,
+    s10_chapter:`🎉&thinsp; KAPITEL 7: TEAMET RUNT LAGET &thinsp;🎉`,
+    s10_cap1:`Nyårsafton 🥂`, s10_cap2:`Alla utklädd till Amaru 🧔`,
+    s10_cap3:`Vänner med stor stil 😎`, s10_cap4:`Oslagbart gäng 🏆`,
+    s10_body:`Runt dessa två finns ett gäng absolut <span class="highlight">OUMBÄRLIGA LEGENDER</span>.<br>De anordnar mustaschfester, ser tvivelaktiga filmer och vet hur man håller en god toast.<br>De är precis de vänner man vill ha på ett bröllop. 🏆`,
+    s11_sub:`och nu gifter de sig`,
+    s12_level:`LEVEL COMPLETED: BRÖLLOP`, s12_married:`AMARU &amp; JOSEPHINE GIFTER SIG!`,
+    s12_body:`Efter år av:<br>🇩🇰 Tinder i Köpenhamn &emsp; ⛵ Segling &emsp; 🐕 Mumrik &emsp; 🌸 Midsommar &emsp; 🎄 Fula jultröjor &emsp; 🏕 Camping<br><br>…är det dags för det <span class="highlight">ULTIMATA ÄVENTYRET</span>.<br><span style="font-size:0.85em;color:#AAAAAA;">(Josephine hoppas det är ett hus på landet.)</span>`,
+    s12_cta:`► TRYCK PÅ KYSS FÖR ATT FORTSÄTTA ◄`,
+  },
+  en: {
+    nav_prev:`◄ BACK`, nav_next:`NEXT ►`,
+    marquee:`★ AMARU &amp; JOSEPHINE ★ FOREVER ★ AND A LITTLE MORE ★ CONGRATULATIONS ON THE WEDDING ★ 🧠 QUIZ TIME ★ ORMEN KORTE ★ INDIE BOY ★ BRUNE KARTOFLER ★ SMØRREBRØD ★ SQUASH &amp; ARCHERY ★ WINNER BUYS THE NEXT ROUND ★`,
+    s1_subtitle:`THE ULTIMATE LOVE STORY`, s1_premiere:`✨ WORLD PREMIERE — TODAY ✨`,
+    s1_browser:`► BEST EXPERIENCED IN NETSCAPE NAVIGATOR 4.0 ◄`,
+    s1_construction:`THIS PRESENTATION IS STILL UNDER CONSTRUCTION BUT THE LOVE IS COMPLETE`,
+    s2_chapter:`⚔&thinsp; CHARACTER SELECT &thinsp;⚔`, s2_sub:`CHOOSE YOUR FIGHTER — (they chose each other)`,
+    amaru_s2:`🎲 Superpower: <span>ALWAYS wins at board games</span>`,
+    amaru_s3:`🏙 Heart: <span>Inner city kid — refuses to leave town</span>`,
+    amaru_s4:`💸 Principle: <span>NEVER buys anything new</span>`,
+    amaru_s6:`🤝 Character: <span>Yes-man, intellectual, loyal</span>`,
+    amaru_weak:`🚗 Weakness: <span>Can't manage to get a driver's license</span>`,
+    lovehp:`❤️ LOVE-HP:`,
+    jose_pow:`🎲 Superpower: <span>Can make any artwork look like a penis (she denies this)</span>`,
+    jose_s3:`🐕 Weakness: <span>LOVES dogs. Every single one.</span>`,
+    jose_s5:`🌾 Dream: <span>Move to countryside (ongoing negotiation)</span>`,
+    jose_s6:`💪 Character: <span>Artistic, stubborn, loving</span>`,
+    s2_result:`RESULT: NO VS — THEY FORMED A TEAM 💪`,
+    s3_chapter:`📼&thinsp; CHAPTER 1: HOW IT BEGAN &thinsp;📼`, s3_cap:`Josephine meets Amaru's most important friends`,
+    s3_body:`<p style="color:#FFFF00;font-weight:bold;">NEW YEAR'S EVE 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">Copenhagen, Denmark</p><br><p>Josephine — the cool Danish chick with eyeliner and a nose ring — threw a New Year's party with her friends.</p><br><p>Amaru — via <span class="highlight">TINDER</span> — showed up.</p><br><p>At midnight, something clicked on the inside.</p><br><p style="color:#00FF00;">It wasn't just the champagne.<br><em class="pink">(Although the champagne definitely helped.)</em></p>`,
+    s3_tag1:`MATCH: SUCCESSFUL`, s3_tag2:`SWIPE RIGHT: CORRECT DECISION`,
+    s4_chapter:`🏙&thinsp; CHAPTER 2: THE BIG MOVE &thinsp;🏙`, s4_cap:`Copenhagen → Stockholm = UPGRADE`,
+    s4_body:`<p>Josephine stayed in Copenhagen for a couple more years.</p><p>Amaru commuted. Love beats train tickets.</p><br><p>Then it happened: <span class="highlight">THEY MOVED IN TOGETHER IN STOCKHOLM</span>.</p><br><p>Small apartment. Lots of books. Perfect.</p><br><p style="color:#FF6666;font-weight:bold;">Josephine's dream: move to the countryside 🌾</p><p style="color:#00FF00;font-weight:bold;">Amaru's answer: no 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Moving out of the city: <em>still actively negotiated.</em></p>`,
+    s4_tag:`THE CONFLICT CONTINUES TO THIS DAY`,
+    s5_chapter:`🗺&thinsp; CHAPTER 3: WORLD CONQUERORS &thinsp;🗺`,
+    s5_cap1:`Mosquitoes: 1 — Us: 0 🦟`, s5_cap2:`Trolls in Romania`,
+    s5_cap3:`Flaxenvik, midsummer ⭐⭐⭐⭐⭐`, s5_cap4:`Tallinn, New Year's Eve 🖕`,
+    s5_body:`Amaru &amp; Josephine have visited: <span class="highlight">EVERYWHERE</span>.<br>Results vary.`,
+    s6_chapter:`⛵&thinsp; CHAPTER 4: LOVE IN ALL SEASONS &thinsp;❄️`,
+    s6_cap:`Amaru: Focused. Josephine: ✌️🍉`, s6_cap2:`"Santa ❤️ YOU" — and Josephine too`,
+    s6_body:`☀️ Summer: peace signs and watermelon out at sea.<br>❄️ Winter: competing for the ugliest Christmas jumper.<br><br>Whatever the season — love handles it.`,
+    s7_chapter:`🌸&thinsp; CHAPTER 5: 100% SWEDISH TRADITIONS &thinsp;🌸`,
+    s7_cap1:`Josephine's first snus 🤢→😍`, s7_cap2:`Party hat: Mandatory 🎉`, s7_cap3:`Sauna: Classic 🧖`,
+    s7_body:`🦷 Snus — hooked after one try ✅&emsp;🦞 Crayfish party with party hat ✅&emsp;🧖 Sauna in towel ✅<br><span class="highlight">INTEGRATION: COMPLETE</span>`,
+    s8_chapter:`🐾&thinsp; CHAPTER 6: MUMRIK — THIRD FAMILY MEMBER &thinsp;🐾`,
+    s8_cap1:`2022 — Day 1. "What have we done?"`, s8_cap2:`Transport: Solved`, s8_cap3:`Mumrik approves of Amaru`,
+    s8_body:`<span class="pink">MUMRIK</span> — fluffiest and most demanding in the family. Recruited 2022.<br>Sits in bike basket ✅ &nbsp; Licks your face ✅ &nbsp; Decides who wins arguments ✅<br><span class="blink highlight">10/10 — RECOMMENDED.</span>`,
+    s10_chapter:`🎉&thinsp; CHAPTER 7: THE TEAM AROUND THE TEAM &thinsp;🎉`,
+    s10_cap1:`New Year's Eve 🥂`, s10_cap2:`Everyone dressed as Amaru 🧔`,
+    s10_cap3:`Friends with great style 😎`, s10_cap4:`Unbeatable crew 🏆`,
+    s10_body:`Around these two is a gang of absolutely <span class="highlight">INDISPENSABLE LEGENDS</span>.<br>They organise moustache parties, watch questionable movies and know how to give a good toast.<br>Exactly the friends you want at a wedding. 🏆`,
+    s11_sub:`and now they are getting married`,
+    s12_level:`LEVEL COMPLETED: WEDDING`, s12_married:`AMARU &amp; JOSEPHINE ARE GETTING MARRIED!`,
+    s12_body:`After years of:<br>🇩🇰 Tinder in Copenhagen &emsp; ⛵ Sailing &emsp; 🐕 Mumrik &emsp; 🌸 Midsummer &emsp; 🎄 Ugly jumpers &emsp; 🏕 Camping<br><br>…it's time for the <span class="highlight">ULTIMATE ADVENTURE</span>.<br><span style="font-size:0.85em;color:#AAAAAA;">(Josephine hopes it includes a house in the countryside.)</span>`,
+    s12_cta:`► PRESS KISS TO CONTINUE ◄`,
+  }
+};
+
+/* ── Language switch ── */
+function setLang(lang) {
+  if (!T[lang]) return;
+  const tx = T[lang];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const v = tx[el.getAttribute('data-i18n')];
+    if (v !== undefined) el.innerHTML = v;
+  });
+  document.querySelectorAll('.lang-btn').forEach(b =>
+    b.classList.toggle('active', b.getAttribute('data-lang') === lang)
+  );
+  try { localStorage.setItem('wedding_lang', lang); } catch(e) {}
+}
+
+/* ── Quiz reveal ── */
+function reveal(btn) {
+  btn.style.display = 'none';
+  btn.nextElementSibling.classList.add('visible');
+}
+
+/* ── Starfield ── */
+const canvas = document.getElementById('stars');
+const ctx = canvas.getContext('2d');
+function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+resizeCanvas(); window.addEventListener('resize', resizeCanvas);
+const stars = Array.from({length: 230}, () => ({
+  x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
+  r: Math.random() * 1.8 + 0.3, s: Math.random() * 0.22 + 0.07, o: Math.random()
+}));
+(function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  stars.forEach(st => {
+    st.o += (Math.random() - 0.5) * 0.07;
+    st.o = Math.max(0.1, Math.min(1, st.o));
+    ctx.beginPath(); ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${st.o})`; ctx.fill();
+    st.y += st.s;
+    if (st.y > canvas.height) { st.y = 0; st.x = Math.random() * canvas.width; }
+  });
+  requestAnimationFrame(animate);
+})();
+
+/* ── Slideshow ── */
+const slides = Array.from(document.querySelectorAll('.slide'));
+const total = slides.length;
+let cur = 0;
+
+function showSlide(n) {
+  slides[cur].classList.remove('active');
+  cur = ((n % total) + total) % total;
+  slides[cur].classList.add('active');
+  document.getElementById('counter').textContent = `${cur + 1} / ${total}`;
+  document.getElementById('prev-btn').style.visibility = cur === 0       ? 'hidden' : 'visible';
+  document.getElementById('next-btn').style.visibility = cur === total-1 ? 'hidden' : 'visible';
+}
+function changeSlide(dir) { showSlide(cur + dir); }
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+  if (e.key === 'ArrowLeft') changeSlide(-1);
+});
+
+/* ── Init ── */
+showSlide(0);
+try {
+  const saved = localStorage.getItem('wedding_lang');
+  if (saved && T[saved] && saved !== 'sv') setLang(saved);
+} catch(e) {}
+</script>
+</body>
+</html>
