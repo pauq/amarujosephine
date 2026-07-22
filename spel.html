@@ -1,661 +1,719 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>💘 BRÖLLOPSLEK: KÄN DU DIN BRUD/BRUDGUM? 💘</title>
+  <title>💘 DO YOU KNOW YOUR SPOUSE? 💘</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
-      background: #000022;
-      color: #00FF00;
-      overflow: hidden;
-      height: 100vh;
-      width: 100vw;
+      background: #000022; color: #00FF00;
+      overflow: hidden; height: 100vh; width: 100vw;
     }
-
     canvas#stars { position: fixed; top: 0; left: 0; z-index: 0; pointer-events: none; }
-
     .slideshow { position: relative; width: 100vw; height: 100vh; z-index: 1; }
-
     .slide {
       display: none; position: absolute; inset: 0;
       flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: 12px 20px 90px 20px;
+      text-align: center; padding: 10px 18px 88px 18px;
     }
     .slide.active { display: flex; }
 
     /* ── Backgrounds ── */
     #slide-1  { background: linear-gradient(135deg,#FF00FF 0%,#00FFFF 25%,#FFFF00 50%,#FF00FF 75%,#00FF00 100%); background-size:400% 400%; animation:psychedelic 3s ease infinite; }
     #slide-2  { background: linear-gradient(160deg,#000033,#110044,#220055); }
-    /* Runda 1 — Amaru — blåviolett */
-    #slide-3,#slide-4,#slide-5,#slide-6,#slide-7 { background: linear-gradient(160deg,#000033,#0a0044,#110066); }
-    /* Halvtid */
-    #slide-8  { background: linear-gradient(135deg,#1a0033,#000055,#001133); }
-    /* Runda 2 — Josephine — magenta */
-    #slide-9,#slide-10,#slide-11,#slide-12,#slide-13 { background: linear-gradient(160deg,#2d0033,#1a0022,#3d0044); }
-    /* Runda 3 — Relationen — guld */
-    #slide-14 { background: linear-gradient(160deg,#1a0011,#001133,#1a0011); }
-    #slide-15,#slide-16,#slide-17 { background: linear-gradient(135deg,#221100,#332200,#443300); }
-    /* Final */
-    #slide-18 { background: linear-gradient(45deg,#FF0000,#FF7F00,#FFFF00,#00FF00,#0000FF,#8B00FF); background-size:600% 600%; animation:psychedelic 2s ease infinite; }
+    #slide-3  { background: linear-gradient(160deg,#00001a,#000044,#110066); }
+    #slide-4,#slide-5,#slide-6,#slide-7,#slide-8,#slide-9 { background: linear-gradient(160deg,#000022,#080040,#0a0055); }
+    #slide-10 { background: linear-gradient(160deg,#0a001a,#001133,#0a001a); }
+    #slide-11 { background: linear-gradient(160deg,#1a0033,#000055,#001133); }
+    #slide-12,#slide-13,#slide-14,#slide-15,#slide-16,#slide-17 { background: linear-gradient(160deg,#200022,#150018,#2d0033); }
+    #slide-18 { background: linear-gradient(160deg,#1a1100,#221500,#332200); }
+    #slide-19,#slide-20,#slide-21,#slide-22 { background: linear-gradient(135deg,#1a0d00,#2a1800,#3d2600); }
+    #slide-23 { background: linear-gradient(45deg,#FF0000,#FF7F00,#FFFF00,#00FF00,#0000FF,#8B00FF); background-size:600% 600%; animation:psychedelic 2s ease infinite; }
 
-    @keyframes psychedelic {
-      0%   { background-position:0% 50%; }
-      50%  { background-position:100% 50%; }
-      100% { background-position:0% 50%; }
-    }
+    @keyframes psychedelic { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
 
-    /* ── Round header badge ── */
-    .round-badge {
-      font-size: clamp(0.7em,1.3vw,0.9em);
-      font-weight: bold;
-      letter-spacing: 0.15em;
-      padding: 4px 18px;
-      margin-bottom: 10px;
-      flex-shrink: 0;
-    }
-    .round-badge.amaru-r  { background:#FF00FF; color:#000; box-shadow:0 0 12px #FF00FF; }
-    .round-badge.jose-r   { background:#00FFFF; color:#000; box-shadow:0 0 12px #00FFFF; }
-    .round-badge.rel-r    { background:#FFFF00; color:#000; box-shadow:0 0 12px #FFFF00; }
-
-    /* ── Question text ── */
-    .question {
-      font-size: clamp(1.2em,3.2vw,2.1em);
-      color: #FFFF00;
-      text-shadow: 2px 2px 0 #330000, 0 0 20px rgba(255,255,0,0.4);
-      max-width: 820px;
-      line-height: 1.4;
-      margin-bottom: 12px;
-      flex-shrink: 0;
-    }
-    .question.photo-q { font-size: clamp(1em,2.4vw,1.6em); }
-
-    /* ── Photo frame ── */
-    .photo-frame {
-      background: white;
-      padding: 6px 6px 28px 6px;
-      box-shadow: 6px 6px 20px rgba(0,0,0,0.9), 0 0 25px #FF00FF;
-      flex-shrink: 0;
-      margin-bottom: 10px;
-    }
-    .photo-frame img {
-      display: block;
-      max-height: 38vh;
-      max-width: 55vw;
-      object-fit: cover;
-    }
-    .photo-frame .cap {
-      color: #333;
-      font-size: 0.75em;
-      text-align: center;
-      margin-top: 4px;
-    }
-
-    /* ── Photo grid (for 2 side by side) ── */
-    .photo-row {
+    /* ── Live scoreboard widget (always visible) ── */
+    #scoreboard {
+      position: fixed;
+      bottom: 46px;
+      right: 12px;
+      z-index: 300;
+      background: rgba(0,0,0,0.92);
+      border: 2px solid #444;
+      padding: 6px 10px;
       display: flex;
-      gap: 14px;
-      align-items: flex-start;
-      justify-content: center;
-      flex-shrink: 0;
-      margin-bottom: 10px;
+      gap: 10px;
+      align-items: center;
+      font-size: 0.8em;
     }
-    .photo-row .photo-frame img { max-height: 30vh; max-width: 28vw; }
-
-    /* ── Write prompt ── */
-    .write-prompt {
-      background: rgba(0,0,0,0.8);
-      border: 3px solid #00FF00;
-      box-shadow: 0 0 15px #00FF00;
-      padding: 10px 22px;
-      color: #00FF00;
-      font-size: clamp(0.9em,2vw,1.2em);
-      flex-shrink: 0;
+    .score-col { text-align: center; }
+    .score-col .s-name { font-size: 0.75em; font-weight: bold; letter-spacing: 0.05em; }
+    .score-col.am .s-name { color: #FF00FF; }
+    .score-col.jo .s-name { color: #00FFFF; }
+    .score-col .s-val {
+      font-size: 1.8em; font-weight: 900; color: #FFFF00;
+      text-shadow: 0 0 8px #FFFF00; line-height: 1;
+      margin: 2px 0;
     }
-    .write-prompt .emoji { font-size: 1.6em; }
-
-    /* ── Reveal button + answer ── */
-    .reveal-btn {
+    .score-btns { display: flex; gap: 3px; justify-content: center; }
+    .score-btns button {
       font-family: 'Comic Sans MS', cursive;
-      font-size: clamp(0.9em,1.8vw,1.1em);
-      padding: 8px 24px;
-      background: #000;
-      color: #FF00FF;
-      border: 3px solid #FF00FF;
-      cursor: pointer;
-      box-shadow: 0 0 12px #FF00FF;
-      margin-top: 10px;
-      flex-shrink: 0;
+      font-size: 0.85em; padding: 1px 7px;
+      cursor: pointer; border: 1px solid #888;
+      background: #111; color: #fff;
     }
-    .reveal-btn:hover { background:#FF00FF; color:#000; }
+    .score-btns button:hover { background: #333; }
+    .score-sep { color: #444; font-size: 1.5em; align-self: center; }
 
-    .fact-answer {
-      display: none;
-      background: rgba(0,0,0,0.9);
-      border: 3px solid #00FF00;
-      box-shadow: 0 0 20px #00FF00;
-      padding: 12px 24px;
-      margin-top: 8px;
-      max-width: 650px;
-      flex-shrink: 0;
+    /* ── Nav ── */
+    .nav {
+      position: fixed; bottom: 8px; width: 100%;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 0 16px; z-index: 200;
     }
-    .fact-answer.visible { display: block; }
-    .fact-answer .ans-text {
-      font-size: clamp(1.1em,2.8vw,1.8em);
-      color: #00FF00;
-      text-shadow: 0 0 10px #00FF00;
-      font-weight: bold;
+    .nav-btn {
+      font-family: 'Comic Sans MS', cursive; font-size: 0.95em;
+      padding: 5px 16px; background: #000; color: #00FF00;
+      border: 3px solid #00FF00; cursor: pointer;
+      text-shadow: 0 0 8px #00FF00; box-shadow: 0 0 8px #00FF00;
     }
-    .fact-answer .ans-sub { color:#AAAAAA; font-size:0.8em; margin-top:4px; }
+    .nav-btn:hover { background: #00FF00; color: #000; }
+    .slide-counter { color: #FFFF00; font-size: 0.9em; text-shadow: 0 0 5px #FFFF00; }
 
-    /* ── Title / wordart ── */
+    /* ── Typography ── */
     .wordart {
-      font-size: clamp(1.8em,5.5vw,4.5em);
-      font-weight: 900;
-      font-style: italic;
-      color: #FFFF00;
-      text-shadow: -3px -3px 0 #FF0000, 3px 3px 0 #0000FF, 0 0 30px #FFF;
-      letter-spacing: 0.04em;
-      line-height: 1.1;
+      font-size: clamp(1.8em,5.5vw,4.2em); font-weight: 900; font-style: italic;
+      color: #FFFF00; text-shadow: -3px -3px 0 #FF0000, 3px 3px 0 #0000FF, 0 0 30px #FFF;
+      letter-spacing: 0.04em; line-height: 1.1;
     }
     .rainbow-text {
-      font-size: clamp(1.1em,3vw,2.2em);
-      font-weight: 900;
+      font-size: clamp(1em,2.8vw,2em); font-weight: 900;
       background: linear-gradient(to right,#FF0000,#FF7F00,#FFFF00,#00FF00,#0000FF,#FF00FF);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .body-box {
-      background: rgba(0,0,0,0.7);
-      border: 2px solid #00FF00;
-      box-shadow: 0 0 10px #00FF00;
-      padding: 12px 20px;
-      max-width: 750px;
-      color: #FFF;
-      font-size: clamp(0.85em,1.8vw,1.1em);
-      line-height: 1.65;
-      flex-shrink: 0;
+      background: rgba(0,0,0,0.72); border: 2px solid #00FF00;
+      box-shadow: 0 0 10px #00FF00; padding: 11px 18px;
+      max-width: 720px; color: #FFF;
+      font-size: clamp(0.82em,1.7vw,1.05em); line-height: 1.65; flex-shrink: 0;
     }
-    .game-over {
-      font-size: clamp(2em,6vw,4em); color:#FFFF00; font-weight:900;
-      animation: glow 1s ease-in-out infinite alternate;
+
+    /* ── Round badge ── */
+    .round-badge {
+      font-size: clamp(0.65em,1.2vw,0.85em); font-weight: bold;
+      letter-spacing: 0.14em; padding: 4px 16px; margin-bottom: 9px; flex-shrink: 0;
     }
-    @keyframes glow {
-      from { text-shadow:0 0 12px #FF0000,0 0 25px #FF6600; }
-      to   { text-shadow:0 0 22px #FFFF00,0 0 45px #FF6600,0 0 70px #FF0000; }
+    .round-badge.am { background: #FF00FF; color: #000; box-shadow: 0 0 12px #FF00FF; }
+    .round-badge.jo { background: #00FFFF; color: #000; box-shadow: 0 0 12px #00FFFF; }
+    .round-badge.rel{ background: #FFFF00; color: #000; box-shadow: 0 0 12px #FFFF00; }
+
+    /* ── Question ── */
+    .question {
+      font-size: clamp(1.1em,2.9vw,1.9em); color: #FFFF00;
+      text-shadow: 2px 2px 0 #220000; max-width: 800px;
+      line-height: 1.4; margin-bottom: 10px; flex-shrink: 0;
     }
+    .sub-q { font-size: 0.65em; color: #AAAAFF; display: block; margin-top: 4px; }
+
+    /* ── Photos ── */
+    .photo-frame {
+      background: white; padding: 6px 6px 26px 6px;
+      box-shadow: 5px 5px 18px rgba(0,0,0,0.9), 0 0 22px #FF00FF;
+      flex-shrink: 0; margin-bottom: 9px;
+    }
+    .photo-frame img { display: block; max-height: 36vh; max-width: 52vw; object-fit: cover; }
+    .photo-frame .cap { color: #333; font-size: 0.72em; text-align: center; margin-top: 4px; }
+
+    .photo-row { display: flex; gap: 12px; align-items: flex-start; justify-content: center; flex-shrink: 0; margin-bottom: 9px; }
+    .photo-row .photo-frame img { max-height: 29vh; max-width: 26vw; }
+
+    /* ── Write prompt ── */
+    .write-prompt {
+      background: rgba(0,0,0,0.8); border: 2px solid #00FF00;
+      box-shadow: 0 0 12px #00FF00; padding: 8px 18px;
+      color: #00FF00; font-size: clamp(0.82em,1.7vw,1.05em); flex-shrink: 0;
+    }
+
+    /* ── Reveal ── */
+    .reveal-btn {
+      font-family: 'Comic Sans MS', cursive;
+      font-size: clamp(0.85em,1.7vw,1.05em); padding: 7px 22px;
+      background: #000; color: #FF00FF; border: 3px solid #FF00FF;
+      cursor: pointer; box-shadow: 0 0 12px #FF00FF; margin-top: 9px; flex-shrink: 0;
+    }
+    .reveal-btn:hover { background: #FF00FF; color: #000; }
+    .fact-answer {
+      display: none; background: rgba(0,0,0,0.9); border: 3px solid #00FF00;
+      box-shadow: 0 0 20px #00FF00; padding: 11px 22px;
+      margin-top: 7px; max-width: 640px; flex-shrink: 0;
+    }
+    .fact-answer.vis { display: block; }
+    .ans-text { font-size: clamp(1em,2.6vw,1.7em); color: #00FF00; text-shadow: 0 0 10px #00FF00; font-weight: bold; }
+    .ans-sub  { color: #AAAAAA; font-size: 0.8em; margin-top: 3px; }
+    .pt { display: inline-block; background: #FFFF00; color: #000; font-weight: bold; padding: 2px 10px; font-size: 0.78em; margin-top: 5px; }
+
+    /* ── Points buttons on question slides ── */
+    .award-row {
+      display: flex; gap: 12px; margin-top: 9px; flex-shrink: 0; align-items: center;
+    }
+    .award-btn {
+      font-family: 'Comic Sans MS', cursive; font-size: 0.85em;
+      padding: 5px 14px; border: 2px solid; cursor: pointer; font-weight: bold;
+    }
+    .award-btn.am-btn { border-color: #FF00FF; color: #FF00FF; background: #000; }
+    .award-btn.am-btn:hover { background: #FF00FF; color: #000; }
+    .award-btn.jo-btn { border-color: #00FFFF; color: #00FFFF; background: #000; }
+    .award-btn.jo-btn:hover { background: #00FFFF; color: #000; }
+    .award-btn.both-btn { border-color: #FFFF00; color: #FFFF00; background: #000; }
+    .award-btn.both-btn:hover { background: #FFFF00; color: #000; }
+    .award-label { color: #888; font-size: 0.75em; }
+
+    /* ── Final summary table ── */
+    #final-table { width: 100%; max-width: 600px; border-collapse: collapse; flex-shrink: 0; }
+    #final-table th, #final-table td { padding: 5px 10px; text-align: center; font-size: clamp(0.7em,1.4vw,0.9em); border: 1px solid #333; }
+    #final-table th { background: #111; color: #FFFF00; font-weight: bold; }
+    #final-table td { color: #FFF; }
+    #final-table td:first-child { text-align: left; color: #AAAAFF; }
+    #final-table .subtotal td { background: #0a0a2a; color: #FFFF00; font-weight: bold; }
+    #final-table .grand td { background: #1a0a00; color: #FF6600; font-weight: bold; font-size: 1.1em; }
+
+    .scoreboard-big { display: flex; gap: 20px; justify-content: center; flex-shrink: 0; }
+    .team-box { background: rgba(0,0,0,0.8); border: 3px solid; padding: 12px 22px; text-align: center; min-width: 160px; }
+    .team-box.am { border-color: #FF00FF; box-shadow: 0 0 18px #FF00FF; }
+    .team-box.jo { border-color: #00FFFF; box-shadow: 0 0 18px #00FFFF; }
+    .team-box .t-name { font-size: 0.9em; font-weight: bold; margin-bottom: 5px; }
+    .am .t-name { color: #FF00FF; } .jo .t-name { color: #00FFFF; }
+    .team-box .t-score { font-size: 2.8em; color: #FFFF00; font-weight: bold; }
+    .team-box .t-max { font-size: 0.68em; color: #888; }
+
+    /* ── Misc ── */
     .blink { animation: blink 0.85s step-start infinite; }
-    @keyframes blink { 50% { visibility:hidden; } }
-    .spin  { display:inline-block; animation:spin 2s linear infinite; }
-    @keyframes spin { to { transform:rotate(360deg); } }
-    .mt    { margin-top:10px; }
-    .highlight { color:#FFFF00; font-weight:bold; }
-    .pink  { color:#FF69B4; }
-    .cyan  { color:#00FFFF; }
-
-    /* ── Scoreboard ── */
-    .scoreboard { display:flex; gap:24px; justify-content:center; flex-wrap:wrap; flex-shrink:0; }
-    .team-box {
-      background:rgba(0,0,0,0.8); border:3px solid;
-      padding:14px 24px; text-align:center; min-width:180px;
-    }
-    .team-box.am { border-color:#FF00FF; box-shadow:0 0 18px #FF00FF; }
-    .team-box.jo { border-color:#00FFFF; box-shadow:0 0 18px #00FFFF; }
-    .team-box .team-name { font-size:1em; font-weight:bold; margin-bottom:6px; }
-    .am .team-name { color:#FF00FF; }
-    .jo .team-name { color:#00FFFF; }
-    .team-box .score-big { font-size:3.2em; color:#FFFF00; font-weight:bold; }
-    .team-box .score-max { font-size:0.7em; color:#AAAAAA; }
-
-    /* ── Point tag ── */
-    .pt { display:inline-block; background:#FFFF00; color:#000; font-weight:bold; padding:2px 10px; font-size:0.8em; margin-top:6px; }
-
-    /* ── Nav ── */
-    .nav {
-      position:fixed; bottom:8px; width:100%;
-      display:flex; justify-content:space-between; align-items:center;
-      padding:0 18px; z-index:200;
-    }
-    .nav-btn {
-      font-family:'Comic Sans MS',cursive; font-size:1em;
-      padding:6px 18px; background:#000; color:#00FF00;
-      border:3px solid #00FF00; cursor:pointer;
-      text-shadow:0 0 8px #00FF00; box-shadow:0 0 8px #00FF00;
-    }
-    .nav-btn:hover { background:#00FF00; color:#000; }
-    .slide-counter { color:#FFFF00; font-size:0.95em; text-shadow:0 0 5px #FFFF00; }
-
-    /* ── Marquee ── */
-    .marquee-bar {
-      position:fixed; bottom:44px; width:100%;
-      background:#FF00FF; color:#FFFF00; font-size:1em; padding:5px 0;
-      z-index:100; overflow:hidden; white-space:nowrap;
-    }
-    .marquee-inner { display:inline-block; white-space:nowrap; animation:marquee 28s linear infinite; }
-    @keyframes marquee { from{transform:translateX(100vw);} to{transform:translateX(-100%);} }
-
-    /* ── Photo background slides ── */
-    .photo-bg-slide {
-      position: absolute; inset: 0; z-index: 0;
-      object-fit: cover; width: 100%; height: 100%; opacity: 0.18;
-    }
-    .photo-bg-slide + * { z-index: 1; }
-    .slide > *:not(.photo-bg-slide) { position: relative; z-index: 1; }
+    @keyframes blink { 50%{visibility:hidden} }
+    .spin  { display: inline-block; animation: spin 2s linear infinite; }
+    @keyframes spin { to{transform:rotate(360deg)} }
+    .mt    { margin-top: 10px; }
+    .hl    { color: #FFFF00; font-weight: bold; }
+    .pink  { color: #FF69B4; }
+    .game-over { font-size: clamp(1.8em,5.5vw,3.8em); color: #FFFF00; font-weight: 900; animation: glow 1s ease-in-out infinite alternate; }
+    @keyframes glow { from{text-shadow:0 0 12px #FF0000,0 0 25px #FF6600} to{text-shadow:0 0 22px #FFFF00,0 0 45px #FF6600,0 0 70px #FF0000} }
+    .photo-bg { position: absolute; inset: 0; object-fit: cover; width: 100%; height: 100%; opacity: 0.13; z-index: 0; }
+    .slide > *:not(.photo-bg) { position: relative; z-index: 1; }
   </style>
 </head>
 <body>
 <canvas id="stars"></canvas>
 
+<!-- ── Live scoreboard (always visible) ── -->
+<div id="scoreboard">
+  <div class="score-col am">
+    <div class="s-name">🟣 AMARU</div>
+    <div class="s-val" id="score-a">0</div>
+    <div class="score-btns">
+      <button onclick="addScore('a',-1)">−</button>
+      <button onclick="addScore('a',1)">+1</button>
+      <button onclick="addScore('a',2)">+2</button>
+    </div>
+  </div>
+  <div class="score-sep">|</div>
+  <div class="score-col jo">
+    <div class="s-name">🩵 JOSEPHINE</div>
+    <div class="s-val" id="score-j">0</div>
+    <div class="score-btns">
+      <button onclick="addScore('j',-1)">−</button>
+      <button onclick="addScore('j',1)">+1</button>
+      <button onclick="addScore('j',2)">+2</button>
+    </div>
+  </div>
+</div>
+
 <div class="slideshow">
 
-<!-- ═══════════ INTRO ═══════════ -->
-
+<!-- ═══ 1. TITLE ═══ -->
 <div class="slide active" id="slide-1">
-  <div class="wordart">💘 KÄN DU DIN BRUD? 💘</div>
-  <div class="rainbow-text mt">— DET ULTIMATA PARPROVET —</div>
-  <div class="body-box mt" style="max-width:620px;">
-    <p style="color:#FFFF00;font-weight:bold;margin-bottom:8px;">🎯 SPELFORMAT</p>
-    <p>🟣 <span style="color:#FF00FF;font-weight:bold;">AMARU</span> svarar om Josephine</p>
-    <p>🩵 <span style="color:#00FFFF;font-weight:bold;">JOSEPHINE</span> svarar om Amaru</p>
+  <div class="wordart">💘 DO YOU KNOW YOUR SPOUSE? 💘</div>
+  <div class="rainbow-text mt">— THE ULTIMATE COUPLES CHALLENGE —</div>
+  <div class="body-box mt" style="max-width:600px;">
+    <p style="color:#FFFF00;font-weight:bold;margin-bottom:8px;">🎯 HOW IT WORKS</p>
+    <p>🟣 <b style="color:#FF00FF;">AMARU</b> answers questions about Josephine</p>
+    <p>🩵 <b style="color:#00FFFF;">JOSEPHINE</b> answers questions about Amaru</p>
     <br>
-    <p>Båda skriver på varsitt whiteboard <em>utan</em> att se varandras svar.</p>
-    <p>Quizmaster räknar poäng. Gäster bugar.</p>
+    <p>Both write answers simultaneously on their whiteboards.</p>
+    <p>No peeking. Reveal together. Quizmaster awards points.</p>
     <br>
-    <p style="color:#AAAAAA;font-size:0.85em;">18 omgångar · 3 rundor · 1 äktenskap att rädda</p>
+    <p style="color:#AAAAAA;font-size:0.85em;">3 rounds · 16 questions · 1 marriage on the line</p>
+    <p style="color:#AAAAAA;font-size:0.85em;">Use the scoreboard in the bottom-right corner throughout.</p>
   </div>
-  <div class="mt" style="color:#FFFF00;" >► TRYCK NÄSTA FÖR ATT BÖRJA ◄</div>
+  <div class="mt" style="color:#FFFF00;" >► PRESS NEXT TO BEGIN ◄</div>
 </div>
 
-<!-- ═══════════ RUNDA 1 — OM AMARU ═══════════ -->
-
+<!-- ═══ 2. ROUND 1 TITLE ═══ -->
 <div class="slide" id="slide-2">
-  <div style="font-size:clamp(3em,10vw,8em);">🟣</div>
-  <div class="wordart" style="font-size:clamp(1.8em,5vw,4em);">RUNDA 1</div>
-  <div style="color:#FF00FF;font-size:clamp(1.2em,3vw,2.2em);font-weight:bold;text-shadow:0 0 15px #FF00FF;margin:10px 0;">
-    OM AMARU
-  </div>
-  <div class="body-box" style="max-width:560px;">
-    Josephine: svarar om sin blivande man<br>
-    Amaru: svarar vad han <em>tror</em> att Josephine svarar<br>
-    <br>
-    <span class="highlight">Matchande svar = 1 poäng</span>
+  <div style="font-size:clamp(3em,9vw,7em);">🟣</div>
+  <div class="wordart" style="font-size:clamp(1.6em,4.5vw,3.8em);">ROUND 1</div>
+  <div style="color:#FF00FF;font-size:clamp(1.1em,2.8vw,2em);font-weight:bold;text-shadow:0 0 15px #FF00FF;margin:10px 0;">ABOUT AMARU</div>
+  <div class="body-box" style="max-width:520px;">
+    Josephine answers — Amaru answers what he thinks she'll say<br><br>
+    <span class="hl">Matching answers = 1 point each</span>
   </div>
 </div>
 
-<!-- Q1: Foto-gissning (indie garden 2012) -->
+<!-- ═══ Q1: Year guess — indie garden 2012 ═══ -->
 <div class="slide" id="slide-3">
-  <img class="photo-bg-slide" src="quiz-imgs/a_indie_garden.jpg" alt="">
-  <div class="round-badge amaru-r">🟣 AMARU — FRÅGA 1 / 6</div>
+  <img class="photo-bg" src="quiz-imgs/a_indie_garden.jpg" alt="">
+  <div class="round-badge am">🟣 ABOUT AMARU — Q1 / 6 &nbsp;·&nbsp; 1 PT</div>
   <div class="photo-frame">
-    <img src="quiz-imgs/a_indie_garden.jpg" alt="Amaru ung">
-    <div class="cap">????? — Amaru</div>
+    <img src="quiz-imgs/a_indie_garden.jpg" alt="Young Amaru">
+    <div class="cap">Amaru — somewhere in time</div>
   </div>
-  <div class="question photo-q">Vilket år togs det här fotot?<br><span style="font-size:0.7em;color:#AAAAFF;">(±1 år ger poäng)</span></div>
-  <div class="write-prompt"><span class="emoji">📝</span> SKRIV ERAT SVAR NU</div>
-  <button class="reveal-btn" onclick="reveal(this)">🔍 VISA SVAR</button>
+  <div class="question" style="font-size:clamp(1em,2.4vw,1.6em);">What year was this photo taken?<br><span class="sub-q">±1 year counts as correct</span></div>
+  <div class="write-prompt">📝 BOTH WRITE YOUR ANSWER NOW</div>
+  <button class="reveal-btn" onclick="reveal(this)">🔍 REVEAL ANSWER</button>
   <div class="fact-answer">
     <div class="ans-text">2012</div>
-    <div class="ans-sub">Peak indie-period. Blazer. Lång lugg. Ormen Korte-andan lever.</div>
-    <div class="pt">+1 POÄNG OM ±1 ÅR</div>
+    <div class="ans-sub">Peak indie era. Blazer. That fringe. Ormen Korte energy.</div>
+    <div class="pt">+1 PT if within ±1 year</div>
+  </div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',1)">+1 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',1)">+1 Josephine</button>
+    <button class="award-btn both-btn" onclick="addScore('a',1);addScore('j',1)">+1 Both</button>
   </div>
 </div>
 
-<!-- Q2: Scout-grupp - peka ut Amaru -->
+<!-- ═══ Q2: Find Amaru in group photo ═══ -->
 <div class="slide" id="slide-4">
-  <div class="round-badge amaru-r">🟣 AMARU — FRÅGA 2 / 6</div>
-  <div class="question">Peka ut Amaru i det här fotot.</div>
+  <div class="round-badge am">🟣 ABOUT AMARU — Q2 / 6 &nbsp;·&nbsp; 1 PT</div>
+  <div class="question">Point to Amaru in this photo.<br><span class="sub-q">No help from the audience.</span></div>
   <div class="photo-frame">
-    <img src="quiz-imgs/a_scout_group.jpg" alt="Scout-gäng" style="max-height:40vh;max-width:65vw;">
-    <div class="cap">Sommaren 2007 — Gäng på äventyr</div>
+    <img src="quiz-imgs/a_scout_group.jpg" alt="Scout group" style="max-height:38vh;max-width:62vw;">
+    <div class="cap">Summer 2007 — a memorable evening</div>
   </div>
-  <div class="write-prompt"><span class="emoji">👆</span> VISA MED FINGRET — INGEN HJÄLP FRÅN PUBLIKEN</div>
-  <button class="reveal-btn" onclick="reveal(this)">🔍 AVSLÖJA</button>
+  <div class="write-prompt">👆 POINT — SIMULTANEOUSLY</div>
+  <button class="reveal-btn" onclick="reveal(this)">🔍 REVEAL</button>
   <div class="fact-answer">
-    <div class="ans-text">Längst till vänster. Naturligtvis.</div>
-    <div class="ans-sub">Plaidskjortan. Glasögonen. Den oändliga luggen.</div>
-    <div class="pt">+1 POÄNG</div>
+    <div class="ans-text">Far left. Obviously.</div>
+    <div class="ans-sub">The plaid shirt. The glasses. The eternal fringe.</div>
+    <div class="pt">+1 PT</div>
+  </div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',1)">+1 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',1)">+1 Josephine</button>
+    <button class="award-btn both-btn" onclick="addScore('a',1);addScore('j',1)">+1 Both</button>
   </div>
 </div>
 
-<!-- Q3: Bildtext-tävling -->
+<!-- ═══ Q3: Caption contest — wild Amaru ═══ -->
 <div class="slide" id="slide-5">
-  <img class="photo-bg-slide" src="quiz-imgs/a_floor_wild.jpg" alt="">
-  <div class="round-badge amaru-r">🟣 AMARU — FRÅGA 3 / 6</div>
+  <img class="photo-bg" src="quiz-imgs/a_floor_wild.jpg" alt="">
+  <div class="round-badge am">🟣 ABOUT AMARU — Q3 / 6 &nbsp;·&nbsp; AUDIENCE VOTE</div>
   <div class="photo-frame">
-    <img src="quiz-imgs/a_floor_wild.jpg" alt="Amaru wild">
+    <img src="quiz-imgs/a_floor_wild.jpg" alt="Amaru gesturing">
     <div class="cap">Amaru, ~2013</div>
   </div>
-  <div class="question photo-q">Skriv en bildtext till det här fotot.<br><span style="font-size:0.7em;color:#AAAAFF;">(Roligaste vinner — publiken röstar)</span></div>
-  <div class="write-prompt"><span class="emoji">✍️</span> KREATIVITET PREMIERAS</div>
-  <div style="margin-top:10px;color:#AAAAAA;font-size:0.8em;">Ingen "rätt" svar — gästerna röstar 👏</div>
+  <div class="question" style="font-size:clamp(1em,2.4vw,1.6em);">Write a caption for this photo.<br><span class="sub-q">Funniest answer wins — audience votes 👏</span></div>
+  <div class="write-prompt">✍️ CREATIVITY IS REWARDED</div>
+  <div style="margin-top:9px;color:#AAAAAA;font-size:0.8em;">No right answer — audience applause decides 👏</div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',1)">+1 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',1)">+1 Josephine</button>
+  </div>
 </div>
 
-<!-- Q4: Brädspels-vana -->
+<!-- ═══ Q4: Style evolution — old profile vs recent ═══ -->
 <div class="slide" id="slide-6">
-  <div class="round-badge amaru-r">🟣 AMARU — FRÅGA 4 / 6</div>
-  <div class="question" style="margin-top:10px;">
-    Vad gör Amaru <em>direkt</em> efter att han vunnit ett brädspel?
-  </div>
-  <div class="photo-frame">
-    <img src="quiz-imgs/aj_boardgame.jpg" alt="Brädspel" style="max-height:32vh;max-width:52vw;">
-    <div class="cap">En helt vanlig fredagskväll</div>
-  </div>
-  <div class="write-prompt"><span class="emoji">📝</span> BÅDA SKRIVER — INGEN TJUVKIKAR</div>
-  <div style="margin-top:10px;color:#AAAAAA;font-size:0.8em;">Matchande svar = 1 poäng · Roligast svar = 1 bonuspoäng</div>
-</div>
-
-<!-- Q5: Indie-era -->
-<div class="slide" id="slide-7">
-  <div class="round-badge amaru-r">🟣 AMARU — FRÅGA 5 / 6</div>
+  <div class="round-badge am">🟣 ABOUT AMARU — Q4 / 6 &nbsp;·&nbsp; 1 PT</div>
   <div class="photo-row">
     <div class="photo-frame">
-      <img src="quiz-imgs/a_indie_profile.jpg" alt="Amaru indie profil">
-      <div class="cap">Ca 2013</div>
+      <img src="quiz-imgs/a_indie_profile.jpg" alt="Amaru ~2013">
+      <div class="cap">~2013</div>
     </div>
     <div class="photo-frame">
-      <img src="quiz-imgs/a_recent.jpg" alt="Amaru idag">
+      <img src="quiz-imgs/a_recent.jpg" alt="Amaru 2024">
       <div class="cap">2024</div>
     </div>
   </div>
-  <div class="question photo-q">Välj ett ord som bäst beskriver Amarus stilresa från bild 1 till bild 2.</div>
-  <div class="write-prompt"><span class="emoji">📝</span> ETT ORD — GÄRNA GRYMT</div>
-  <div style="margin-top:8px;color:#AAAAAA;font-size:0.8em;">Exempel på svar som INTE ger poäng: "förbättring"</div>
+  <div class="question" style="font-size:clamp(1em,2.4vw,1.6em);">One word to describe Amaru's style journey from photo 1 to photo 2.</div>
+  <div class="write-prompt">📝 ONE WORD — MAKE IT COUNT</div>
+  <div style="margin-top:8px;color:#AAAAAA;font-size:0.78em;">Suggestion: answers containing "improvement" score zero points</div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',1)">+1 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',1)">+1 Josephine</button>
+    <button class="award-btn both-btn" onclick="addScore('a',1);addScore('j',1)">+1 Both</button>
+  </div>
 </div>
 
-<!-- Q6: Graffiti/konst -->
-<div class="slide" id="slide-8">
-  <div class="round-badge amaru-r">🟣 AMARU — FRÅGA 6 / 6</div>
-  <div class="question">Vad höll Amaru på med i det här fotot?</div>
+<!-- ═══ Q5: Board game behaviour ═══ -->
+<div class="slide" id="slide-7">
+  <div class="round-badge am">🟣 ABOUT AMARU — Q5 / 6 &nbsp;·&nbsp; 1 PT</div>
+  <div class="question">What does Amaru do <em>immediately</em> after winning a board game?</div>
   <div class="photo-frame">
-    <img src="quiz-imgs/a_indie_graffiti.jpg" alt="Amaru graffiti" style="max-height:38vh;max-width:60vw;">
-    <div class="cap">Amaru, Juli 2013</div>
+    <img src="quiz-imgs/aj_boardgame.jpg" alt="Board game night" style="max-height:30vh;max-width:50vw;">
+    <div class="cap">A perfectly normal Friday evening</div>
   </div>
-  <div class="write-prompt"><span class="emoji">📝</span> BESKRIV VAD SOM HÄNDER</div>
-  <button class="reveal-btn" onclick="reveal(this)">🔍 VISA SVAR</button>
-  <div class="fact-answer">
-    <div class="ans-text">Fotograferar / tittar på graffiti-konst</div>
-    <div class="ans-sub">Konstig konst. Precis som hemma. Josephine vet vad det innebär.</div>
-    <div class="pt">+1 POÄNG FÖR RÄTT</div>
+  <div class="write-prompt">📝 BOTH WRITE — NO PEEKING</div>
+  <div style="margin-top:8px;color:#AAAAAA;font-size:0.78em;">Matching answers = 1 pt · Funniest answer = 1 bonus pt from the audience</div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',1)">+1 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',1)">+1 Josephine</button>
+    <button class="award-btn both-btn" onclick="addScore('a',1);addScore('j',1)">+1 Both</button>
   </div>
 </div>
 
-<!-- ═══════════ HALVTID ═══════════ -->
+<!-- ═══ Q6: What's happening — no pants hiking ═══ -->
+<div class="slide" id="slide-8">
+  <img class="photo-bg" src="quiz-imgs/a_no_pants.jpg" alt="">
+  <div class="round-badge am">🟣 ABOUT AMARU — Q6 / 6 &nbsp;·&nbsp; 1 PT</div>
+  <div class="photo-frame">
+    <img src="quiz-imgs/a_no_pants.jpg" alt="Amaru outdoors" style="max-height:36vh;max-width:48vw;">
+    <div class="cap">Amaru — outdoors somewhere</div>
+  </div>
+  <div class="question" style="font-size:clamp(1em,2.4vw,1.6em);">Describe what is happening in this photo.<br><span class="sub-q">Be specific. Josephine: were you there?</span></div>
+  <div class="write-prompt">📝 DESCRIBE THE SITUATION</div>
+  <button class="reveal-btn" onclick="reveal(this)">🔍 REVEAL</button>
+  <div class="fact-answer">
+    <div class="ans-text">Hiking. In his underwear.</div>
+    <div class="ans-sub">The jacket is still on. Priorities.</div>
+    <div class="pt">+1 PT for correct description</div>
+  </div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',1)">+1 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',1)">+1 Josephine</button>
+    <button class="award-btn both-btn" onclick="addScore('a',1);addScore('j',1)">+1 Both</button>
+  </div>
+</div>
 
+<!-- ═══ 9. HALFTIME ═══ -->
 <div class="slide" id="slide-9">
-  <div style="font-size:4em;">⏸️</div>
-  <div class="wordart" style="font-size:clamp(1.6em,4.5vw,3.5em);">HALVTID</div>
-  <div class="scoreboard mt">
+  <div style="font-size:3.5em;">⏸️</div>
+  <div class="wordart" style="font-size:clamp(1.5em,4vw,3.2em);">HALFTIME</div>
+  <div class="scoreboard-big mt">
     <div class="team-box am">
-      <div class="team-name">🟣 AMARU</div>
-      <div class="score-big">?</div>
-      <div class="score-max">/ 6 möjliga</div>
+      <div class="t-name">🟣 AMARU</div>
+      <div class="t-score" id="ht-score-a">0</div>
+      <div class="t-max">pts so far</div>
     </div>
     <div class="team-box jo">
-      <div class="team-name">🩵 JOSEPHINE</div>
-      <div class="score-big">?</div>
-      <div class="score-max">/ 6 möjliga</div>
+      <div class="t-name">🩵 JOSEPHINE</div>
+      <div class="t-score" id="ht-score-j">0</div>
+      <div class="t-max">pts so far</div>
     </div>
   </div>
-  <div class="body-box mt" style="font-size:0.9em;max-width:500px;">
-    Dags för runda 2 — nu handlar det om Josephine.<br>
-    <span class="blink" style="color:#FF00FF;">Amaru får hämnas.</span>
+  <div class="body-box mt" style="font-size:0.9em;max-width:480px;">
+    Round 2 coming up — now it's all about Josephine.<br>
+    <span class="blink" style="color:#00FFFF;">Amaru gets his turn.</span>
   </div>
 </div>
 
-<!-- ═══════════ RUNDA 2 — OM JOSEPHINE ═══════════ -->
-
+<!-- ═══ 10. ROUND 2 TITLE ═══ -->
 <div class="slide" id="slide-10">
-  <div style="font-size:clamp(3em,10vw,8em);">🩵</div>
-  <div class="wordart" style="font-size:clamp(1.8em,5vw,4em);">RUNDA 2</div>
-  <div style="color:#00FFFF;font-size:clamp(1.2em,3vw,2.2em);font-weight:bold;text-shadow:0 0 15px #00FFFF;margin:10px 0;">
-    OM JOSEPHINE
-  </div>
-  <div class="body-box" style="max-width:560px;">
-    Amaru: svarar om sin blivande fru<br>
-    Josephine: svarar vad hon <em>tror</em> att Amaru svarar<br>
-    <br>
-    <span class="highlight">Matchande svar = 1 poäng</span>
+  <div style="font-size:clamp(3em,9vw,7em);">🩵</div>
+  <div class="wordart" style="font-size:clamp(1.6em,4.5vw,3.8em);">ROUND 2</div>
+  <div style="color:#00FFFF;font-size:clamp(1.1em,2.8vw,2em);font-weight:bold;text-shadow:0 0 15px #00FFFF;margin:10px 0;">ABOUT JOSEPHINE</div>
+  <div class="body-box" style="max-width:520px;">
+    Amaru answers — Josephine answers what she thinks he'll say<br><br>
+    <span class="hl">Matching answers = 1 point each</span>
   </div>
 </div>
 
-<!-- J-Q1: Mörkt hår - vilket år -->
+<!-- ═══ J-Q1: Dark hair year — leather jacket photo not used yet ═══ -->
 <div class="slide" id="slide-11">
-  <img class="photo-bg-slide" src="quiz-imgs/j_dark_hair.jpg" alt="">
-  <div class="round-badge jose-r">🩵 JOSEPHINE — FRÅGA 1 / 6</div>
+  <img class="photo-bg" src="quiz-imgs/j_dark_hair.jpg" alt="">
+  <div class="round-badge jo">🩵 ABOUT JOSEPHINE — Q1 / 6 &nbsp;·&nbsp; 2 PTS</div>
   <div class="photo-frame">
-    <img src="quiz-imgs/j_dark_hair.jpg" alt="Josephine mörkt hår">
-    <div class="cap">????? — Josephine</div>
+    <img src="quiz-imgs/j_dark_hair.jpg" alt="Josephine dark hair">
+    <div class="cap">Josephine — somewhere in time</div>
   </div>
-  <div class="question photo-q">Vilket år hade Josephine den här hårfärgen?<br>
-  <span style="font-size:0.7em;color:#AAAAFF;">Bonusfråga: vad händer i bakgrunden på bordet?</span></div>
-  <div class="write-prompt"><span class="emoji">📝</span> SKRIV ERAT SVAR NU</div>
-  <button class="reveal-btn" onclick="reveal(this)">🔍 VISA SVAR</button>
+  <div class="question" style="font-size:clamp(1em,2.4vw,1.6em);">What year was this taken?<br><span class="sub-q">Bonus: what's on the table in the background?</span></div>
+  <div class="write-prompt">📝 BOTH WRITE YOUR ANSWERS</div>
+  <button class="reveal-btn" onclick="reveal(this)">🔍 REVEAL</button>
   <div class="fact-answer">
-    <div class="ans-text">2019</div>
-    <div class="ans-sub">Bonus: snus på bordet. Integrationen var fullbordad.</div>
-    <div class="pt">+1 P ÅR &nbsp; +1 P BONUS</div>
+    <div class="ans-text">2019 &nbsp;·&nbsp; Bonus: snus 🫙</div>
+    <div class="ans-sub">Integration complete. Sweden accepted.</div>
+    <div class="pt">+1 PT year &nbsp; +1 PT bonus</div>
+  </div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',1)">+1 Amaru</button>
+    <button class="award-btn am-btn" onclick="addScore('a',1)">+1 Bonus A</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',1)">+1 Josephine</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',1)">+1 Bonus J</button>
+    <button class="award-btn both-btn" onclick="addScore('a',2);addScore('j',2)">+2 Both</button>
   </div>
 </div>
 
-<!-- J-Q2: Golvet med glas -->
+<!-- ═══ J-Q2: Crayfish party floor ═══ -->
 <div class="slide" id="slide-12">
-  <img class="photo-bg-slide" src="quiz-imgs/j_floor_glass.jpg" alt="">
-  <div class="round-badge jose-r">🩵 JOSEPHINE — FRÅGA 2 / 6</div>
+  <img class="photo-bg" src="quiz-imgs/j_floor_glass.jpg" alt="">
+  <div class="round-badge jo">🩵 ABOUT JOSEPHINE — Q2 / 6 &nbsp;·&nbsp; 1 PT</div>
   <div class="photo-frame">
-    <img src="quiz-imgs/j_floor_glass.jpg" alt="Josephine golvet">
-    <div class="cap">Josephine — ett specifikt tillfälle</div>
+    <img src="quiz-imgs/j_floor_glass.jpg" alt="Josephine on floor">
+    <div class="cap">Josephine — a specific occasion</div>
   </div>
-  <div class="question photo-q">
-    Beskriv Josephines sinnestillstånd i det här fotot med <em>ett ord</em>.<br>
-    <span style="font-size:0.7em;color:#AAAAFF;">Vad är det för tillfälle? Gissa!</span>
-  </div>
-  <div class="write-prompt"><span class="emoji">📝</span> ETT ORD VARDERA + GISSA TILLFÄLLE</div>
-  <button class="reveal-btn" onclick="reveal(this)">🔍 AVSLÖJA</button>
+  <div class="question" style="font-size:clamp(1em,2.4vw,1.6em);">Describe Josephine's mood in this photo using <em>one word</em>.<br><span class="sub-q">Bonus: what occasion is this?</span></div>
+  <div class="write-prompt">📝 ONE WORD + OCCASION</div>
+  <button class="reveal-btn" onclick="reveal(this)">🔍 REVEAL</button>
   <div class="fact-answer">
-    <div class="ans-text">Kräftskiva! 🦞</div>
-    <div class="ans-sub">Danska flaggor i bakgrunden. Partyhatt. Glas. Golvet. Allt stämmer.</div>
-    <div class="pt">+1 P RÄTT TILLFÄLLE</div>
+    <div class="ans-text">Crayfish party 🦞</div>
+    <div class="ans-sub">Danish flags. Party hat. Floor. Glass. It all adds up.</div>
+    <div class="pt">+1 PT correct occasion</div>
+  </div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',1)">+1 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',1)">+1 Josephine</button>
+    <button class="award-btn both-btn" onclick="addScore('a',1);addScore('j',1)">+1 Both</button>
   </div>
 </div>
 
-<!-- J-Q3: Dröm -->
+<!-- ═══ J-Q3: Leather jacket — what era ═══ -->
 <div class="slide" id="slide-13">
-  <div class="round-badge jose-r">🩵 JOSEPHINE — FRÅGA 3 / 6</div>
-  <div class="question" style="margin-top:10px;">
-    Josephine har en dröm som hon tjatar om <em>lite</em> för ofta.<br>Vad är den?
-  </div>
+  <img class="photo-bg" src="quiz-imgs/j_leather_jacket.jpg" alt="">
+  <div class="round-badge jo">🩵 ABOUT JOSEPHINE — Q3 / 6 &nbsp;·&nbsp; 1 PT</div>
   <div class="photo-frame">
-    <img src="quiz-imgs/j_mountain.jpg" alt="Josephine fjäll">
-    <div class="cap">Josephine i sitt rätta element</div>
+    <img src="quiz-imgs/j_leather_jacket.jpg" alt="Josephine leather jacket">
+    <div class="cap">Josephine — in a past life</div>
   </div>
-  <div class="write-prompt"><span class="emoji">📝</span> SVARA UTAN ATT SKRATTA — OM DU KAN</div>
-  <button class="reveal-btn" onclick="reveal(this)">🔍 AVSLÖJA</button>
-  <div class="fact-answer">
-    <div class="ans-text">Flytta till landet 🌾🐑🏡</div>
-    <div class="ans-sub">Specifikt: stor tomt, hund (eller tre), ingen granne inom 2 km.</div>
-    <div class="pt">+1 POÄNG · AMARU SUCKAR</div>
+  <div class="question" style="font-size:clamp(1em,2.4vw,1.6em);">One word to describe the vibe of this Josephine era.</div>
+  <div class="write-prompt">📝 ONE WORD — BE HONEST</div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',1)">+1 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',1)">+1 Josephine</button>
+    <button class="award-btn both-btn" onclick="addScore('a',1);addScore('j',1)">+1 Both</button>
   </div>
 </div>
 
-<!-- J-Q4: Naturmänniska -->
+<!-- ═══ J-Q4: The dream ═══ -->
 <div class="slide" id="slide-14">
-  <div class="round-badge jose-r">🩵 JOSEPHINE — FRÅGA 4 / 6</div>
-  <div class="photo-row">
-    <div class="photo-frame">
-      <img src="quiz-imgs/j_outdoors_mug.jpg" alt="Josephine utomhus">
-      <div class="cap">Josephine ute i naturen</div>
-    </div>
-    <div class="photo-frame">
-      <img src="quiz-imgs/j_party_friends.jpg" alt="Josephine med vänner">
-      <div class="cap">Josephine med vänner</div>
-    </div>
+  <div class="round-badge jo">🩵 ABOUT JOSEPHINE — Q4 / 6 &nbsp;·&nbsp; 1 PT</div>
+  <div class="question" style="margin-top:8px;">Josephine has a dream she mentions <em>slightly</em> too often. What is it?</div>
+  <div class="photo-frame">
+    <img src="quiz-imgs/j_mountain.jpg" alt="Josephine in the mountains">
+    <div class="cap">Josephine in her natural habitat</div>
   </div>
-  <div class="question photo-q">
-    Sant eller falskt: "Josephine klagade aldrig en enda gång under hela fjällvandringen."
+  <div class="write-prompt">📝 ANSWER WITHOUT LAUGHING — IF YOU CAN</div>
+  <button class="reveal-btn" onclick="reveal(this)">🔍 REVEAL</button>
+  <div class="fact-answer">
+    <div class="ans-text">Move to the countryside 🌾🏡</div>
+    <div class="ans-sub">Big garden. Dog (or three). No neighbours within 2 km.</div>
+    <div class="pt">+1 PT · Amaru sighs</div>
   </div>
-  <div class="write-prompt"><span class="emoji">📝</span> SANT / FALSKT — MOTIVERA</div>
-  <div style="margin-top:8px;color:#AAAAAA;font-size:0.8em;">Bara Amaru vet rätt svar</div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',1)">+1 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',1)">+1 Josephine</button>
+    <button class="award-btn both-btn" onclick="addScore('a',1);addScore('j',1)">+1 Both</button>
+  </div>
 </div>
 
-<!-- J-Q5: Värsta egenskapen -->
+<!-- ═══ J-Q5: Hiking — true or false ═══ -->
 <div class="slide" id="slide-15">
-  <div class="round-badge jose-r">🩵 JOSEPHINE — FRÅGA 5 / 6</div>
-  <div class="question" style="margin-top:12px;">
-    Vad är Josephines <em>minst</em> favorit-egenskap hos Amaru?<br>
-    <span style="font-size:0.7em;color:#AAAAFF;">(Det han gör hemma som hon helst inte pratar om)</span>
+  <div class="round-badge jo">🩵 ABOUT JOSEPHINE — Q5 / 6 &nbsp;·&nbsp; 1 PT</div>
+  <div class="photo-frame">
+    <img src="quiz-imgs/j_outdoors_mug.jpg" alt="Josephine outdoors with mug">
+    <div class="cap">Josephine. Outdoors. Mug. In her element.</div>
   </div>
-  <div class="write-prompt"><span class="emoji">📝</span> BÅDA SKRIVER — ÄRLIGT</div>
-  <div style="margin-top:10px;color:#AAAAAA;font-size:0.8em;">
-    Matchande svar = 1 poäng · Ärligaste svar = 1 bonuspoäng från publiken
+  <div class="question" style="font-size:clamp(1em,2.4vw,1.6em);">True or false: "Josephine never complained once during the entire hiking trip."</div>
+  <div class="write-prompt">📝 TRUE / FALSE — WITH OPTIONAL EVIDENCE</div>
+  <div style="margin-top:8px;color:#AAAAAA;font-size:0.78em;">Only Amaru knows the correct answer</div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',1)">+1 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',1)">+1 Josephine</button>
+    <button class="award-btn both-btn" onclick="addScore('a',1);addScore('j',1)">+1 Both</button>
   </div>
 </div>
 
-<!-- J-Q6: Bästa dagen -->
+<!-- ═══ J-Q6: Perfect day ═══ -->
 <div class="slide" id="slide-16">
-  <div class="round-badge jose-r">🩵 JOSEPHINE — FRÅGA 6 / 6</div>
-  <div class="question" style="margin-top:12px;">
-    Beskriv Josephines perfekta dag — från morgon till kväll.
-  </div>
+  <div class="round-badge jo">🩵 ABOUT JOSEPHINE — Q6 / 6 &nbsp;·&nbsp; 1 PT</div>
+  <div class="question" style="margin-top:8px;">Describe Josephine's perfect Saturday — from morning to night.</div>
   <div class="photo-frame">
-    <img src="quiz-imgs/j_party_hat.jpg" alt="Josephine nöjd">
-    <div class="cap">Josephine på topp</div>
+    <img src="quiz-imgs/j_party_hat.jpg" alt="Josephine content">
+    <div class="cap">Josephine at peak happiness</div>
   </div>
-  <div class="write-prompt"><span class="emoji">📝</span> SÅ DETALJERAT SOM MÖJLIGT</div>
-  <div style="margin-top:8px;color:#AAAAAA;font-size:0.8em;">
-    Poäng för: hund ✓ &nbsp; kafé ✓ &nbsp; inga kollektivtrafik ✓ &nbsp; natur ✓
+  <div class="write-prompt">📝 AS DETAILED AS POSSIBLE</div>
+  <div style="margin-top:8px;color:#AAAAAA;font-size:0.78em;">
+    Point bonuses for: dog ✓ &nbsp; café ✓ &nbsp; no public transport ✓ &nbsp; nature ✓
+  </div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',1)">+1 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',1)">+1 Josephine</button>
+    <button class="award-btn both-btn" onclick="addScore('a',1);addScore('j',1)">+1 Both</button>
   </div>
 </div>
 
-<!-- ═══════════ RUNDA 3 — RELATIONEN ═══════════ -->
-
+<!-- ═══ 17. ROUND 3 TITLE ═══ -->
 <div class="slide" id="slide-17">
-  <div style="font-size:clamp(3em,10vw,8em);">💍</div>
-  <div class="wordart" style="font-size:clamp(1.8em,5vw,4em);">RUNDA 3</div>
-  <div style="color:#FFFF00;font-size:clamp(1.2em,3vw,2.2em);font-weight:bold;text-shadow:0 0 15px #FFFF00;margin:10px 0;">
-    OM RELATIONEN
-  </div>
-  <div class="body-box" style="max-width:560px;">
-    Sista chansen.<br>
-    Båda svarar på samma frågor — om sig själva och varandra.<br>
-    <br>
-    <span class="highlight">Alla matchningar ger 2 poäng</span>
+  <div style="font-size:clamp(3em,9vw,7em);">💍</div>
+  <div class="wordart" style="font-size:clamp(1.6em,4.5vw,3.8em);">ROUND 3</div>
+  <div style="color:#FFFF00;font-size:clamp(1.1em,2.8vw,2em);font-weight:bold;text-shadow:0 0 15px #FFFF00;margin:10px 0;">THE RELATIONSHIP</div>
+  <div class="body-box" style="max-width:520px;">
+    Both answer the same questions — about themselves and each other.<br><br>
+    <span class="hl">Matching answers = 2 points</span>
   </div>
 </div>
 
-<!-- R-Q1: Vem sa jag älskar dig först -->
+<!-- ═══ R-Q1: Who said I love you first — park picnic ═══ -->
 <div class="slide" id="slide-18">
-  <img class="photo-bg-slide" src="quiz-imgs/aj_sailing.jpg" alt="">
-  <div class="round-badge rel-r">💍 RELATIONEN — FRÅGA 1 / 4</div>
-  <div class="question" style="color:#FFFF00;">
-    Vem sa <em>"jag älskar dig"</em> FÖRST?
-  </div>
+  <img class="photo-bg" src="quiz-imgs/aj_park_picnic.jpg" alt="">
+  <div class="round-badge rel">💍 THE RELATIONSHIP — Q1 / 4 &nbsp;·&nbsp; 2 PTS</div>
   <div class="photo-frame">
-    <img src="quiz-imgs/aj_sailing.jpg" alt="Paret segling">
-    <div class="cap">Kärlek i alla väder</div>
+    <img src="quiz-imgs/aj_park_picnic.jpg" alt="Couple in park">
+    <div class="cap">Early days</div>
   </div>
-  <div class="write-prompt"><span class="emoji">📝</span> BÅDA SKRIVER SIMULTANT — AVSLÖJA TILLSAMMANS</div>
-  <div style="margin-top:8px;font-size:0.85em;color:#AAAAAA;">
-    Matchande svar = 2 poäng · Oenighet = 0 poäng + diskussion under middagen
+  <div class="question" style="font-size:clamp(1em,2.4vw,1.6em);">Who said <em>"I love you"</em> first?</div>
+  <div class="write-prompt">📝 BOTH WRITE SIMULTANEOUSLY — REVEAL TOGETHER</div>
+  <div style="margin-top:8px;color:#AAAAAA;font-size:0.78em;">Matching = 2 pts · Disagreement = 0 pts + dinner table debate</div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',2)">+2 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',2)">+2 Josephine</button>
+    <button class="award-btn both-btn" onclick="addScore('a',2);addScore('j',2)">+2 Both</button>
   </div>
 </div>
 
-<!-- R-Q2: Första riktiga grälet -->
+<!-- ═══ R-Q2: First argument — midsommar ═══ -->
 <div class="slide" id="slide-19">
-  <div class="round-badge rel-r">💍 RELATIONEN — FRÅGA 2 / 4</div>
-  <div class="question">
-    Vad var ert FÖRSTA riktiga gräl om?
-  </div>
+  <img class="photo-bg" src="quiz-imgs/aj_midsommar.jpg" alt="">
+  <div class="round-badge rel">💍 THE RELATIONSHIP — Q2 / 4 &nbsp;·&nbsp; 2 PTS</div>
   <div class="photo-frame">
-    <img src="quiz-imgs/aj_boardgame.jpg" alt="Boardgame">
-    <div class="cap">Det börjar alltid lugnt...</div>
+    <img src="quiz-imgs/aj_midsommar.jpg" alt="Couple midsommar">
+    <div class="cap">Everything looks peaceful here</div>
   </div>
-  <div class="write-prompt"><span class="emoji">📝</span> BÅDA SKRIVER — VAR ÄRLIGA</div>
-  <div style="margin-top:8px;color:#FFFF00;font-size:0.85em;">Rimliga svar: stad vs land · ett brädspel · ingenting / vi minns inte</div>
+  <div class="question" style="font-size:clamp(1em,2.4vw,1.6em);">What was your first <em>real</em> argument about?</div>
+  <div class="write-prompt">📝 BOTH WRITE — BE HONEST</div>
+  <div style="margin-top:8px;color:#FFFF00;font-size:0.78em;">Reasonable answers: city vs countryside · a board game · "we can't remember"</div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',2)">+2 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',2)">+2 Josephine</button>
+    <button class="award-btn both-btn" onclick="addScore('a',2);addScore('j',2)">+2 Both</button>
+  </div>
 </div>
 
-<!-- R-Q3: Om 10 år - stad eller land -->
+<!-- ═══ R-Q3: City or country in 10 years — eating photo ═══ -->
 <div class="slide" id="slide-20">
-  <div class="round-badge rel-r">💍 RELATIONEN — FRÅGA 3 / 4</div>
-  <div class="question">
-    OM 10 ÅR — bor ni i Stockholm eller på landet?<br>
-    <span style="font-size:0.7em;color:#AAAAFF;">Svara med ärlig önskan, inte diplomatiskt svar</span>
+  <div class="round-badge rel">💍 THE RELATIONSHIP — Q3 / 4 &nbsp;·&nbsp; 2 PTS</div>
+  <div class="question" style="margin-top:6px;">In 10 years — Stockholm or the countryside?<br><span class="sub-q">Answer with your honest wish, not the diplomatic one.</span></div>
+  <div class="photo-frame">
+    <img src="quiz-imgs/aj_eating.jpg" alt="Group sitting together">
+    <div class="cap">An evening of serious discussion</div>
   </div>
-  <div class="body-box mt" style="font-size:0.9em;max-width:600px;">
-    <span style="color:#FF00FF;">Josephine:</span> drömmer om 🌾<br>
-    <span style="color:#00FFFF;">Amaru:</span> bor i 🏢<br>
-    <span style="color:#AAAAAA;">Mumrik:</span> svarar åt dem båda 🐕
+  <div class="body-box" style="font-size:0.85em;max-width:520px;margin-top:8px;">
+    <span style="color:#FF00FF;">Josephine</span> is thinking 🌾&nbsp;&nbsp;
+    <span style="color:#00FFFF;">Amaru</span> is thinking 🏢&nbsp;&nbsp;
+    <span style="color:#AAAAAA;">Mumrik</span> doesn't care 🐕
   </div>
-  <div class="write-prompt mt"><span class="emoji">📝</span> DEN ÄRLIGA SANNINGEN NU</div>
-  <div style="margin-top:8px;color:#AAAAAA;font-size:0.8em;">
-    2 poäng om ni är överens · 0 poäng + äktenskaplig spänning om inte
+  <div class="write-prompt mt">📝 THE HONEST TRUTH</div>
+  <div style="margin-top:8px;color:#AAAAAA;font-size:0.78em;">2 pts if you agree · 0 pts + eternal conflict if not</div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',2)">+2 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',2)">+2 Josephine</button>
+    <button class="award-btn both-btn" onclick="addScore('a',2);addScore('j',2)">+2 Both</button>
   </div>
 </div>
 
-<!-- R-Q4: Vem bestämmer - final -->
+<!-- ═══ R-Q4: Who actually decides — collapsed ═══ -->
 <div class="slide" id="slide-21">
-  <div class="round-badge rel-r">💍 RELATIONEN — FRÅGA 4 / 4</div>
-  <div class="question">
-    Vem bestämmer EGENTLIGEN i förhållandet?<br>
-    <span style="font-size:0.7em;color:#AAAAFF;">Välj: Amaru · Josephine · Mumrik · Ingen av oss</span>
-  </div>
+  <div class="round-badge rel">💍 THE RELATIONSHIP — Q4 / 4 &nbsp;·&nbsp; 2 PTS</div>
+  <div class="question" style="margin-top:6px;">Who <em>actually</em> runs this household?<br><span class="sub-q">Choose: Amaru · Josephine · Mumrik · Nobody</span></div>
   <div class="photo-frame">
-    <img src="quiz-imgs/a_collapsed.jpg" alt="Amaru kollapsad" style="max-height:30vh;">
-    <div class="cap">Amaru vid ett avgörande ögonblick</div>
+    <img src="quiz-imgs/a_collapsed.jpg" alt="Amaru collapsed" style="max-height:30vh;">
+    <div class="cap">The power dynamic, illustrated</div>
   </div>
-  <div class="write-prompt"><span class="emoji">📝</span> SANNINGENS ÖGONBLICK</div>
-  <button class="reveal-btn" onclick="reveal(this)">🔍 RÄTT SVAR</button>
+  <div class="write-prompt">📝 THE MOMENT OF TRUTH</div>
+  <button class="reveal-btn" onclick="reveal(this)">🔍 CORRECT ANSWER</button>
   <div class="fact-answer">
     <div class="ans-text">Mumrik 🐕</div>
-    <div class="ans-sub">Vi visste det alla. Nu är det officiellt.</div>
-    <div class="pt">+2 POÄNG OM BÅDA SVARADE MUMRIK</div>
+    <div class="ans-sub">We all knew. Now it's official.</div>
+    <div class="pt">+2 PTS if both answered Mumrik</div>
+  </div>
+  <div class="award-row">
+    <div class="award-label">Award:</div>
+    <button class="award-btn am-btn" onclick="addScore('a',2)">+2 Amaru</button>
+    <button class="award-btn jo-btn" onclick="addScore('j',2)">+2 Josephine</button>
+    <button class="award-btn both-btn" onclick="addScore('a',2);addScore('j',2)">+2 Both</button>
   </div>
 </div>
 
-<!-- ═══════════ FINAL ═══════════ -->
-
+<!-- ═══ 22. FINAL SCOREBOARD ═══ -->
 <div class="slide" id="slide-22">
-  <div class="game-over">🏆 SPELET ÄR SLUT! 🏆</div>
-  <div class="rainbow-text mt">— SLUTRESULTAT —</div>
-  <div class="scoreboard mt">
+  <div class="game-over">🏆 GAME OVER! 🏆</div>
+  <div class="rainbow-text mt">— FINAL RESULTS —</div>
+  <div class="scoreboard-big mt">
     <div class="team-box am">
-      <div class="team-name">🟣 AMARU</div>
-      <div class="score-big">?</div>
-      <div class="score-max">/ ~16 möjliga</div>
+      <div class="t-name">🟣 AMARU</div>
+      <div class="t-score" id="final-score-a">0</div>
+      <div class="t-max">points</div>
     </div>
+    <div style="align-self:center;font-size:2.2em;color:#FFFF00;font-weight:900;">VS</div>
     <div class="team-box jo">
-      <div class="team-name">🩵 JOSEPHINE</div>
-      <div class="score-big">?</div>
-      <div class="score-max">/ ~16 möjliga</div>
+      <div class="t-name">🩵 JOSEPHINE</div>
+      <div class="t-score" id="final-score-j">0</div>
+      <div class="t-max">points</div>
     </div>
   </div>
-  <div class="body-box mt" style="font-size:0.9em;max-width:600px;">
-    <p style="color:#FFFF00;font-weight:bold;">OAVSETT POÄNG:</p>
-    <p>De gifter sig. 💍</p>
-    <p>Mumrik bestämmer. 🐕</p>
-    <p style="color:#FF69B4;margin-top:8px;">Vinnaren bjuder på nästa runda. 🍻</p>
+  <div id="winner-text" class="mt" style="font-size:clamp(1em,2.5vw,1.5em);color:#FFFF00;font-weight:bold;text-shadow:0 0 12px #FFFF00;"></div>
+  <div class="body-box mt" style="font-size:0.88em;max-width:560px;">
+    <p style="color:#FFFF00;font-weight:bold;">REGARDLESS OF SCORE:</p>
+    <p>They're getting married. 💍</p>
+    <p>Mumrik decides. 🐕</p>
+    <p style="color:#FF69B4;margin-top:6px;">The winner buys the next round. 🍻</p>
   </div>
-  <div class="mt blink" style="color:#00FF00;font-size:1.1em;">❤️ GRATTIS AMARU &amp; JOSEPHINE ❤️</div>
+  <div class="mt blink" style="color:#00FF00;font-size:1.05em;">❤️ CONGRATULATIONS AMARU &amp; JOSEPHINE ❤️</div>
 </div>
 
 </div><!-- /slideshow -->
 
-<div class="marquee-bar">
-  <span class="marquee-inner">
-    ★ ORMEN KORTE ★ INDIE-ÅR 2012 ★ KRÄFTSKIVA PÅ GOLVET ★ FLYTT TILL LANDET: PENDING ★ MUMRIK BESTÄMMER ★ FÖRSTA GRÄLET: KLASSIFICIERAT ★ SNUS PÅ BORDET ★ PORTAL-BRÄDSPELET ★ VEM SA JAG ÄLSKAR DIG FÖRST? ★ GRATTIS ★
-  </span>
-</div>
-
 <div class="nav">
-  <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)">◄ BAKÅT</button>
+  <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)">◄ BACK</button>
   <span class="slide-counter" id="counter">1 / 22</span>
-  <button class="nav-btn" id="next-btn" onclick="changeSlide(1)">NÄSTA ►</button>
+  <button class="nav-btn" id="next-btn" onclick="changeSlide(1)">NEXT ►</button>
 </div>
 
 <script>
+/* ── Scores ── */
+const scores = { a: 0, j: 0 };
+
+function addScore(who, pts) {
+  scores[who] = Math.max(0, scores[who] + pts);
+  updateAllScores();
+}
+
+function updateAllScores() {
+  document.getElementById('score-a').textContent = scores.a;
+  document.getElementById('score-j').textContent = scores.j;
+  const htA = document.getElementById('ht-score-a');
+  const htJ = document.getElementById('ht-score-j');
+  if (htA) htA.textContent = scores.a;
+  if (htJ) htJ.textContent = scores.j;
+  const fA = document.getElementById('final-score-a');
+  const fJ = document.getElementById('final-score-j');
+  if (fA) fA.textContent = scores.a;
+  if (fJ) fJ.textContent = scores.j;
+  const w = document.getElementById('winner-text');
+  if (w) {
+    if (scores.a > scores.j)       w.textContent = `🟣 AMARU WINS! 🎉`;
+    else if (scores.j > scores.a)  w.textContent = `🩵 JOSEPHINE WINS! 🎉`;
+    else if (scores.a === 0)       w.textContent = `Use the scoreboard to track points!`;
+    else                           w.textContent = `🤝 IT'S A TIE! — Mumrik decides 🐕`;
+  }
+}
+
+/* ── Reveal ── */
 function reveal(btn) {
   btn.style.display = 'none';
-  btn.nextElementSibling.classList.add('visible');
+  btn.nextElementSibling.classList.add('vis');
 }
 
 /* ── Starfield ── */
@@ -663,17 +721,17 @@ const canvas = document.getElementById('stars');
 const ctx = canvas.getContext('2d');
 function resize() { canvas.width = innerWidth; canvas.height = innerHeight; }
 resize(); addEventListener('resize', resize);
-const stars = Array.from({length:220}, () => ({
-  x:Math.random()*innerWidth, y:Math.random()*innerHeight,
-  r:Math.random()*1.8+0.3, s:Math.random()*0.2+0.07, o:Math.random()
+const stars = Array.from({length: 220}, () => ({
+  x: Math.random()*innerWidth, y: Math.random()*innerHeight,
+  r: Math.random()*1.8+0.3, s: Math.random()*0.2+0.07, o: Math.random()
 }));
 (function animate() {
-  ctx.clearRect(0,0,canvas.width,canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
   stars.forEach(st => {
-    st.o += (Math.random()-0.5)*0.07; st.o = Math.max(0.1,Math.min(1,st.o));
-    ctx.beginPath(); ctx.arc(st.x,st.y,st.r,0,Math.PI*2);
-    ctx.fillStyle=`rgba(255,255,255,${st.o})`; ctx.fill();
-    st.y+=st.s; if(st.y>canvas.height){st.y=0;st.x=Math.random()*canvas.width;}
+    st.o += (Math.random()-0.5)*0.07; st.o = Math.max(0.1, Math.min(1, st.o));
+    ctx.beginPath(); ctx.arc(st.x, st.y, st.r, 0, Math.PI*2);
+    ctx.fillStyle = `rgba(255,255,255,${st.o})`; ctx.fill();
+    st.y += st.s; if (st.y > canvas.height) { st.y = 0; st.x = Math.random()*canvas.width; }
   });
   requestAnimationFrame(animate);
 })();
@@ -684,16 +742,17 @@ const total = slides.length;
 let cur = 0;
 function showSlide(n) {
   slides[cur].classList.remove('active');
-  cur = ((n%total)+total)%total;
+  cur = ((n % total) + total) % total;
   slides[cur].classList.add('active');
   document.getElementById('counter').textContent = `${cur+1} / ${total}`;
-  document.getElementById('prev-btn').style.visibility = cur===0       ? 'hidden' : 'visible';
-  document.getElementById('next-btn').style.visibility = cur===total-1 ? 'hidden' : 'visible';
+  document.getElementById('prev-btn').style.visibility = cur === 0       ? 'hidden' : 'visible';
+  document.getElementById('next-btn').style.visibility = cur === total-1 ? 'hidden' : 'visible';
+  updateAllScores();
 }
-function changeSlide(d) { showSlide(cur+d); }
+function changeSlide(d) { showSlide(cur + d); }
 addEventListener('keydown', e => {
-  if(e.key==='ArrowRight'||e.key===' ') changeSlide(1);
-  if(e.key==='ArrowLeft') changeSlide(-1);
+  if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+  if (e.key === 'ArrowLeft') changeSlide(-1);
 });
 showSlide(0);
 </script>
