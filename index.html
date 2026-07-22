@@ -43,7 +43,7 @@
     }
     .slide.active { display: flex; }
 
-    /* ── Slide backgrounds ── */
+    /* ── Slide backgrounds (11 slides) ── */
     #slide-1 {
       background: linear-gradient(135deg, #FF00FF 0%, #00FFFF 25%, #FFFF00 50%, #FF00FF 75%, #00FF00 100%);
       background-size: 400% 400%;
@@ -56,10 +56,9 @@
     #slide-6  { background: linear-gradient(160deg, #000033, #000080, #0066CC); }
     #slide-7  { background: linear-gradient(135deg, #331100, #883300, #FFCC00); }
     #slide-8  { background: linear-gradient(160deg, #80004d, #FF1493, #FF69B4); }
-    #slide-9  { background: linear-gradient(135deg, #5c0000, #006600, #003300); }
-    #slide-10 { background: linear-gradient(135deg, #1a0033, #4B0082, #8B008B); }
-    #slide-11 { background: #000000; }
-    #slide-12 {
+    #slide-9  { background: linear-gradient(135deg, #1a0033, #4B0082, #8B008B); }
+    #slide-10 { background: #000000; }
+    #slide-11 {
       background: linear-gradient(45deg, #FF0000, #FF7F00, #FFFF00, #00FF00, #0000FF, #8B00FF);
       background-size: 600% 600%;
       animation: psychedelic 2s ease infinite;
@@ -224,13 +223,9 @@
     .polaroid:nth-child(2) { transform: rotate(2deg); }
     .polaroid:nth-child(3) { transform: rotate(-1.5deg); }
 
-    /* Four photos per slide */
     .polaroid.xs img { width: 240px; height: 255px; object-fit: cover; display: block; }
-    /* Three photos per slide */
     .polaroid.sm img { width: 290px; height: 310px; object-fit: cover; display: block; }
-    /* Two photos per slide */
     .polaroid.md img { width: 360px; height: 395px; object-fit: cover; display: block; }
-    /* Single large photo */
     .polaroid.lg img { width: 440px; height: 480px; object-fit: cover; display: block; }
 
     .polaroid .caption {
@@ -296,7 +291,6 @@
       align-self: center;
     }
 
-    /* ── Artistic final photo slide ── */
     .couple-finale {
       max-height: 68vh;
       max-width: 70vw;
@@ -305,7 +299,6 @@
       box-shadow: 0 0 50px rgba(255,255,255,0.4), 0 0 100px rgba(255,255,255,0.2);
     }
 
-    /* ── Final GAME OVER slide ── */
     .game-over {
       font-size: clamp(2em, 6.5vw, 4.5em);
       color: #FFFF00;
@@ -331,7 +324,6 @@
     .spin { display: inline-block; animation: spin 2s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* ── Helpers ── */
     .row       { display: flex; gap: 18px; align-items: center; justify-content: center; flex-wrap: wrap; }
     .mt        { margin-top: 10px; }
     .mb        { margin-bottom: 10px; }
@@ -347,7 +339,6 @@
 
 <div class="hit-counter">BESÖKARE: <b>1&thinsp;337&thinsp;420</b></div>
 
-<!-- Language toggle -->
 <div class="lang-toggle">
   <button class="lang-btn active" data-lang="sv" onclick="setLang('sv')">🇸🇪</button>
   <button class="lang-btn" data-lang="en" onclick="setLang('en')">🇬🇧</button>
@@ -396,14 +387,13 @@
 
       <div class="char-card amaru">
         <div class="char-name">★ AMARU ★</div>
-        <img src="952U6E2A.jpg" alt="Amaru utklädd till Josephine"
+        <img src="952U6E2A.jpg" alt="Amaru"
              style="object-position: 50% 0%; object-fit: cover;">
-        <div class="stat" data-i18n="amaru_s1">🧠 Yrke: <span>Ingenjör / AI-utvecklare</span></div>
         <div class="stat" data-i18n="amaru_s2">🎲 Superpower: <span>Vinner ALLTID i brädspel</span></div>
         <div class="stat" data-i18n="amaru_s3">🏙 Hjärta: <span>Inner city kid — vägrar lämna stan</span></div>
         <div class="stat" data-i18n="amaru_s4">💸 Princip: <span>Köper ALDRIG något nytt</span></div>
-        <div class="stat" data-i18n="amaru_s5">🌮 Hobby: <span>Konstig mat + smala filmer</span></div>
-        <div class="stat" data-i18n="amaru_s6">🤝 Karaktär: <span>Ja-sägare, lojal, halvperuansk nörd</span></div>
+        <div class="stat" data-i18n="amaru_s6">🤝 Karaktär: <span>Ja-sägare, intellektuell, lojal</span></div>
+        <div class="stat" data-i18n="amaru_weak">🚗 Svaghet: <span>Har fortfarande inte tagit körkort</span></div>
         <div class="stat" data-i18n="lovehp">❤️ KÄRLEKS-HP:</div>
         <div class="love-bar-wrap"><div class="love-bar" style="width:100%"></div></div>
       </div>
@@ -412,14 +402,12 @@
 
       <div class="char-card josephine">
         <div class="char-name">★ JOSEPHINE ★</div>
-        <img src="IMG_20180921_190928.jpg" alt="Josephine utklädd till Amaru"
+        <img src="IMG_20180921_190928.jpg" alt="Josephine"
              style="object-position: center top;">
-        <div class="stat" data-i18n="jose_s1">🎨 Yrke: <span>Konstnär + keramiker (egna studion)</span></div>
-        <div class="stat" data-i18n="jose_s2">🏺 Konststil: <span>Konvergerar mot penisar*</span></div>
+        <div class="stat" data-i18n="jose_pow">🎲 Superpower: <span>Kan göra vilken konst som helst till penisar (hon förnekar det)</span></div>
         <div class="stat" data-i18n="jose_s3">🐕 Svaghet: <span>ÄLSKAR hundar. Varenda en.</span></div>
-        <div class="stat" data-i18n="jose_s4">🚗 Special: <span>Älskar köra bil — Amaru: 0 körlektioner</span></div>
         <div class="stat" data-i18n="jose_s5">🌾 Dröm: <span>Flytta till landet (pågående förhandling)</span></div>
-        <div class="stat" data-i18n="jose_s6">💪 Karaktär: <span>Envis, öppen, nyfiken</span></div>
+        <div class="stat" data-i18n="jose_s6">💪 Karaktär: <span>Konstnärlig, envis, kärleksfull</span></div>
         <div class="stat" data-i18n="lovehp">❤️ KÄRLEKS-HP:</div>
         <div class="love-bar-wrap"><div class="love-bar" style="width:100%"></div></div>
       </div>
@@ -428,7 +416,6 @@
     <div style="color:#FFFF00; margin-top:10px; font-size:0.9em;" data-i18n="s2_result">
       RESULTAT: INGET VS — DE FORMADE ETT LAG 💪
     </div>
-    <div style="color:#AAAAAA; font-size:0.7em; margin-top:4px;" data-i18n="s2_foot">* Hon vägrar erkänna detta</div>
   </div>
 
   <!-- ══════════════════════════════════════
@@ -446,7 +433,7 @@
         <p style="color:#FFFF00; font-weight:bold;">NYÅRSAFTON 2015 → 2016</p>
         <p style="font-size:0.85em; color:#AAAAFF;">Köpenhamn, Danmark</p>
         <br>
-        <p>Josephine — Danska originalet — bjöd hem folk på nyårsfest.</p>
+        <p>Josephine — den coola danska tjejen med eyeliner och näsring — bjöd hem sina vänner på nyårsfest.</p>
         <br>
         <p>Amaru — via <span class="highlight">TINDER</span> — dök upp.</p>
         <br>
@@ -488,7 +475,7 @@
         <br>
         <p style="font-size:0.85em; color:#AAAAAA;">
           Status idag: <em>fortfarande samma lilla lägenhet.</em><br>
-          Status om landet: <em>fortfarande aktivt förhandlat.</em>
+          Flytt från stan: <em>fortfarande aktivt förhandlat.</em>
         </p>
       </div>
     </div>
@@ -527,26 +514,26 @@
   </div>
 
   <!-- ══════════════════════════════════════
-       SLIDE 6 — TILL SJÖSS
+       SLIDE 6 — KÄRLEK I ALLA VÄDER (segling + jul)
   ══════════════════════════════════════ -->
   <div class="slide" id="slide-6">
-    <div class="chapter-title" data-i18n="s6_chapter">⛵&thinsp; KAPITEL 4: TILL SJÖSS &thinsp;⛵</div>
-    <div class="row">
-      <div class="polaroid lg">
+    <div class="chapter-title" data-i18n="s6_chapter">⛵&thinsp; KAPITEL 4: KÄRLEK I ALLA VÄDER &thinsp;❄️</div>
+    <div class="photo-row">
+      <div class="polaroid md">
         <img src="742831751_1349405410081448_1203041913421797257_n.jpg"
              style="object-position: center center;" alt="Segling">
         <div class="caption" data-i18n="s6_cap">Amaru: Fokuserad. Josephine: ✌️🍉</div>
       </div>
-      <div class="body-text" style="max-width:370px; text-align:left;" data-i18n="s6_body">
-        <p>Amaru säger:</p>
-        <p><em class="cyan">"Vi måste hålla kursen, trimma seglet, kontrollera vinden—"</em></p>
-        <br>
-        <p>Josephine gör peace-tecken och äter vattenmelon.</p>
-        <br>
-        <p class="highlight">Det är ett perfekt team.</p>
-        <br>
-        <p>⚓ Kärlekslängd:<br>sträcker sig från skärgård till skärgård.</p>
+      <div class="polaroid md">
+        <img src="743876605_1573810097700718_2189214271304153389_n.jpg"
+             style="object-position: center top;" alt="Jultröjor">
+        <div class="caption" data-i18n="s6_cap2">"Santa ❤️ YOU" — och Josephine också</div>
       </div>
+    </div>
+    <div class="body-text mt" data-i18n="s6_body">
+      ☀️ Sommar: peace-tecken och vattenmelon till havs.<br>
+      ❄️ Vinter: kamp om fulaste jultröja hemma.<br><br>
+      Oavsett årstid — kärleken klarar det.
     </div>
   </div>
 
@@ -606,37 +593,10 @@
   </div>
 
   <!-- ══════════════════════════════════════
-       SLIDE 9 — JUL
+       SLIDE 9 — VÄNNER & GALENSKAPER
   ══════════════════════════════════════ -->
   <div class="slide" id="slide-9">
-    <div class="chapter-title" data-i18n="s9_chapter">🎄&thinsp; KAPITEL 7: DEN FULASTE JULEN &thinsp;🎄</div>
-    <div class="row">
-      <div class="polaroid lg">
-        <img src="743876605_1573810097700718_2189214271304153389_n.jpg"
-             style="object-position: center top;" alt="Jultröjor">
-        <div class="caption" data-i18n="s9_cap">"Santa ❤️ YOU" — och Josephine också</div>
-      </div>
-      <div class="body-text" style="max-width:370px; text-align:left;" data-i18n="s9_body">
-        <p>Varje jul: tävling om <span style="color:#FF0000; font-weight:bold;">FULAST JULTRÖJA</span>.</p>
-        <br>
-        <p>Amaru: <em style="color:#00FF00">"Santa ❤️ YOU"</em> — stark favorit.</p>
-        <br>
-        <p>Josephines svar: tungan rakt ut.</p>
-        <br>
-        <p>Domslut: <span class="blink highlight">BÅDA VANN.</span></p>
-        <br>
-        <p style="font-size:0.85em; color:#AAAAAA;">
-          * Inga pepparkakor skadades.<br>Möjligtvis.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════
-       SLIDE 10 — VÄNNER & GALENSKAPER
-  ══════════════════════════════════════ -->
-  <div class="slide" id="slide-10">
-    <div class="chapter-title" data-i18n="s10_chapter">🎉&thinsp; KAPITEL 8: TEAMET RUNT LAGET &thinsp;🎉</div>
+    <div class="chapter-title" data-i18n="s10_chapter">🎉&thinsp; KAPITEL 7: TEAMET RUNT LAGET &thinsp;🎉</div>
     <div class="photo-row">
       <div class="polaroid xs">
         <img src="743269982_1429482155669611_6544241856129732243_n.jpg"
@@ -661,15 +621,15 @@
     </div>
     <div class="body-text mt" data-i18n="s10_body">
       Runt dessa två finns ett gäng absolut <span class="highlight">OUMBÄRLIGA LEGENDER</span>.<br>
-      De anordnar mustaschfester, besöker tvivelaktiga museer och vet hur man håller en god toast.<br>
+      De anordnar mustaschfester, ser tvivelaktiga filmer och vet hur man håller en god toast.<br>
       De är precis de vänner man vill ha på ett bröllop. 🏆
     </div>
   </div>
 
   <!-- ══════════════════════════════════════
-       SLIDE 11 — STOR PARABILD (B&W)
+       SLIDE 10 — STOR PARABILD (B&W)
   ══════════════════════════════════════ -->
-  <div class="slide" id="slide-11">
+  <div class="slide" id="slide-10">
     <div style="color:#FFFFFF; font-size:clamp(0.9em,2vw,1.3em); letter-spacing:0.3em;
                 text-shadow: 0 0 20px #FFFFFF; margin-bottom: 16px; font-weight: bold;">
       ★ &nbsp; AMARU &amp; JOSEPHINE &nbsp; ★
@@ -682,9 +642,9 @@
   </div>
 
   <!-- ══════════════════════════════════════
-       SLIDE 12 — GAME OVER: BRÖLLOP
+       SLIDE 11 — GAME OVER: BRÖLLOP
   ══════════════════════════════════════ -->
-  <div class="slide" id="slide-12">
+  <div class="slide" id="slide-11">
     <div class="game-over">🏆 CONGRATULATIONS! 🏆</div>
     <div class="rainbow-text mt" data-i18n="s12_level">LEVEL COMPLETED: BRÖLLOP</div>
     <div style="margin:8px 0; font-size:clamp(1em,2.6vw,1.5em); color:#FFFF00;
@@ -707,17 +667,15 @@
 
 </div><!-- /slideshow -->
 
-<!-- Marquee bar -->
 <div class="marquee-bar">
   <span class="marquee-inner" data-i18n="marquee">
     ★ AMARU &amp; JOSEPHINE ★ FÖR ALLTID ★ OCH LITE TILL ★ GRATTIS TILL BRÖLLOPET ★ VI ÄLSKAR ER ★ OCH MUMRIK ★ ⛵ KÄRLEK PÅ HAVEN ★ 💍 LEVEL UP: GIFTA ★ SANTA ❤️ YOU ★ JOSEPHINE ❤️ YOU MER ★ FLYTT TILL LANDET: PENDING ★
   </span>
 </div>
 
-<!-- Navigation -->
 <div class="nav">
   <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)" data-i18n="nav_prev">◄ BAKÅT</button>
-  <span class="slide-counter" id="counter">1 / 12</span>
+  <span class="slide-counter" id="counter">1 / 11</span>
   <button class="nav-btn" id="next-btn" onclick="changeSlide(1)" data-i18n="nav_next">NÄSTA ►</button>
 </div>
 
@@ -733,49 +691,43 @@ const T = {
     s1_construction: `DENNA PRESENTATION ÄR UNDER KONSTRUKTION MEN KÄRLEKEN ÄR KLAR`,
     s2_chapter: `⚔&thinsp; KARAKTÄRSVAL &thinsp;⚔`,
     s2_sub: `VÄLJ DIN FIGHTER — (de valde varandra)`,
-    amaru_s1: `🧠 Yrke: <span>Ingenjör / AI-utvecklare</span>`,
     amaru_s2: `🎲 Superpower: <span>Vinner ALLTID i brädspel</span>`,
     amaru_s3: `🏙 Hjärta: <span>Inner city kid — vägrar lämna stan</span>`,
     amaru_s4: `💸 Princip: <span>Köper ALDRIG något nytt</span>`,
-    amaru_s5: `🌮 Hobby: <span>Konstig mat + smala filmer</span>`,
-    amaru_s6: `🤝 Karaktär: <span>Ja-sägare, lojal, halvperuansk nörd</span>`,
+    amaru_s6: `🤝 Karaktär: <span>Ja-sägare, intellektuell, lojal</span>`,
+    amaru_weak: `🚗 Svaghet: <span>Har fortfarande inte tagit körkort</span>`,
     lovehp: `❤️ KÄRLEKS-HP:`,
-    jose_s1: `🎨 Yrke: <span>Konstnär + keramiker (egna studion)</span>`,
-    jose_s2: `🏺 Konststil: <span>Konvergerar mot penisar*</span>`,
+    jose_pow: `🎲 Superpower: <span>Kan göra vilken konst som helst till penisar (hon förnekar det)</span>`,
     jose_s3: `🐕 Svaghet: <span>ÄLSKAR hundar. Varenda en.</span>`,
-    jose_s4: `🚗 Special: <span>Älskar köra bil — Amaru: 0 körlektioner</span>`,
     jose_s5: `🌾 Dröm: <span>Flytta till landet (pågående förhandling)</span>`,
-    jose_s6: `💪 Karaktär: <span>Envis, öppen, nyfiken</span>`,
+    jose_s6: `💪 Karaktär: <span>Konstnärlig, envis, kärleksfull</span>`,
     s2_result: `RESULTAT: INGET VS — DE FORMADE ETT LAG 💪`,
-    s2_foot: `* Hon vägrar erkänna detta`,
     s3_chapter: `📼&thinsp; KAPITEL 1: HUR DET BÖRJADE &thinsp;📼`,
     s3_cap: `Josephine möter Amarus viktigaste vänner`,
-    s3_body: `<p style="color:#FFFF00;font-weight:bold;">NYÅRSAFTON 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">Köpenhamn, Danmark</p><br><p>Josephine — Danska originalet — bjöd hem folk på nyårsfest.</p><br><p>Amaru — via <span class="highlight">TINDER</span> — dök upp.</p><br><p>Vid midnatt, medan fyrverkerier smällde utanför,<br>klickade något på insidan.</p><br><p style="color:#00FF00;">Det var inte bara champagnen.<br><em class="pink">(Fast champagnen hjälpte säkert.)</em></p>`,
+    s3_body: `<p style="color:#FFFF00;font-weight:bold;">NYÅRSAFTON 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">Köpenhamn, Danmark</p><br><p>Josephine — den coola danska tjejen med eyeliner och näsring — bjöd hem sina vänner på nyårsfest.</p><br><p>Amaru — via <span class="highlight">TINDER</span> — dök upp.</p><br><p>Vid midnatt, medan fyrverkerier smällde utanför,<br>klickade något på insidan.</p><br><p style="color:#00FF00;">Det var inte bara champagnen.<br><em class="pink">(Fast champagnen hjälpte säkert.)</em></p>`,
     s3_tag1: `MATCH: LYCKAD`, s3_tag2: `SWIPE HÖGER: RÄTT BESLUT`,
     s4_chapter: `🏙&thinsp; KAPITEL 2: DEN STORA FLYTTEN &thinsp;🏙`,
     s4_cap: `Köpenhamn → Stockholm = UPPGRADERING`,
-    s4_body: `<p>Josephine bodde kvar i Köpenhamn ett par år.</p><p>Amaru pendlade. Kärlek slår tågbiljetter.</p><br><p>Sen hände det: <span class="highlight">DE FLYTTADE IHOP I STOCKHOLM</span>.</p><br><p>Liten lägenhet. Mycket böcker. Perfekt.</p><br><p style="color:#FF6666;font-weight:bold;">Josephines dröm: flytta till landet 🌾</p><p style="color:#00FF00;font-weight:bold;">Amarus svar: nej 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Status idag: <em>fortfarande samma lilla lägenhet.</em><br>Status om landet: <em>fortfarande aktivt förhandlat.</em></p>`,
+    s4_body: `<p>Josephine bodde kvar i Köpenhamn ett par år.</p><p>Amaru pendlade. Kärlek slår tågbiljetter.</p><br><p>Sen hände det: <span class="highlight">DE FLYTTADE IHOP I STOCKHOLM</span>.</p><br><p>Liten lägenhet. Mycket böcker. Perfekt.</p><br><p style="color:#FF6666;font-weight:bold;">Josephines dröm: flytta till landet 🌾</p><p style="color:#00FF00;font-weight:bold;">Amarus svar: nej 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Status idag: <em>fortfarande samma lilla lägenhet.</em><br>Flytt från stan: <em>fortfarande aktivt förhandlat.</em></p>`,
     s4_tag: `KONFLIKTEN PÅGÅR ÄN IDAG`,
     s5_chapter: `🗺&thinsp; KAPITEL 3: VÄRLDSERÖVRARNA &thinsp;🗺`,
     s5_cap1: `Mygg: 1 — Vi: 0 🦟`, s5_cap2: `Penntroll i Rumänien`,
     s5_cap3: `Flaxenvik, midsommar ⭐⭐⭐⭐⭐`, s5_cap4: `Tallinn, nyårsafton 🖕`,
     s5_body: `Amaru &amp; Josephine har besökt: <span class="highlight">ÖVERALLT</span>.<br>Resultatet varierar.`,
-    s6_chapter: `⛵&thinsp; KAPITEL 4: TILL SJÖSS &thinsp;⛵`,
+    s6_chapter: `⛵&thinsp; KAPITEL 4: KÄRLEK I ALLA VÄDER &thinsp;❄️`,
     s6_cap: `Amaru: Fokuserad. Josephine: ✌️🍉`,
-    s6_body: `<p>Amaru säger:</p><p><em class="cyan">"Vi måste hålla kursen, trimma seglet, kontrollera vinden—"</em></p><br><p>Josephine gör peace-tecken och äter vattenmelon.</p><br><p class="highlight">Det är ett perfekt team.</p><br><p>⚓ Kärlekslängd:<br>sträcker sig från skärgård till skärgård.</p>`,
+    s6_cap2: `"Santa ❤️ YOU" — och Josephine också`,
+    s6_body: `☀️ Sommar: peace-tecken och vattenmelon till havs.<br>❄️ Vinter: kamp om fulaste jultröja hemma.<br><br>Oavsett årstid — kärleken klarar det.`,
     s7_chapter: `🌸&thinsp; KAPITEL 5: 100% SVENSKA TRADITIONER &thinsp;🌸`,
     s7_cap1: `Josephines förstasnus 🤢→😍`, s7_cap2: `Partyhatt: Obligatorisk 🎉`, s7_cap3: `Bastu: Klassiskt 🧖`,
     s7_body: `🦷 Snus — hooked efter ett försök ✅&emsp;🦞 Kräftskiva med partyhatt ✅&emsp;🧖 Bastu i handduk ✅<br><span class="highlight">INTEGRATION: FULLBORDAD</span>`,
     s8_chapter: `🐾&thinsp; KAPITEL 6: MUMRIK — TREDJE FAMILJEMEDLEMMEN &thinsp;🐾`,
     s8_cap1: `2022 — Dag 1. "Vad har vi gjort?"`, s8_cap2: `Transport: Löst`, s8_cap3: `Mumrik godkänner Amaru`,
     s8_body: `<span class="pink">MUMRIK</span> — fluffigaste och mest krävande i familjen. Rekryterad 2022.<br>Sitter i cykelkorg ✅ &nbsp; Slickar dig i ansiktet ✅ &nbsp; Bestämmer vem som vinner argument ✅<br><span class="blink highlight">10/10 — REKOMMENDERAS.</span>`,
-    s9_chapter: `🎄&thinsp; KAPITEL 7: DEN FULASTE JULEN &thinsp;🎄`,
-    s9_cap: `"Santa ❤️ YOU" — och Josephine också`,
-    s9_body: `<p>Varje jul: tävling om <span style="color:#FF0000;font-weight:bold;">FULAST JULTRÖJA</span>.</p><br><p>Amaru: <em style="color:#00FF00">"Santa ❤️ YOU"</em> — stark favorit.</p><br><p>Josephines svar: tungan rakt ut.</p><br><p>Domslut: <span class="blink highlight">BÅDA VANN.</span></p><br><p style="font-size:0.85em;color:#AAAAAA;">* Inga pepparkakor skadades.<br>Möjligtvis.</p>`,
-    s10_chapter: `🎉&thinsp; KAPITEL 8: TEAMET RUNT LAGET &thinsp;🎉`,
+    s10_chapter: `🎉&thinsp; KAPITEL 7: TEAMET RUNT LAGET &thinsp;🎉`,
     s10_cap1: `Nyårsafton 🥂`, s10_cap2: `Alla utklädd till Amaru 🧔`,
     s10_cap3: `Vänner med stor stil 😎`, s10_cap4: `Oslagbart gäng 🏆`,
-    s10_body: `Runt dessa två finns ett gäng absolut <span class="highlight">OUMBÄRLIGA LEGENDER</span>.<br>De anordnar mustaschfester, besöker tvivelaktiga museer och vet hur man håller en god toast.<br>De är precis de vänner man vill ha på ett bröllop. 🏆`,
+    s10_body: `Runt dessa två finns ett gäng absolut <span class="highlight">OUMBÄRLIGA LEGENDER</span>.<br>De anordnar mustaschfester, ser tvivelaktiga filmer och vet hur man håller en god toast.<br>De är precis de vänner man vill ha på ett bröllop. 🏆`,
     s11_sub: `och nu gifter de sig`,
     s12_level: `LEVEL COMPLETED: BRÖLLOP`,
     s12_married: `AMARU &amp; JOSEPHINE GIFTER SIG!`,
@@ -789,52 +741,46 @@ const T = {
     s1_subtitle: `THE ULTIMATE LOVE STORY`,
     s1_premiere: `✨ WORLD PREMIERE — TODAY ✨`,
     s1_browser: `► BEST EXPERIENCED IN NETSCAPE NAVIGATOR 4.0 ◄`,
-    s1_construction: `THIS PRESENTATION IS STILL UNDER CONSTRUCTION BUT THE LOVE IS DONE`,
+    s1_construction: `THIS PRESENTATION IS STILL UNDER CONSTRUCTION BUT THE LOVE IS COMPLETE`,
     s2_chapter: `⚔&thinsp; CHARACTER SELECT &thinsp;⚔`,
     s2_sub: `CHOOSE YOUR FIGHTER — (they chose each other)`,
-    amaru_s1: `🧠 Job: <span>Engineer / AI Developer</span>`,
     amaru_s2: `🎲 Superpower: <span>ALWAYS wins at board games</span>`,
     amaru_s3: `🏙 Heart: <span>Inner city kid — refuses to leave town</span>`,
     amaru_s4: `💸 Principle: <span>NEVER buys anything new</span>`,
-    amaru_s5: `🌮 Hobby: <span>Weird food + obscure films</span>`,
-    amaru_s6: `🤝 Character: <span>Yes-man, loyal, half-Peruvian nerd</span>`,
+    amaru_s6: `🤝 Character: <span>Yes-man, intellectual, loyal</span>`,
+    amaru_weak: `🚗 Weakness: <span>Can't manage to get a driver's license</span>`,
     lovehp: `❤️ LOVE-HP:`,
-    jose_s1: `🎨 Job: <span>Artist + ceramicist (own studio)</span>`,
-    jose_s2: `🏺 Art style: <span>Converges toward penises*</span>`,
+    jose_pow: `🎲 Superpower: <span>Can make any artwork look like a penis (she denies this)</span>`,
     jose_s3: `🐕 Weakness: <span>LOVES dogs. Every single one.</span>`,
-    jose_s4: `🚗 Special: <span>Loves driving — Amaru: 0 lessons</span>`,
     jose_s5: `🌾 Dream: <span>Move to countryside (ongoing negotiation)</span>`,
-    jose_s6: `💪 Character: <span>Stubborn, open, curious</span>`,
+    jose_s6: `💪 Character: <span>Artistic, stubborn, loving</span>`,
     s2_result: `RESULT: NO VS — THEY FORMED A TEAM 💪`,
-    s2_foot: `* She refuses to acknowledge this`,
     s3_chapter: `📼&thinsp; CHAPTER 1: HOW IT BEGAN &thinsp;📼`,
     s3_cap: `Josephine meets Amaru's most important friends`,
-    s3_body: `<p style="color:#FFFF00;font-weight:bold;">NEW YEAR'S EVE 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">Copenhagen, Denmark</p><br><p>Josephine — the Danish original — threw a New Year's party.</p><br><p>Amaru — via <span class="highlight">TINDER</span> — showed up.</p><br><p>At midnight, as fireworks exploded outside,<br>something clicked on the inside.</p><br><p style="color:#00FF00;">It wasn't just the champagne.<br><em class="pink">(Although the champagne definitely helped.)</em></p>`,
+    s3_body: `<p style="color:#FFFF00;font-weight:bold;">NEW YEAR'S EVE 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">Copenhagen, Denmark</p><br><p>Josephine — the cool Danish chick with eyeliner and a nose ring — threw a New Year's party with her friends.</p><br><p>Amaru — via <span class="highlight">TINDER</span> — showed up.</p><br><p>At midnight, as fireworks exploded outside,<br>something clicked on the inside.</p><br><p style="color:#00FF00;">It wasn't just the champagne.<br><em class="pink">(Although the champagne definitely helped.)</em></p>`,
     s3_tag1: `MATCH: SUCCESSFUL`, s3_tag2: `SWIPE RIGHT: CORRECT DECISION`,
     s4_chapter: `🏙&thinsp; CHAPTER 2: THE BIG MOVE &thinsp;🏙`,
     s4_cap: `Copenhagen → Stockholm = UPGRADE`,
-    s4_body: `<p>Josephine stayed in Copenhagen for a couple more years.</p><p>Amaru commuted. Love beats train tickets.</p><br><p>Then it happened: <span class="highlight">THEY MOVED IN TOGETHER IN STOCKHOLM</span>.</p><br><p>Small apartment. Lots of books. Perfect.</p><br><p style="color:#FF6666;font-weight:bold;">Josephine's dream: move to the countryside 🌾</p><p style="color:#00FF00;font-weight:bold;">Amaru's answer: no 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Status today: <em>still the same small apartment.</em><br>Country status: <em>still actively negotiated.</em></p>`,
+    s4_body: `<p>Josephine stayed in Copenhagen for a couple more years.</p><p>Amaru commuted. Love beats train tickets.</p><br><p>Then it happened: <span class="highlight">THEY MOVED IN TOGETHER IN STOCKHOLM</span>.</p><br><p>Small apartment. Lots of books. Perfect.</p><br><p style="color:#FF6666;font-weight:bold;">Josephine's dream: move to the countryside 🌾</p><p style="color:#00FF00;font-weight:bold;">Amaru's answer: no 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Status today: <em>still the same small apartment.</em><br>Moving out of the city: <em>still actively negotiated.</em></p>`,
     s4_tag: `THE CONFLICT CONTINUES TO THIS DAY`,
     s5_chapter: `🗺&thinsp; CHAPTER 3: WORLD CONQUERORS &thinsp;🗺`,
     s5_cap1: `Mosquitoes: 1 — Us: 0 🦟`, s5_cap2: `Trolls in Romania`,
     s5_cap3: `Flaxenvik, midsummer ⭐⭐⭐⭐⭐`, s5_cap4: `Tallinn, New Year's Eve 🖕`,
     s5_body: `Amaru &amp; Josephine have visited: <span class="highlight">EVERYWHERE</span>.<br>Results vary.`,
-    s6_chapter: `⛵&thinsp; CHAPTER 4: OUT TO SEA &thinsp;⛵`,
+    s6_chapter: `⛵&thinsp; CHAPTER 4: LOVE IN ALL SEASONS &thinsp;❄️`,
     s6_cap: `Amaru: Focused. Josephine: ✌️🍉`,
-    s6_body: `<p>Amaru says:</p><p><em class="cyan">"We must hold course, trim the sail, check the wind—"</em></p><br><p>Josephine does a peace sign and eats watermelon.</p><br><p class="highlight">It's a perfect team.</p><br><p>⚓ Love span:<br>stretches from archipelago to archipelago.</p>`,
+    s6_cap2: `"Santa ❤️ YOU" — and Josephine too`,
+    s6_body: `☀️ Summer: peace signs and watermelon out at sea.<br>❄️ Winter: competing for the ugliest Christmas jumper.<br><br>Whatever the season — love handles it.`,
     s7_chapter: `🌸&thinsp; CHAPTER 5: 100% SWEDISH TRADITIONS &thinsp;🌸`,
     s7_cap1: `Josephine's first snus 🤢→😍`, s7_cap2: `Party hat: Mandatory 🎉`, s7_cap3: `Sauna: Classic 🧖`,
     s7_body: `🦷 Snus — hooked after one try ✅&emsp;🦞 Crayfish party with party hat ✅&emsp;🧖 Sauna in towel ✅<br><span class="highlight">INTEGRATION: COMPLETE</span>`,
     s8_chapter: `🐾&thinsp; CHAPTER 6: MUMRIK — THIRD FAMILY MEMBER &thinsp;🐾`,
     s8_cap1: `2022 — Day 1. "What have we done?"`, s8_cap2: `Transport: Solved`, s8_cap3: `Mumrik approves of Amaru`,
     s8_body: `<span class="pink">MUMRIK</span> — fluffiest and most demanding in the family. Recruited 2022.<br>Sits in bike basket ✅ &nbsp; Licks your face ✅ &nbsp; Decides who wins arguments ✅<br><span class="blink highlight">10/10 — RECOMMENDED.</span>`,
-    s9_chapter: `🎄&thinsp; CHAPTER 7: THE UGLIEST CHRISTMAS &thinsp;🎄`,
-    s9_cap: `"Santa ❤️ YOU" — and Josephine too`,
-    s9_body: `<p>Every Christmas: competition for <span style="color:#FF0000;font-weight:bold;">UGLIEST JUMPER</span>.</p><br><p>Amaru: <em style="color:#00FF00">"Santa ❤️ YOU"</em> — strong favourite.</p><br><p>Josephine's response: tongue straight out.</p><br><p>Verdict: <span class="blink highlight">BOTH WON.</span></p><br><p style="font-size:0.85em;color:#AAAAAA;">* No gingerbread was harmed.<br>Possibly.</p>`,
-    s10_chapter: `🎉&thinsp; CHAPTER 8: THE TEAM AROUND THE TEAM &thinsp;🎉`,
+    s10_chapter: `🎉&thinsp; CHAPTER 7: THE TEAM AROUND THE TEAM &thinsp;🎉`,
     s10_cap1: `New Year's Eve 🥂`, s10_cap2: `Everyone dressed as Amaru 🧔`,
     s10_cap3: `Friends with great style 😎`, s10_cap4: `Unbeatable crew 🏆`,
-    s10_body: `Around these two is a gang of absolutely <span class="highlight">INDISPENSABLE LEGENDS</span>.<br>They organise moustache parties, visit questionable museums and know how to give a good toast.<br>Exactly the friends you want at a wedding. 🏆`,
+    s10_body: `Around these two is a gang of absolutely <span class="highlight">INDISPENSABLE LEGENDS</span>.<br>They organise moustache parties, watch questionable movies and know how to give a good toast.<br>Exactly the friends you want at a wedding. 🏆`,
     s11_sub: `and now they are getting married`,
     s12_level: `LEVEL COMPLETED: WEDDING`,
     s12_married: `AMARU &amp; JOSEPHINE ARE GETTING MARRIED!`,
@@ -851,49 +797,43 @@ const T = {
     s1_construction: `DENNE PRÆSENTATION ER UNDER KONSTRUKTION MEN KÆRLIGHEDEN ER KLAR`,
     s2_chapter: `⚔&thinsp; KARAKTERVALG &thinsp;⚔`,
     s2_sub: `VÆLG DIN FIGHTER — (de valgte hinanden)`,
-    amaru_s1: `🧠 Job: <span>Ingeniør / AI-udvikler</span>`,
     amaru_s2: `🎲 Superkraft: <span>Vinder ALTID brætspil</span>`,
     amaru_s3: `🏙 Hjerte: <span>Bybarn — nægter at forlade byen</span>`,
     amaru_s4: `💸 Princip: <span>Køber ALDRIG noget nyt</span>`,
-    amaru_s5: `🌮 Hobby: <span>Mærkelig mad + smalfilm</span>`,
-    amaru_s6: `🤝 Karakter: <span>Ja-siger, loyal, halvperuansk nørd</span>`,
+    amaru_s6: `🤝 Karakter: <span>Ja-siger, intellektuel, loyal</span>`,
+    amaru_weak: `🚗 Svaghed: <span>Kan stadig ikke tage kørekort</span>`,
     lovehp: `❤️ KÆRLIGHEDS-HP:`,
-    jose_s1: `🎨 Job: <span>Kunstner + keramiker (eget studie)</span>`,
-    jose_s2: `🏺 Kunststil: <span>Konvergerer mod penisser*</span>`,
+    jose_pow: `🎲 Superkraft: <span>Kan få enhver kunst til at ligne en penis (hun nægter det)</span>`,
     jose_s3: `🐕 Svaghed: <span>ELSKER hunde. Alle sammen.</span>`,
-    jose_s4: `🚗 Special: <span>Elsker at køre bil — Amaru: 0 timer</span>`,
     jose_s5: `🌾 Drøm: <span>Flytte til landet (løbende forhandling)</span>`,
-    jose_s6: `💪 Karakter: <span>Stædig, åben, nysgerrig</span>`,
+    jose_s6: `💪 Karakter: <span>Kunstnerisk, stædig, kærlig</span>`,
     s2_result: `RESULTAT: INTET VS — DE DANNEDE ET HOLD 💪`,
-    s2_foot: `* Hun nægter at erkende dette`,
     s3_chapter: `📼&thinsp; KAPITEL 1: SÅDAN BEGYNDTE DET &thinsp;📼`,
     s3_cap: `Josephine møder Amarus vigtigste venner`,
-    s3_body: `<p style="color:#FFFF00;font-weight:bold;">NYTÅRSAFTEN 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">København, Danmark</p><br><p>Josephine — det danske original — holdt nytårsfest.</p><br><p>Amaru — via <span class="highlight">TINDER</span> — dukkede op.</p><br><p>Ved midnat, mens fyrværkeriet eksploderede udenfor,<br>klikkede noget indenfor.</p><br><p style="color:#00FF00;">Det var ikke kun champagnen.<br><em class="pink">(Selvom champagnen helt sikkert hjalp.)</em></p>`,
+    s3_body: `<p style="color:#FFFF00;font-weight:bold;">NYTÅRSAFTEN 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">København, Danmark</p><br><p>Josephine — den seje danske pige med eyeliner og næsering — holdt nytårsfest med sine venner.</p><br><p>Amaru — via <span class="highlight">TINDER</span> — dukkede op.</p><br><p>Ved midnat, mens fyrværkeriet eksploderede udenfor,<br>klikkede noget indenfor.</p><br><p style="color:#00FF00;">Det var ikke kun champagnen.<br><em class="pink">(Selvom champagnen helt sikkert hjalp.)</em></p>`,
     s3_tag1: `MATCH: LYKKEDES`, s3_tag2: `SWIPE HØJRE: RIGTIG BESLUTNING`,
     s4_chapter: `🏙&thinsp; KAPITEL 2: DET STORE FLYT &thinsp;🏙`,
     s4_cap: `København → Stockholm = OPGRADERING`,
-    s4_body: `<p>Josephine blev i København et par år.</p><p>Amaru pendlede. Kærlighed slår togbilletter.</p><br><p>Så skete det: <span class="highlight">DE FLYTTEDE SAMMEN I STOCKHOLM</span>.</p><br><p>Lille lejlighed. Mange bøger. Perfekt.</p><br><p style="color:#FF6666;font-weight:bold;">Josephines drøm: flytte til landet 🌾</p><p style="color:#00FF00;font-weight:bold;">Amarus svar: nej 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Status i dag: <em>stadig den samme lille lejlighed.</em><br>Landestatus: <em>stadig aktivt forhandlet.</em></p>`,
+    s4_body: `<p>Josephine blev i København et par år.</p><p>Amaru pendlede. Kærlighed slår togbilletter.</p><br><p>Så skete det: <span class="highlight">DE FLYTTEDE SAMMEN I STOCKHOLM</span>.</p><br><p>Lille lejlighed. Mange bøger. Perfekt.</p><br><p style="color:#FF6666;font-weight:bold;">Josephines drøm: flytte til landet 🌾</p><p style="color:#00FF00;font-weight:bold;">Amarus svar: nej 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Status i dag: <em>stadig den samme lille lejlighed.</em><br>Flytning fra byen: <em>stadig aktivt forhandlet.</em></p>`,
     s4_tag: `KONFLIKTEN FORTSÆTTER DEN DAG I DAG`,
     s5_chapter: `🗺&thinsp; KAPITEL 3: VERDENSEROBERNE &thinsp;🗺`,
     s5_cap1: `Myg: 1 — Os: 0 🦟`, s5_cap2: `Troldeputter i Rumænien`,
     s5_cap3: `Flaxenvik, midsommer ⭐⭐⭐⭐⭐`, s5_cap4: `Tallinn, nytårsaften 🖕`,
     s5_body: `Amaru &amp; Josephine har besøgt: <span class="highlight">OVERALT</span>.<br>Resultaterne varierer.`,
-    s6_chapter: `⛵&thinsp; KAPITEL 4: TIL SØS &thinsp;⛵`,
+    s6_chapter: `⛵&thinsp; KAPITEL 4: KÆRLIGHED I AL SLAGS VEJR &thinsp;❄️`,
     s6_cap: `Amaru: Fokuseret. Josephine: ✌️🍉`,
-    s6_body: `<p>Amaru siger:</p><p><em class="cyan">"Vi skal holde kursen, trimme sejlet, tjekke vinden—"</em></p><br><p>Josephine laver fredstegn og spiser vandmelon.</p><br><p class="highlight">Det er et perfekt hold.</p><br><p>⚓ Kærlighedslængde:<br>strækker sig fra skærgård til skærgård.</p>`,
+    s6_cap2: `"Santa ❤️ YOU" — og Josephine også`,
+    s6_body: `☀️ Sommer: fredstegn og vandmelon til søs.<br>❄️ Vinter: kamp om den grimeste juletrøje.<br><br>Uanset årstid — kærlighed klarer det.`,
     s7_chapter: `🌸&thinsp; KAPITEL 5: 100% SVENSKE TRADITIONER &thinsp;🌸`,
     s7_cap1: `Josephines første snus 🤢→😍`, s7_cap2: `Festhat: Obligatorisk 🎉`, s7_cap3: `Sauna: Klassisk 🧖`,
     s7_body: `🦷 Snus — hooked efter ét forsøg ✅&emsp;🦞 Krebsefest med festhat ✅&emsp;🧖 Sauna i håndklæde ✅<br><span class="highlight">INTEGRATION: FULDFØRT</span>`,
     s8_chapter: `🐾&thinsp; KAPITEL 6: MUMRIK — TREDJE FAMILIEMEDLEM &thinsp;🐾`,
     s8_cap1: `2022 — Dag 1. "Hvad har vi gjort?"`, s8_cap2: `Transport: Løst`, s8_cap3: `Mumrik godkender Amaru`,
     s8_body: `<span class="pink">MUMRIK</span> — fluffigste og mest krævende i familien. Rekrutteret 2022.<br>Sidder i cykelkurv ✅ &nbsp; Slikker dig i ansigtet ✅ &nbsp; Bestemmer hvem der vinder skænderi ✅<br><span class="blink highlight">10/10 — ANBEFALES.</span>`,
-    s9_chapter: `🎄&thinsp; KAPITEL 7: DEN GRIMESTE JUL &thinsp;🎄`,
-    s9_cap: `"Santa ❤️ YOU" — og Josephine også`,
-    s9_body: `<p>Hver jul: konkurrence om <span style="color:#FF0000;font-weight:bold;">GRIMESTE JULETRØJE</span>.</p><br><p>Amaru: <em style="color:#00FF00">"Santa ❤️ YOU"</em> — stærk favorit.</p><br><p>Josephines svar: tungen direkte ud.</p><br><p>Dom: <span class="blink highlight">BEGGE VANDT.</span></p><br><p style="font-size:0.85em;color:#AAAAAA;">* Ingen peberkage kom til skade.<br>Muligvis.</p>`,
-    s10_chapter: `🎉&thinsp; KAPITEL 8: HOLDET RUNDT OM HOLDET &thinsp;🎉`,
+    s10_chapter: `🎉&thinsp; KAPITEL 7: HOLDET RUNDT OM HOLDET &thinsp;🎉`,
     s10_cap1: `Nytårsaften 🥂`, s10_cap2: `Alle klædt ud som Amaru 🧔`,
     s10_cap3: `Venner med stor stil 😎`, s10_cap4: `Uslåeligt hold 🏆`,
-    s10_body: `Rundt om disse to er et gæng absolut <span class="highlight">UUNDVÆRLIGE LEGENDER</span>.<br>De arrangerer mustaschfester, besøger tvivlsomme museer og ved, hvordan man holder en god tale.<br>Præcis de venner, man vil have til et bryllup. 🏆`,
+    s10_body: `Rundt om disse to er et gæng absolut <span class="highlight">UUNDVÆRLIGE LEGENDER</span>.<br>De arrangerer mustaschfester, ser tvivlsomme film og ved, hvordan man holder en god tale.<br>Præcis de venner, man vil have til et bryllup. 🏆`,
     s11_sub: `og nu gifter de sig`,
     s12_level: `LEVEL GENNEMFØRT: BRYLLUP`,
     s12_married: `AMARU &amp; JOSEPHINE GIFTER SIG!`,
@@ -907,52 +847,46 @@ const T = {
     s1_subtitle: `LA HISTORIA DE AMOR DEFINITIVA`,
     s1_premiere: `✨ ESTRENO MUNDIAL — HOY ✨`,
     s1_browser: `► MEJOR EN NETSCAPE NAVIGATOR 4.0 ◄`,
-    s1_construction: `ESTA PRESENTACIÓN ESTÁ EN CONSTRUCCIÓN PERO EL AMOR ESTÁ LISTO`,
+    s1_construction: `ESTA PRESENTACIÓN ESTÁ EN CONSTRUCCIÓN PERO EL AMOR ES PERFECTO`,
     s2_chapter: `⚔&thinsp; SELECCIÓN DE PERSONAJE &thinsp;⚔`,
     s2_sub: `ELIGE TU LUCHADOR — (se eligieron el uno al otro)`,
-    amaru_s1: `🧠 Trabajo: <span>Ingeniero / Desarrollador de IA</span>`,
     amaru_s2: `🎲 Superpoder: <span>SIEMPRE gana en juegos de mesa</span>`,
     amaru_s3: `🏙 Corazón: <span>Chico de ciudad — se niega a salir</span>`,
     amaru_s4: `💸 Principio: <span>NUNCA compra nada nuevo</span>`,
-    amaru_s5: `🌮 Hobby: <span>Comida rara + películas de autor</span>`,
-    amaru_s6: `🤝 Carácter: <span>Dice sí a todo, leal, nerd medio peruano</span>`,
+    amaru_s6: `🤝 Carácter: <span>Dice sí a todo, intelectual, leal</span>`,
+    amaru_weak: `🚗 Debilidad: <span>Aún no consigue sacarse el carnet de conducir</span>`,
     lovehp: `❤️ HP DE AMOR:`,
-    jose_s1: `🎨 Trabajo: <span>Artista + ceramista (estudio propio)</span>`,
-    jose_s2: `🏺 Arte: <span>Converge hacia penes*</span>`,
+    jose_pow: `🎲 Superpoder: <span>Puede hacer que cualquier obra parezca un pene (lo niega)</span>`,
     jose_s3: `🐕 Debilidad: <span>AMA a los perros. A todos.</span>`,
-    jose_s4: `🚗 Especial: <span>Le encanta conducir — Amaru: 0 clases</span>`,
     jose_s5: `🌾 Sueño: <span>Mudarse al campo (negociación en curso)</span>`,
-    jose_s6: `💪 Carácter: <span>Terca, abierta, curiosa</span>`,
+    jose_s6: `💪 Carácter: <span>Artística, terca, cariñosa</span>`,
     s2_result: `RESULTADO: SIN VS — FORMARON UN EQUIPO 💪`,
-    s2_foot: `* Ella se niega a reconocer esto`,
     s3_chapter: `📼&thinsp; CAPÍTULO 1: CÓMO EMPEZÓ &thinsp;📼`,
     s3_cap: `Josephine conoce a los amigos más importantes de Amaru`,
-    s3_body: `<p style="color:#FFFF00;font-weight:bold;">NOCHEVIEJA 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">Copenhague, Dinamarca</p><br><p>Josephine — el original danés — organizó una fiesta de fin de año.</p><br><p>Amaru — vía <span class="highlight">TINDER</span> — apareció.</p><br><p>A medianoche, mientras los fuegos artificiales estallaban,<br>algo hizo clic por dentro.</p><br><p style="color:#00FF00;">No era solo el champán.<br><em class="pink">(Aunque el champán definitivamente ayudó.)</em></p>`,
+    s3_body: `<p style="color:#FFFF00;font-weight:bold;">NOCHEVIEJA 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">Copenhague, Dinamarca</p><br><p>Josephine — la chica danesa cool con eyeliner y piercing en la nariz — organizó una fiesta de fin de año con sus amigos.</p><br><p>Amaru — vía <span class="highlight">TINDER</span> — apareció.</p><br><p>A medianoche, mientras los fuegos artificiales estallaban,<br>algo hizo clic por dentro.</p><br><p style="color:#00FF00;">No era solo el champán.<br><em class="pink">(Aunque el champán definitivamente ayudó.)</em></p>`,
     s3_tag1: `MATCH: EXITOSO`, s3_tag2: `DESLIZAR DERECHA: DECISIÓN CORRECTA`,
     s4_chapter: `🏙&thinsp; CAPÍTULO 2: LA GRAN MUDANZA &thinsp;🏙`,
     s4_cap: `Copenhague → Estocolmo = ACTUALIZACIÓN`,
-    s4_body: `<p>Josephine se quedó en Copenhague un par de años más.</p><p>Amaru hacía el trayecto. El amor supera los billetes de tren.</p><br><p>Entonces ocurrió: <span class="highlight">SE MUDARON JUNTOS A ESTOCOLMO</span>.</p><br><p>Piso pequeño. Muchos libros. Perfecto.</p><br><p style="color:#FF6666;font-weight:bold;">El sueño de Josephine: mudarse al campo 🌾</p><p style="color:#00FF00;font-weight:bold;">La respuesta de Amaru: no 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Estado hoy: <em>todavía el mismo piso pequeño.</em><br>Estado del campo: <em>todavía en negociación activa.</em></p>`,
+    s4_body: `<p>Josephine se quedó en Copenhague un par de años más.</p><p>Amaru hacía el trayecto. El amor supera los billetes de tren.</p><br><p>Entonces ocurrió: <span class="highlight">SE MUDARON JUNTOS A ESTOCOLMO</span>.</p><br><p>Piso pequeño. Muchos libros. Perfecto.</p><br><p style="color:#FF6666;font-weight:bold;">El sueño de Josephine: mudarse al campo 🌾</p><p style="color:#00FF00;font-weight:bold;">La respuesta de Amaru: no 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Estado hoy: <em>todavía el mismo piso pequeño.</em><br>Salir de la ciudad: <em>todavía en negociación activa.</em></p>`,
     s4_tag: `EL CONFLICTO CONTINÚA HOY EN DÍA`,
     s5_chapter: `🗺&thinsp; CAPÍTULO 3: LOS CONQUISTADORES &thinsp;🗺`,
     s5_cap1: `Mosquitos: 1 — Nosotros: 0 🦟`, s5_cap2: `Trolls en Rumanía`,
     s5_cap3: `Flaxenvik, midsommar ⭐⭐⭐⭐⭐`, s5_cap4: `Tallin, Nochevieja 🖕`,
     s5_body: `Amaru &amp; Josephine han visitado: <span class="highlight">TODO</span>.<br>Los resultados varían.`,
-    s6_chapter: `⛵&thinsp; CAPÍTULO 4: A LA MAR &thinsp;⛵`,
+    s6_chapter: `⛵&thinsp; CAPÍTULO 4: AMOR EN TODAS LAS ESTACIONES &thinsp;❄️`,
     s6_cap: `Amaru: Concentrado. Josephine: ✌️🍉`,
-    s6_body: `<p>Amaru dice:</p><p><em class="cyan">"Hay que mantener el rumbo, ajustar la vela, controlar el viento—"</em></p><br><p>Josephine hace la señal de la paz y come sandía.</p><br><p class="highlight">Es un equipo perfecto.</p><br><p>⚓ Longitud del amor:<br>se extiende de archipiélago en archipiélago.</p>`,
+    s6_cap2: `"Santa ❤️ YOU" — y Josephine también`,
+    s6_body: `☀️ Verano: señales de paz y sandía en el mar.<br>❄️ Invierno: competición por el jersey más feo.<br><br>Cualquier estación — el amor puede con todo.`,
     s7_chapter: `🌸&thinsp; CAPÍTULO 5: 100% TRADICIONES SUECAS &thinsp;🌸`,
     s7_cap1: `El primer snus de Josephine 🤢→😍`, s7_cap2: `Sombrero de fiesta: Obligatorio 🎉`, s7_cap3: `Sauna: Clásico 🧖`,
     s7_body: `🦷 Snus — enganchada al primer intento ✅&emsp;🦞 Fiesta de cangrejos con sombrero ✅&emsp;🧖 Sauna en toalla ✅<br><span class="highlight">INTEGRACIÓN: COMPLETADA</span>`,
     s8_chapter: `🐾&thinsp; CAPÍTULO 6: MUMRIK — TERCER MIEMBRO &thinsp;🐾`,
     s8_cap1: `2022 — Día 1. "¿Qué hemos hecho?"`, s8_cap2: `Transporte: Resuelto`, s8_cap3: `Mumrik aprueba a Amaru`,
     s8_body: `<span class="pink">MUMRIK</span> — el más esponjoso y exigente de la familia. Reclutado en 2022.<br>Se sienta en la cesta de la bici ✅ &nbsp; Te lame la cara ✅ &nbsp; Decide quién gana las discusiones ✅<br><span class="blink highlight">10/10 — RECOMENDADO.</span>`,
-    s9_chapter: `🎄&thinsp; CAPÍTULO 7: LA NAVIDAD MÁS FEA &thinsp;🎄`,
-    s9_cap: `"Santa ❤️ YOU" — y Josephine también`,
-    s9_body: `<p>Cada Navidad: competición por el <span style="color:#FF0000;font-weight:bold;">JERSEY MÁS FEO</span>.</p><br><p>Amaru: <em style="color:#00FF00">"Santa ❤️ YOU"</em> — favorito claro.</p><br><p>La respuesta de Josephine: la lengua fuera.</p><br><p>Veredicto: <span class="blink highlight">LOS DOS GANARON.</span></p><br><p style="font-size:0.85em;color:#AAAAAA;">* Ningún polvorón resultó herido.<br>Probablemente.</p>`,
-    s10_chapter: `🎉&thinsp; CAPÍTULO 8: EL EQUIPO ALREDEDOR &thinsp;🎉`,
+    s10_chapter: `🎉&thinsp; CAPÍTULO 7: EL EQUIPO ALREDEDOR &thinsp;🎉`,
     s10_cap1: `Nochevieja 🥂`, s10_cap2: `Todos disfrazados de Amaru 🧔`,
     s10_cap3: `Amigos con gran estilo 😎`, s10_cap4: `Equipo imbatible 🏆`,
-    s10_body: `Alrededor de estos dos hay un grupo de <span class="highlight">LEYENDAS IMPRESCINDIBLES</span>.<br>Organizan fiestas de bigote, visitan museos cuestionables y saben dar un buen brindis.<br>Son exactamente los amigos que quieres en una boda. 🏆`,
+    s10_body: `Alrededor de estos dos hay un grupo de <span class="highlight">LEYENDAS IMPRESCINDIBLES</span>.<br>Organizan fiestas de bigote, ven películas cuestionables y saben dar un buen brindis.<br>Son exactamente los amigos que quieres en una boda. 🏆`,
     s11_sub: `y ahora se casan`,
     s12_level: `NIVEL COMPLETADO: BODA`,
     s12_married: `¡AMARU &amp; JOSEPHINE SE CASAN!`,
@@ -961,7 +895,6 @@ const T = {
   },
 
   qu: {
-    /* Southern Quechua / Runasimi — approximate */
     nav_prev: `◄ ÑAWPAQ`, nav_next: `QHIPAMAN ►`,
     marquee: `★ AMARU &amp; JOSEPHINE ★ WIÑAYPAQ ★ ASTAWAN ★ KASARAKUYTA KUSIKUY ★ MUNAKUYKICHIS ★ MUMRIKHWAN ★ ⛵ MUNAKUY MAMAQUCHAPI ★ 💍 KASARASQA ★ SANTA ❤️ YOU ★ JOSEPHINE ❤️ YOU ASTAWAN ★ CHAKRA RIPUY: MANARAJ ★`,
     s1_subtitle: `HATUN MUNAKUY WILLAKUY`,
@@ -970,49 +903,43 @@ const T = {
     s1_construction: `KAY WILLAKUY MANARAJMI TUKUSQA ICHAQA MUNAKUYQA TUKUSQAM`,
     s2_chapter: `⚔&thinsp; IMAYNATA AKLLARISQA &thinsp;⚔`,
     s2_sub: `HUÑUKUQ AKLLA — (paykuna kikinku akllarikurqanku)`,
-    amaru_s1: `🧠 Llamkay: <span>Inhiniyiru / IA Wiñachiq</span>`,
     amaru_s2: `🎲 Kallpa: <span>Pukllay paqtapiqa WIÑAYMI atipan</span>`,
     amaru_s3: `🏙 Sunqu: <span>Llaqta wawa — mana llaqtamanta lluqsiyta munaqchu</span>`,
     amaru_s4: `💸 Iñiy: <span>MANA HAYK'AQPIS mushuqta rantikuqchu</span>`,
-    amaru_s5: `🌮 Kusikuy: <span>Raru mikuy + suk'a películakuna</span>`,
-    amaru_s6: `🤝 Aychay: <span>Arín niq, leal, chawpi Perú lisinyuq</span>`,
+    amaru_s6: `🤝 Aychay: <span>Arín niq, yachaysapa, leal</span>`,
+    amaru_weak: `🚗 Qina: <span>Karru apay yachakuyta manarajmi atillarqanchu</span>`,
     lovehp: `❤️ MUNAKUY-HP:`,
-    jose_s1: `🎨 Llamkay: <span>Artisniy + keramikera (paypaq estudion)</span>`,
-    jose_s2: `🏺 Artisniy: <span>Rampaq hina tukun*</span>`,
+    jose_pow: `🎲 Kallpa: <span>Tukuy artisniy rampaq hina tukuchipun (mana sut'ita ninchu)</span>`,
     jose_s3: `🐕 Qina: <span>ALQOKUNATAM MUNAKUN. Tukuyninta.</span>`,
-    jose_s4: `🚗 Atiynin: <span>Karru apay — Amaru: 0 yachakuy</span>`,
     jose_s5: `🌾 Munay: <span>Chakrapi tiyayta (rimay huñusqa)</span>`,
-    jose_s6: `💪 Aychay: <span>Qatirniyuq, kicharisqa, tapuykuq</span>`,
+    jose_s6: `💪 Aychay: <span>Artisniy, qatirniyuq, munakuywan</span>`,
     s2_result: `TUPAY: MANA VS — HUÑUKUNAKURQANKU 💪`,
-    s2_foot: `* Paymi mana rikunakuyta munanchu`,
     s3_chapter: `📼&thinsp; CAPÍTULO 1: IMAYNATA QALLARIRQAN &thinsp;📼`,
     s3_cap: `Josephine Amaru-q sumaq masinkuna tupan`,
-    s3_body: `<p style="color:#FFFF00;font-weight:bold;">MUYUY TUTA 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">Köpenhamn, Dinamarka</p><br><p>Josephine — Danés ukhu — tuta fiestata rurarqan.</p><br><p>Amaru — <span class="highlight">TINDER</span> qhapaqninpi — chayamuwarqan.</p><br><p>Chawpi tuta, nina pillpilintan lliu paqarisqaña,<br>sonqopi ima kaqcha tikrakorqan.</p><br><p style="color:#00FF00;">Mana champañallachu karqan.<br><em class="pink">(Champañataq yanapan karqan.)</em></p>`,
+    s3_body: `<p style="color:#FFFF00;font-weight:bold;">MUYUY TUTA 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">Köpenhamn, Dinamarka</p><br><p>Josephine — Danés sumaq warmi eyeliner rimaywan — tuta fiestata masinkuna kuyninwan rurarqan.</p><br><p>Amaru — <span class="highlight">TINDER</span> qhapaqninpi — chayamuwarqan.</p><br><p>Chawpi tuta, nina pillpilintan lliu paqarisqaña,<br>sonqopi ima kaqcha tikrakorqan.</p><br><p style="color:#00FF00;">Mana champañallachu karqan.<br><em class="pink">(Champañataq yanapan karqan.)</em></p>`,
     s3_tag1: `TUPAY: ALLINMI KARQAN`, s3_tag2: `SWIPE PANAN: ALLIN RURAY`,
     s4_chapter: `🏙&thinsp; CAPÍTULO 2: HATUN RIPUY &thinsp;🏙`,
     s4_cap: `Köpenhamn → Stockholm = WIÑARISQA`,
-    s4_body: `<p>Josephine Köpenhamn-pi iskay watata karqan.</p><p>Amaru risqa kutimorqan. Munakuyqa tren billetepi atipan.</p><br><p>Chaysi: <span class="highlight">STOCKHOLM-PI HUKPI TIYAYKURQANKU</span>.</p><br><p>Huch'uy wasi. Achka librukuna. Allinmi.</p><br><p style="color:#FF6666;font-weight:bold;">Josephine-q munay: chakrapi tiyayta 🌾</p><p style="color:#00FF00;font-weight:bold;">Amaru-q kutipay: manan 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Kunan: <em>hinallanmi wasi.</em><br>Chakra rimay: <em>hinallanmi rimasqa.</em></p>`,
+    s4_body: `<p>Josephine Köpenhamn-pi iskay watata karqan.</p><p>Amaru risqa kutimorqan. Munakuyqa tren billetepi atipan.</p><br><p>Chaysi: <span class="highlight">STOCKHOLM-PI HUKPI TIYAYKURQANKU</span>.</p><br><p>Huch'uy wasi. Achka librukuna. Allinmi.</p><br><p style="color:#FF6666;font-weight:bold;">Josephine-q munay: chakrapi tiyayta 🌾</p><p style="color:#00FF00;font-weight:bold;">Amaru-q kutipay: manan 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Kunan: <em>hinallanmi wasi.</em><br>Llaqtamanta ripuy: <em>hinallanmi rimasqa.</em></p>`,
     s4_tag: `RIMAY KUNANPIS SIGAN`,
     s5_chapter: `🗺&thinsp; CAPÍTULO 3: PACHA ATIPARIKUQKUNA &thinsp;🗺`,
     s5_cap1: `Hampatukunam: 1 — Ñoqayku: 0 🦟`, s5_cap2: `Rumanía-pi Supay Machukunam`,
     s5_cap3: `Flaxenvik, midsommar ⭐⭐⭐⭐⭐`, s5_cap4: `Tallinn, Muyuy Tuta 🖕`,
     s5_body: `Amaru &amp; Josephine risqanku: <span class="highlight">TUKUY PACHAMAN</span>.<br>Ima karqanpis chanin.`,
-    s6_chapter: `⛵&thinsp; CAPÍTULO 4: MAMAQUCHAMAN &thinsp;⛵`,
+    s6_chapter: `⛵&thinsp; CAPÍTULO 4: MUNAKUY TUKUY PACHAPI &thinsp;❄️`,
     s6_cap: `Amaru: Sunquwan. Josephine: ✌️🍉`,
-    s6_body: `<p>Amaru nin:</p><p><em class="cyan">"Ñanta qhawasunchis, qhocha wayra qawasunchis—"</em></p><br><p>Josephine hatun santuman kusita qawakun.</p><br><p class="highlight">Allin huñukuymin.</p><br><p>⚓ Munakuy simi:<br>qocha patamanta qocha patakama.</p>`,
+    s6_cap2: `"Santa ❤️ YOU" — Josephine-pas`,
+    s6_body: `☀️ Rupay pacha: hatun santuman wayra qochapi.<br>❄️ Chiri pacha: furu navidad churana atipanakuy.<br><br>Tukuy pachapim — munakuy atipallanmi.`,
     s7_chapter: `🌸&thinsp; CAPÍTULO 5: 100% SUECIA USQUKUNA &thinsp;🌸`,
     s7_cap1: `Josephine-q ñawpaq snusnin 🤢→😍`, s7_cap2: `Fiesta chuku: Kallpan 🎉`, s7_cap3: `Bastu: Runayman 🧖`,
     s7_body: `🦷 Snus — huk kutillapi chinkasqa ✅&emsp;🦞 Kankis fiesta ✅&emsp;🧖 Bastu chukupi ✅<br><span class="highlight">HUÑUKUY: TUKUSQA</span>`,
     s8_chapter: `🐾&thinsp; CAPÍTULO 6: MUMRIK — KIMSAYUQ AYLLUPAQ &thinsp;🐾`,
     s8_cap1: `2022 — 1 p'unchay. "Imatataq rurarqayku?"`, s8_cap2: `Apay: Allinmi`, s8_cap3: `Mumrik Amaru-ta allinnim nin`,
     s8_body: `<span class="pink">MUMRIK</span> — ayllupi fluffy alqo. 2022-pi chayamuwarqan.<br>Bisikletapi tiyakun ✅ &nbsp; Uyaykita pillupun ✅ &nbsp; Pillpintupi atipaqta qunan ✅<br><span class="blink highlight">10/10 — ALLIM.</span>`,
-    s9_chapter: `🎄&thinsp; CAPÍTULO 7: SUPAY NAVIDAD &thinsp;🎄`,
-    s9_cap: `"Santa ❤️ YOU" — Josephine-pas`,
-    s9_body: `<p>Sapa Navidad: atipanakuy <span style="color:#FF0000;font-weight:bold;">FURU NAVIDAD CHURANA</span>.</p><br><p>Amaru: <em style="color:#00FF00">"Santa ❤️ YOU"</em> — kallpayuq.</p><br><p>Josephine-q kutipay: qallu raqaykusqa.</p><br><p>Hatun nin: <span class="blink highlight">ISKAYNINKU ATIPARQANKU.</span></p><br><p style="font-size:0.85em;color:#AAAAAA;">* Mana ima pukllaychu k'iririrqan.<br>Ichapas.</p>`,
-    s10_chapter: `🎉&thinsp; CAPÍTULO 8: MASISQAKUNA &thinsp;🎉`,
+    s10_chapter: `🎉&thinsp; CAPÍTULO 7: MASISQAKUNA &thinsp;🎉`,
     s10_cap1: `Muyuy Tuta 🥂`, s10_cap2: `Tukuymi Amaru hina tukurqanku 🧔`,
     s10_cap3: `Sumaq masikunam 😎`, s10_cap4: `Mana atipachikunqa huñukuy 🏆`,
-    s10_body: `Kay iskayninku qayllanpi <span class="highlight">MUNASQA RUNAKUNAM</span> kan.<br>Bigote fiestata ruranku, llullaq museota wasinku, allin tostata ninku.<br>Chaymi kasarakuypi tiyanqa. 🏆`,
+    s10_body: `Kay iskayninku qayllanpi <span class="highlight">MUNASQA RUNAKUNAM</span> kan.<br>Bigote fiestata ruranku, llullaq películata qhawanku, allin tostata ninku.<br>Chaymi kasarakuypi tiyanqa. 🏆`,
     s11_sub: `kunanmi kasarakunqaku`,
     s12_level: `NIVEL TUKUSQA: KASARAKUY`,
     s12_married: `AMARU &amp; JOSEPHINE KASARAKUNQAKU!`,
@@ -1029,49 +956,43 @@ const T = {
     s1_construction: `SEE ESITLUS ON VEEL EHITAMISEL AGA ARMASTUS ON VALMIS`,
     s2_chapter: `⚔&thinsp; TEGELASE VALIK &thinsp;⚔`,
     s2_sub: `VALI OMA VÕITLEJA — (nad valisid teineteise)`,
-    amaru_s1: `🧠 Töö: <span>Insener / AI arendaja</span>`,
     amaru_s2: `🎲 Supervõime: <span>Võidab ALATI lauamänge</span>`,
     amaru_s3: `🏙 Süda: <span>Linnalaps — keeldub linnast lahkumast</span>`,
     amaru_s4: `💸 Põhimõte: <span>EI OSTA KUNAGI midagi uut</span>`,
-    amaru_s5: `🌮 Hobi: <span>Kummaline toit + arthouse filmid</span>`,
-    amaru_s6: `🤝 Iseloom: <span>Jah-mees, lojaalne, pool-peruu nohik</span>`,
+    amaru_s6: `🤝 Iseloom: <span>Jah-mees, intellektuaalne, lojaalne</span>`,
+    amaru_weak: `🚗 Nõrkus: <span>Ei suuda ikka juhiluba teha</span>`,
     lovehp: `❤️ ARMASTUS-HP:`,
-    jose_s1: `🎨 Töö: <span>Kunstnik + keraamik (oma stuudio)</span>`,
-    jose_s2: `🏺 Kunstistiil: <span>Konvergeerub peeniste poole*</span>`,
+    jose_pow: `🎲 Supervõime: <span>Suudab panna iga kunstiteos peenisena välja nägema (eitab seda)</span>`,
     jose_s3: `🐕 Nõrkus: <span>ARMASTAB koeri. Kõiki.</span>`,
-    jose_s4: `🚗 Erivõime: <span>Armastab sõita — Amarul: 0 tundi</span>`,
     jose_s5: `🌾 Unistus: <span>Kolida maale (käimasolev läbirääkimine)</span>`,
-    jose_s6: `💪 Iseloom: <span>Kangekaelne, avatud, uudishimulik</span>`,
+    jose_s6: `💪 Iseloom: <span>Kunstiline, kangekaelne, armastav</span>`,
     s2_result: `TULEMUS: EI VS — NAD MOODUSTASID MEESKONNA 💪`,
-    s2_foot: `* Ta keeldub seda tunnistamast`,
     s3_chapter: `📼&thinsp; PEATÜKK 1: KUIDAS SEE ALGAS &thinsp;📼`,
     s3_cap: `Josephine kohtub Amaru kõige tähtsamate sõpradega`,
-    s3_body: `<p style="color:#FFFF00;font-weight:bold;">UUSAASTAÖÖ 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">Kopenhaagen, Taani</p><br><p>Josephine — taani originaal — korraldas uusaastapeo.</p><br><p>Amaru — <span class="highlight">TINDERI</span> kaudu — ilmus kohale.</p><br><p>Südaööl, kui ilutulestik väljas plahvatas,<br>klõpsas midagi seestpoolt.</p><br><p style="color:#00FF00;">See ei olnud ainult šampanja.<br><em class="pink">(Kuigi šampanja kindlasti aitas.)</em></p>`,
+    s3_body: `<p style="color:#FFFF00;font-weight:bold;">UUSAASTAÖÖ 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">Kopenhaagen, Taani</p><br><p>Josephine — lahe taani tüdruk silmaläige ja ninnaringiga — korraldas uusaastapeo oma sõpradega.</p><br><p>Amaru — <span class="highlight">TINDERI</span> kaudu — ilmus kohale.</p><br><p>Südaööl, kui ilutulestik väljas plahvatas,<br>klõpsas midagi seestpoolt.</p><br><p style="color:#00FF00;">See ei olnud ainult šampanja.<br><em class="pink">(Kuigi šampanja kindlasti aitas.)</em></p>`,
     s3_tag1: `MATCH: ÕNNESTUS`, s3_tag2: `SWIPE PAREMALE: ÕIGE OTSUS`,
     s4_chapter: `🏙&thinsp; PEATÜKK 2: SUUR KOLIMINE &thinsp;🏙`,
     s4_cap: `Kopenhaagen → Stockholm = UUENDUS`,
-    s4_body: `<p>Josephine jäi Kopenhaagenisse paariks aastaks.</p><p>Amaru pendeldas. Armastus on tugevam kui rongipileti hind.</p><br><p>Siis juhtus: <span class="highlight">NAD KOLISID STOCKHOLMI KOKKU</span>.</p><br><p>Väike korter. Palju raamatuid. Täiuslik.</p><br><p style="color:#FF6666;font-weight:bold;">Josephine unistus: kolida maale 🌾</p><p style="color:#00FF00;font-weight:bold;">Amaru vastus: ei 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Praegune olukord: <em>ikka sama väike korter.</em><br>Maa küsimus: <em>ikka aktiivselt arutlusel.</em></p>`,
+    s4_body: `<p>Josephine jäi Kopenhaagenisse paariks aastaks.</p><p>Amaru pendeldas. Armastus on tugevam kui rongipileti hind.</p><br><p>Siis juhtus: <span class="highlight">NAD KOLISID STOCKHOLMI KOKKU</span>.</p><br><p>Väike korter. Palju raamatuid. Täiuslik.</p><br><p style="color:#FF6666;font-weight:bold;">Josephine unistus: kolida maale 🌾</p><p style="color:#00FF00;font-weight:bold;">Amaru vastus: ei 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Praegune olukord: <em>ikka sama väike korter.</em><br>Linnast lahkumine: <em>ikka aktiivselt arutlusel.</em></p>`,
     s4_tag: `KONFLIKT JÄTKUB TÄNASENI`,
     s5_chapter: `🗺&thinsp; PEATÜKK 3: MAAILLAVALLUTAJAD &thinsp;🗺`,
     s5_cap1: `Sääsed: 1 — Meie: 0 🦟`, s5_cap2: `Trollid Rumeenias`,
     s5_cap3: `Flaxenvik, jaaniöö ⭐⭐⭐⭐⭐`, s5_cap4: `Tallinn, uusaastaöö 🖕`,
     s5_body: `Amaru &amp; Josephine on külastanud: <span class="highlight">KÕIKJAL</span>.<br>Tulemused on erinevad.`,
-    s6_chapter: `⛵&thinsp; PEATÜKK 4: MERELE &thinsp;⛵`,
+    s6_chapter: `⛵&thinsp; PEATÜKK 4: ARMASTUS IGAS AASTAAJAL &thinsp;❄️`,
     s6_cap: `Amaru: Keskendunud. Josephine: ✌️🍉`,
-    s6_body: `<p>Amaru ütleb:</p><p><em class="cyan">"Peame hoidma kurssi, trimima purje, kontrollima tuult—"</em></p><br><p>Josephine teeb rahumärki ja sööb arbuusi.</p><br><p class="highlight">See on täiuslik meeskond.</p><br><p>⚓ Armastuse ulatus:<br>ulatub saarestikust saarestikku.</p>`,
+    s6_cap2: `"Santa ❤️ YOU" — ja Josephine ka`,
+    s6_body: `☀️ Suvi: rahumärgid ja arbuus avamerel.<br>❄️ Talv: võistlus inetaima jõusviitri eest.<br><br>Mis iganes aastaaeg — armastus tuleb toime.`,
     s7_chapter: `🌸&thinsp; PEATÜKK 5: 100% ROOTSI TRADITSIOONID &thinsp;🌸`,
     s7_cap1: `Josephine esimene snus 🤢→😍`, s7_cap2: `Peomüts: Kohustuslik 🎉`, s7_cap3: `Saun: Klassika 🧖`,
     s7_body: `🦷 Snus — sõltlane pärast esimest korda ✅&emsp;🦞 Vähipidu peomütsiga ✅&emsp;🧖 Saun rätikus ✅<br><span class="highlight">INTEGRATSIOON: LÕPETATUD</span>`,
     s8_chapter: `🐾&thinsp; PEATÜKK 6: MUMRIK — KOLMAS PERELIIGE &thinsp;🐾`,
     s8_cap1: `2022 — 1. päev. "Mida me tegime?"`, s8_cap2: `Transport: Lahendatud`, s8_cap3: `Mumrik kiidab Amaru heaks`,
     s8_body: `<span class="pink">MUMRIK</span> — kõige kohevam ja nõudlikum pereliige. Värvatud 2022.<br>Istub jalgrattakorvis ✅ &nbsp; Lakkub su nägu ✅ &nbsp; Otsustab kes vaidluse võidab ✅<br><span class="blink highlight">10/10 — SOOVITATAV.</span>`,
-    s9_chapter: `🎄&thinsp; PEATÜKK 7: KÕIGE INETUM JÕUL &thinsp;🎄`,
-    s9_cap: `"Santa ❤️ YOU" — ja Josephine ka`,
-    s9_body: `<p>Iga jõul: võistlus <span style="color:#FF0000;font-weight:bold;">INETAIMA JÕUSVIITRI</span> eest.</p><br><p>Amaru: <em style="color:#00FF00">"Santa ❤️ YOU"</em> — suur lemmik.</p><br><p>Josephine vastus: keel otse välja.</p><br><p>Otsus: <span class="blink highlight">MÕLEMAD VÕITSID.</span></p><br><p style="font-size:0.85em;color:#AAAAAA;">* Ühtegi piparkoogiküpsist ei kahjustatud.<br>Võib-olla.</p>`,
-    s10_chapter: `🎉&thinsp; PEATÜKK 8: MEESKOND MEESKONNA ÜMBER &thinsp;🎉`,
+    s10_chapter: `🎉&thinsp; PEATÜKK 7: MEESKOND MEESKONNA ÜMBER &thinsp;🎉`,
     s10_cap1: `Uusaastaöö 🥂`, s10_cap2: `Kõik riietunud Amaruks 🧔`,
     s10_cap3: `Sõbrad stiilselt 😎`, s10_cap4: `Võitmatu seltskond 🏆`,
-    s10_body: `Nende kahe ümber on jõuk absoluutselt <span class="highlight">ASENDAMATUID LEGENDE</span>.<br>Nad korraldavad vuntsiõhtuid, külastavad küsitavaid muuseume ja teavad, kuidas head kõnet pidada.<br>Täpselt sellised sõbrad, keda pulmapeole tahad. 🏆`,
+    s10_body: `Nende kahe ümber on jõuk absoluutselt <span class="highlight">ASENDAMATUID LEGENDE</span>.<br>Nad korraldavad vuntsiõhtuid, vaatavad küsitavaid filme ja teavad, kuidas head kõnet pidada.<br>Täpselt sellised sõbrad, keda pulmapeole tahad. 🏆`,
     s11_sub: `ja nüüd nad abielluvad`,
     s12_level: `TASE LÄBITUD: PULM`,
     s12_married: `AMARU &amp; JOSEPHINE ABIELLUVAD!`,
