@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,6 +17,8 @@
       --gold-soft: rgba(212,175,110,0.5);
       --rose: #e3a5b8;
       --rose-soft: rgba(227,165,184,0.5);
+      --audience: #a7a2c4;
+      --audience-soft: rgba(167,162,196,0.5);
       --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
       --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
     }
@@ -41,9 +43,50 @@
     .slide {
       display: none; position: absolute; inset: 0;
       flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: 16px 20px 116px 20px;
+      text-align: center; padding: 84px 20px 116px 20px;
     }
     .slide.active { display: flex; }
+
+    /* ── Live scoreboard (fixed top) ── */
+    #scorebar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+      display: flex; align-items: center; justify-content: center;
+      gap: clamp(12px, 3vw, 46px);
+      padding: 10px clamp(10px, 2vw, 24px);
+      background: rgba(10,9,16,0.82); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--panel-border);
+      flex-wrap: wrap;
+    }
+    .score-team { display: flex; align-items: center; gap: 8px; }
+    .st-name {
+      font-size: clamp(0.68em, 1.4vw, 0.92em); letter-spacing: 0.1em;
+      text-transform: uppercase; font-weight: 600; white-space: nowrap;
+    }
+    .score-team.amaru .st-name { color: var(--gold); }
+    .score-team.jose .st-name { color: var(--rose); }
+    .score-team.audience .st-name { color: var(--audience); }
+    .st-val {
+      font-family: var(--serif); font-size: clamp(1.3em, 2.6vw, 1.9em);
+      min-width: 1.4em; text-align: center; color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .st-btn {
+      width: clamp(30px, 4vw, 36px); height: clamp(30px, 4vw, 36px); border-radius: 50%;
+      border: 1px solid var(--panel-border); background: rgba(255,255,255,0.04); color: var(--ink);
+      font-size: 1.15em; line-height: 1; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .st-btn:hover { background: rgba(255,255,255,0.1); }
+    .score-team.amaru .st-btn:hover { border-color: var(--gold-soft); color: var(--gold); }
+    .score-team.jose .st-btn:hover { border-color: var(--rose-soft); color: var(--rose); }
+    .score-team.audience .st-btn:hover { border-color: var(--audience-soft); color: var(--audience); }
+    #reset-scores {
+      background: none; border: none; color: var(--ink-dim);
+      font-size: 0.68em; letter-spacing: 0.1em; text-transform: uppercase;
+      cursor: pointer; padding: 6px 8px;
+    }
+    #reset-scores:hover { color: var(--rose); }
 
     /* ── Typography ── */
     .wordart {
@@ -130,14 +173,15 @@
     .mt { margin-top: 10px; }
     .highlight { color: var(--gold); font-weight: 600; }
     .pink { color: var(--rose); }
+    .lav { color: var(--audience); }
 
     /* ══════════════════════════════════
-       QUIZ-SPECIFIK CSS
+       QUIZ-SPECIFIC CSS
     ══════════════════════════════════ */
 
     .quiz-header {
       font-family: var(--sans);
-      font-size: clamp(0.8em, 1.5vw, 1em);
+      font-size: clamp(0.72em, 1.4vw, 0.92em);
       letter-spacing: 0.16em;
       text-transform: uppercase;
       padding: 9px 22px;
@@ -149,6 +193,7 @@
     }
     .quiz-header.amaru-q { color: var(--gold); border-color: var(--gold-soft); }
     .quiz-header.jose-q  { color: var(--rose); border-color: var(--rose-soft); }
+    .quiz-header.aud-q   { color: var(--audience); border-color: var(--audience-soft); }
 
     .quiz-question {
       font-family: var(--serif);
@@ -162,9 +207,25 @@
       border: 1px solid var(--panel-border);
       border-radius: 20px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-      margin-bottom: 22px;
+      margin-bottom: 16px;
       flex-shrink: 0;
     }
+    .q-sub { font-size: 0.62em; color: var(--ink-dim); display: block; margin-top: 8px; font-style: italic; }
+
+    /* ── Audience prediction cue ── */
+    .audience-cue {
+      font-size: clamp(0.74em, 1.5vw, 0.95em);
+      color: var(--audience);
+      letter-spacing: 0.03em;
+      margin-bottom: 18px;
+      flex-shrink: 0;
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 18px;
+      border: 1px dashed var(--audience-soft);
+      border-radius: 999px;
+      background: rgba(167,162,196,0.06);
+    }
+    .audience-cue span { color: var(--ink-dim); }
 
     .reveal-btn {
       font-family: var(--sans);
@@ -208,13 +269,18 @@
       font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
       padding: 6px 16px; border-radius: 999px; font-size: clamp(0.72em, 1.2vw, 0.88em);
     }
+    .aud-badge {
+      background: rgba(167,162,196,0.14); color: var(--audience); border: 1px solid var(--audience-soft);
+      font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 6px 16px; border-radius: 999px; font-size: clamp(0.72em, 1.2vw, 0.88em);
+    }
     .tbd-badge {
       background: rgba(201,118,75,0.16); color: #e0925f; border: 1px solid rgba(224,146,95,0.5);
       font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
       padding: 6px 16px; border-radius: 999px; font-size: clamp(0.72em, 1.2vw, 0.88em);
     }
 
-    .scoreboard { display: flex; gap: 34px; justify-content: center; margin: 22px 0; flex-shrink: 0; flex-wrap: wrap; }
+    .scoreboard { display: flex; gap: 34px; justify-content: center; margin: 22px 0; flex-shrink: 0; flex-wrap: wrap; align-items: center; }
     .team-score {
       background: var(--panel); backdrop-filter: blur(10px);
       border: 1px solid; border-radius: 20px;
@@ -230,6 +296,12 @@
     .jose-team  .team-name { color: var(--rose); }
     .score-big { font-family: var(--serif); font-size: clamp(2.6em, 5.5vw, 4.2em); color: var(--ink); font-weight: 400; line-height: 1; }
     .score-label { font-size: 0.72em; color: var(--ink-dim); margin-top: 6px; letter-spacing: 0.04em; }
+    .winner-line {
+      font-family: var(--serif); font-style: italic;
+      font-size: clamp(1.1em, 2.4vw, 1.6em); color: var(--gold);
+      margin: 4px 0 8px 0; min-height: 1.4em; flex-shrink: 0;
+    }
+    .aud-stat { color: var(--audience); font-size: clamp(0.82em, 1.5vw, 1em); margin-bottom: 6px; flex-shrink: 0; }
 
     /* ══════════════════════════════════
        MOBILE
@@ -240,10 +312,14 @@
       .slide {
         position: relative; inset: auto;
         min-height: 100dvh;
-        padding: 60px 14px 150px 14px;
+        padding: 118px 14px 150px 14px;
         overflow: visible;
       }
       canvas#stars { position: fixed; }
+      #scorebar { gap: 10px 16px; padding: 8px 10px; }
+      .st-name { font-size: 0.62em; }
+      .st-val { font-size: 1.4em; }
+      #reset-scores { flex-basis: 100%; text-align: center; padding: 2px; }
       .quiz-question { padding: 22px 20px; }
       .quiz-answer { padding: 18px 20px; }
       .scoreboard { gap: 16px; }
@@ -258,253 +334,377 @@
 
 <canvas id="stars"></canvas>
 
+<!-- ── Live scoreboard ── -->
+<div id="scorebar">
+  <div class="score-team amaru">
+    <span class="st-name">◆ Amaru</span>
+    <button class="st-btn" onclick="addScore('a',-1)" aria-label="Amaru minus">−</button>
+    <span class="st-val" id="sb-a">0</span>
+    <button class="st-btn" onclick="addScore('a',1)" aria-label="Amaru plus">+</button>
+  </div>
+  <div class="score-team audience">
+    <span class="st-name">🙌 The Room</span>
+    <button class="st-btn" onclick="addScore('aud',-1)" aria-label="Audience minus">−</button>
+    <span class="st-val" id="sb-aud">0</span>
+    <button class="st-btn" onclick="addScore('aud',1)" aria-label="Audience plus">+</button>
+  </div>
+  <div class="score-team jose">
+    <span class="st-name">◆ Josephine</span>
+    <button class="st-btn" onclick="addScore('j',-1)" aria-label="Josephine minus">−</button>
+    <span class="st-val" id="sb-j">0</span>
+    <button class="st-btn" onclick="addScore('j',1)" aria-label="Josephine plus">+</button>
+  </div>
+  <button id="reset-scores" onclick="resetScores()">reset</button>
+</div>
+
 <div class="slideshow">
 
   <!-- QUIZ INTRO -->
   <div class="slide active" id="slide-1">
-    <div class="wordart">Quiz-kväll</div>
-    <div class="rainbow-text mt">Känner ni paret bättre än de känner varandra?</div>
-    <div class="body-text mt" style="max-width:640px;">
-      <p class="highlight" style="font-weight:600;margin-bottom:10px;letter-spacing:0.08em;text-transform:uppercase;font-size:0.85em;">Spelregler</p>
-      <p><span class="highlight">◆</span> Lag A — <span class="highlight" style="font-weight:600;">Amarus sida</span> — svarar på frågor om Josephine</p>
-      <p><span class="pink">◆</span> Lag B — <span class="pink" style="font-weight:600;">Josephines sida</span> — svarar på frågor om Amaru</p>
+    <div class="wordart">Quiz Night</div>
+    <div class="rainbow-text mt">Do you know the couple better than they know each other?</div>
+    <div class="body-text mt" style="max-width:660px;">
+      <p class="highlight" style="font-weight:600;margin-bottom:10px;letter-spacing:0.08em;text-transform:uppercase;font-size:0.85em;">How it works</p>
+      <p><span class="highlight">◆</span> Questions <span class="highlight" style="font-weight:600;">about Amaru</span> — Josephine answers</p>
+      <p><span class="pink">◆</span> Questions <span class="pink" style="font-weight:600;">about Josephine</span> — Amaru answers</p>
       <br>
-      <p>Rätt svar = poäng. Klicka <em>Visa svar</em> för att avslöja.</p>
-      <p style="color:var(--ink-dim);font-size:0.85em;margin-top:10px;">Quizmaster: klicka Nästa för att gå vidare efter avslöjat svar.</p>
+      <p>Correct answer = a point. Click <em>Reveal</em> to show the answer.</p>
+      <p style="margin-top:10px;"><span class="lav" style="font-weight:600;">🙌 The Room plays too:</span> before each reveal, the audience predicts with a show of hands. Majority right = a point for The Room.</p>
+      <p style="color:var(--ink-dim);font-size:0.85em;margin-top:10px;">Quizmaster: keep score with the bar up top. Click Next after each reveal.</p>
     </div>
-    <div class="mt highlight blink">Tryck Nästa för att börja</div>
+    <div class="mt highlight blink">Press Next to begin</div>
   </div>
 
-  <!-- ─── AMARU-FRÅGOR ─── -->
+  <!-- ─── ABOUT AMARU (Josephine answers) ─── -->
 
   <div class="slide" id="slide-2">
-    <div class="quiz-header amaru-q">◆ AMARU-FRÅGA 1 / 6 — 1 POÄNG</div>
+    <div class="quiz-header amaru-q">◆ ABOUT AMARU · Josephine answers · Q1 / 6 · 1 pt</div>
     <div class="quiz-question">
-      Vad hette Amarus scoutpatrull, där han träffade de flesta vänner som är här idag?
+      What was the name of Amaru's scout troop — the one where he met most of the friends here today?
     </div>
-    <button class="reveal-btn" onclick="reveal(this)">Visa svar</button>
+    <div class="audience-cue">🙌 <span>The Room: hands up — will she get it right?</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
     <div class="quiz-answer">
       <div class="answer-line">Ormen Korte</div>
-      <div class="points-row"><span class="point-badge">+1 POÄNG</span></div>
+      <div class="points-row"><span class="point-badge">+1 point</span></div>
     </div>
   </div>
 
   <div class="slide" id="slide-3">
-    <div class="quiz-header amaru-q">◆ AMARU-FRÅGA 2 / 6 — 1 POÄNG</div>
+    <div class="quiz-header amaru-q">◆ ABOUT AMARU · Josephine answers · Q2 / 6 · 1 pt</div>
     <div class="quiz-question">
-      Vad hette den scoutpatrull som Amaru var avundsjuk på?
+      What was the name of the troop he was jealous of?
     </div>
-    <button class="reveal-btn" onclick="reveal(this)">Visa svar</button>
+    <div class="audience-cue">🙌 <span>The Room: hands up — will she get it right?</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
     <div class="quiz-answer">
       <div class="answer-line">Ormen Långe</div>
-      <div class="answer-sub">(Ormen Korte ville ALLTID vara Ormen Långe)</div>
-      <div class="points-row"><span class="point-badge">+1 POÄNG</span></div>
+      <div class="answer-sub">(Ormen Korte always wanted to be Ormen Långe)</div>
+      <div class="points-row"><span class="point-badge">+1 point</span></div>
     </div>
   </div>
 
   <div class="slide" id="slide-4">
-    <div class="quiz-header amaru-q">◆ AMARU-FRÅGA 3 / 6 — 3 POÄNG</div>
+    <div class="quiz-header amaru-q">◆ ABOUT AMARU · Josephine answers · Q3 / 6 · up to 3 pts</div>
     <div class="quiz-question">
-      Vilket märke är det på Amarus jackor — och hur många äger han?<br>
-      <span style="font-size:0.7em;color:var(--ink-dim);">Bonusfråga: hur många äger han och hans bröder tillsammans?</span>
+      What brand are Amaru's jackets — and how many does he own?
+      <span class="q-sub">Bonus: how many do he and his brothers own together?</span>
     </div>
-    <button class="reveal-btn" onclick="reveal(this)">Visa svar</button>
+    <div class="audience-cue">🙌 <span>The Room: hands up — will she get it right?</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
     <div class="quiz-answer">
-      <div class="answer-line" style="color:#e0925f;">🔜 MÄRKE: [lägg till]</div>
-      <div class="answer-line" style="color:#e0925f;">🔜 ANTAL HAN ÄGER: [lägg till]</div>
-      <div class="answer-line" style="color:#e0925f;">🔜 BRÖDERNAS TOTALT: [lägg till, troligen 4]</div>
+      <div class="answer-line" style="color:#e0925f;">Brand: [to add]</div>
+      <div class="answer-line" style="color:#e0925f;">How many he owns: [to add]</div>
+      <div class="answer-line" style="color:#e0925f;">Brothers' total: [to add, probably 4]</div>
       <div class="points-row">
-        <span class="tbd-badge">FYLL I SVAR</span>
-        <span class="point-badge">+1 P / RÄTT DEL</span>
+        <span class="tbd-badge">Fill in answer</span>
+        <span class="point-badge">+1 per correct part</span>
       </div>
     </div>
   </div>
 
   <div class="slide" id="slide-5">
-    <div class="quiz-header amaru-q">◆ AMARU-FRÅGA 4 / 6 — 1 POÄNG</div>
+    <div class="quiz-header amaru-q">◆ ABOUT AMARU · Josephine answers · Q4 / 6 · 1 pt</div>
     <div class="quiz-question">
-      Vilken subkultur tillhörde Amaru under tonåren?
+      Which subculture did Amaru belong to as a teenager?
     </div>
-    <button class="reveal-btn" onclick="reveal(this)">Visa svar</button>
+    <div class="audience-cue">🙌 <span>The Room: hands up — will she get it right?</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
     <div class="quiz-answer">
-      <div class="answer-line">Indie-pojke 🎸</div>
-      <div class="answer-sub">Definitivt en liten indie-kille</div>
-      <div class="points-row"><span class="point-badge">+1 POÄNG</span></div>
+      <div class="answer-line">Indie boy 🎸</div>
+      <div class="answer-sub">Definitely a little indie kid</div>
+      <div class="points-row"><span class="point-badge">+1 point</span></div>
     </div>
   </div>
 
   <div class="slide" id="slide-6">
-    <div class="quiz-header amaru-q">◆ AMARU-FRÅGA 5 / 6 — 3 POÄNG</div>
+    <div class="quiz-header amaru-q">◆ ABOUT AMARU · Josephine answers · Q5 / 6 · up to 3 pts</div>
     <div class="quiz-question">
-      Vad gör Amaru egentligen på jobbet?<br>
-      <span style="font-size:0.7em;color:var(--ink-dim);">Tre delsvar — ett poäng vardera</span>
+      What does Amaru actually do at work?
+      <span class="q-sub">Three parts — one point each</span>
     </div>
-    <button class="reveal-btn" onclick="reveal(this)">Visa svar</button>
+    <div class="audience-cue">🙌 <span>The Room: hands up — will she get it right?</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
     <div class="quiz-answer">
-      <div class="answer-line">AI &nbsp;+&nbsp; Teamledare &nbsp;+&nbsp; Forskning</div>
-      <div class="answer-sub">Specifikt: AI-utveckling / teamledning / random research</div>
+      <div class="answer-line">AI &nbsp;+&nbsp; Team lead &nbsp;+&nbsp; Research</div>
+      <div class="answer-sub">Specifically: AI development / team leadership / random research</div>
       <div class="points-row">
         <span class="point-badge">+1 AI</span>
-        <span class="point-badge">+1 TEAMLEDARE</span>
-        <span class="point-badge">+1 FORSKNING</span>
+        <span class="point-badge">+1 Team lead</span>
+        <span class="point-badge">+1 Research</span>
       </div>
     </div>
   </div>
 
   <div class="slide" id="slide-7">
-    <div class="quiz-header amaru-q">◆ AMARU-FRÅGA 6 / 6 — 2 POÄNG</div>
+    <div class="quiz-header amaru-q">◆ ABOUT AMARU · Josephine answers · Q6 / 6 · up to 2 pts</div>
     <div class="quiz-question">
-      Vilka sporter har Amaru spelat?<br>
-      <span style="font-size:0.7em;color:var(--ink-dim);">Ett poäng per rätt sport</span>
+      Which sports has Amaru played?
+      <span class="q-sub">One point per correct sport</span>
     </div>
-    <button class="reveal-btn" onclick="reveal(this)">Visa svar</button>
+    <div class="audience-cue">🙌 <span>The Room: hands up — will she get it right?</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
     <div class="quiz-answer">
-      <div class="answer-line">Squash &nbsp;+&nbsp; Bågskytte 🏹</div>
+      <div class="answer-line">Squash &nbsp;+&nbsp; Archery 🏹</div>
       <div class="points-row">
-        <span class="point-badge">+1 SQUASH</span>
-        <span class="point-badge">+1 BÅGSKYTTE</span>
+        <span class="point-badge">+1 Squash</span>
+        <span class="point-badge">+1 Archery</span>
       </div>
     </div>
   </div>
 
-  <!-- ─── JOSEPHINE-FRÅGOR ─── -->
+  <!-- ─── ABOUT JOSEPHINE (Amaru answers) ─── -->
 
   <div class="slide" id="slide-8">
-    <div class="quiz-header jose-q">◆ JOSEPHINE-FRÅGA 1 / 7 — 1 POÄNG</div>
+    <div class="quiz-header jose-q">◆ ABOUT JOSEPHINE · Amaru answers · Q1 / 7 · 1 pt</div>
     <div class="quiz-question">
-      Vilken svensk maträtt finner Josephine mest provocerande?
+      Which Swedish dish does Josephine find the most provocative?
     </div>
-    <button class="reveal-btn" onclick="reveal(this)">Visa svar</button>
+    <div class="audience-cue">🙌 <span>The Room: hands up — will he get it right?</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
     <div class="quiz-answer">
       <div class="answer-line">Tunnbrödrulle 🌭</div>
-      <div class="answer-sub">(eller kräftor, om vi menar provocerande i negativ bemärkelse — dubbelkolla med Josephine på plats)</div>
-      <div class="points-row"><span class="point-badge">+1 POÄNG</span></div>
+      <div class="answer-sub">(a soft-flatbread hot-dog wrap) — or crayfish, if we mean "provocative" in a bad way. Double-check with Josephine live.</div>
+      <div class="points-row"><span class="point-badge">+1 point</span></div>
     </div>
   </div>
 
   <div class="slide" id="slide-9">
-    <div class="quiz-header jose-q">◆ JOSEPHINE-FRÅGA 2 / 7 — 1 POÄNG</div>
+    <div class="quiz-header jose-q">◆ ABOUT JOSEPHINE · Amaru answers · Q2 / 7 · 1 pt</div>
     <div class="quiz-question">
-      Vad hette Josephines scoutpatrull?
+      What was the name of Josephine's scout troop?
     </div>
-    <button class="reveal-btn" onclick="reveal(this)">Visa svar</button>
+    <div class="audience-cue">🙌 <span>The Room: hands up — will he get it right?</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
     <div class="quiz-answer">
       <div class="answer-line">Bäverne 🦫</div>
-      <div class="answer-sub">Bekräftat av Anne Marie — det finns bildbevis</div>
-      <div class="points-row"><span class="point-badge">+1 POÄNG</span></div>
+      <div class="answer-sub">"The Beavers" — confirmed by Anne Marie, photo evidence exists</div>
+      <div class="points-row"><span class="point-badge">+1 point</span></div>
     </div>
   </div>
 
   <div class="slide" id="slide-10">
-    <div class="quiz-header jose-q">◆ JOSEPHINE-FRÅGA 3 / 7 — 1 POÄNG</div>
+    <div class="quiz-header jose-q">◆ ABOUT JOSEPHINE · Amaru answers · Q3 / 7 · 1 pt</div>
     <div class="quiz-question">
-      Hur gör man en riktig surströmmingsklämma?
+      How do you make a proper surströmmingsklämma?
+      <span class="q-sub">(fermented Baltic herring wrap)</span>
     </div>
-    <button class="reveal-btn" onclick="reveal(this)">Visa svar</button>
+    <div class="audience-cue">🙌 <span>The Room: hands up — will he get it right?</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
     <div class="quiz-answer">
-      <div class="answer-line">Tunnbröd, potatismos, rödlök, gräddfil, dill</div>
-      <div class="answer-sub">+ förstås surströmming. Ett poäng om de nämner minst tre ingredienser.</div>
-      <div class="points-row"><span class="point-badge">+1 POÄNG</span></div>
+      <div class="answer-line">Flatbread, mashed potato, red onion, sour cream, dill</div>
+      <div class="answer-sub">+ the fermented herring, of course. A point if he names at least three ingredients.</div>
+      <div class="points-row"><span class="point-badge">+1 point</span></div>
     </div>
   </div>
 
   <div class="slide" id="slide-11">
-    <div class="quiz-header jose-q">◆ JOSEPHINE-FRÅGA 4 / 7 — 1 POÄNG</div>
+    <div class="quiz-header jose-q">◆ ABOUT JOSEPHINE · Amaru answers · Q4 / 7 · 1 pt</div>
     <div class="quiz-question">
-      Vilken dansk maträtt finner Amaru mest provocerande?
+      Which Danish dish does Amaru find the most provocative?
     </div>
-    <button class="reveal-btn" onclick="reveal(this)">Visa svar</button>
+    <div class="audience-cue">🙌 <span>The Room: hands up — will he get it right?</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
     <div class="quiz-answer">
       <div class="answer-line">Brune kartofler 🥔</div>
-      <div class="answer-sub">(karamelliserade potatisar — Paul's gissning)</div>
-      <div class="points-row"><span class="point-badge">+1 POÄNG</span></div>
+      <div class="answer-sub">(caramelised potatoes — Paul's guess)</div>
+      <div class="points-row"><span class="point-badge">+1 point</span></div>
     </div>
   </div>
 
   <div class="slide" id="slide-12">
-    <div class="quiz-header jose-q">◆ JOSEPHINE-FRÅGA 5 / 7 — 1 POÄNG</div>
+    <div class="quiz-header jose-q">◆ ABOUT JOSEPHINE · Amaru answers · Q5 / 7 · up to 3 pts</div>
     <div class="quiz-question">
-      Hur gör man en korrekt smørrebrød?
+      How do you make a correct smørrebrød?
     </div>
-    <button class="reveal-btn" onclick="reveal(this)">Visa svar</button>
+    <div class="audience-cue">🙌 <span>The Room: hands up — will he get it right?</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
     <div class="quiz-answer">
-      <div class="answer-line">Rågbröd + pålägg</div>
-      <div class="answer-sub">Klassiker: potatisskivor med äggskivor och majonnäs · stekt rödspätta med remoulad och citron · currymarinerad sill med strimlad lök på toppen</div>
-      <div class="points-row"><span class="point-badge">+1 POÄNG / RÄTT KLASSIKER</span></div>
+      <div class="answer-line">Rye bread + toppings</div>
+      <div class="answer-sub">Classics: potato slices with egg and mayo · fried plaice with remoulade and lemon · curry-marinated herring with diced onion on top</div>
+      <div class="points-row"><span class="point-badge">+1 per correct classic</span></div>
     </div>
   </div>
 
   <div class="slide" id="slide-13">
-    <div class="quiz-header jose-q">◆ JOSEPHINE-FRÅGA 6 / 7 — 1 POÄNG</div>
+    <div class="quiz-header jose-q">◆ ABOUT JOSEPHINE · Amaru answers · Q6 / 7 · 1 pt</div>
     <div class="quiz-question">
-      Vart planerade Josephine att flytta utomlands när hon gick i gymnasiet?
+      In high school, where did Josephine plan to move abroad?
     </div>
-    <button class="reveal-btn" onclick="reveal(this)">Visa svar</button>
+    <div class="audience-cue">🙌 <span>The Room: hands up — will he get it right?</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
     <div class="quiz-answer">
       <div class="answer-line">Berlin 🇩🇪</div>
-      <div class="points-row"><span class="point-badge">+1 POÄNG</span></div>
+      <div class="points-row"><span class="point-badge">+1 point</span></div>
     </div>
   </div>
 
   <div class="slide" id="slide-14">
-    <div class="quiz-header jose-q">◆ JOSEPHINE-FRÅGA 7 / 7 — 1 POÄNG</div>
+    <div class="quiz-header jose-q">◆ ABOUT JOSEPHINE · Amaru answers · Q7 / 7 · 1 pt</div>
     <div class="quiz-question">
-      Vilket danskt ord tyckte Josephine bäst om att höra Amaru säga när de precis börjat dejta?
+      Which Danish word did Josephine most love hearing Amaru say when they first started dating?
     </div>
-    <button class="reveal-btn" onclick="reveal(this)">Visa svar</button>
+    <div class="audience-cue">🙌 <span>The Room: hands up — will he get it right?</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
     <div class="quiz-answer">
       <div class="answer-line">Remoulade</div>
-      <div class="answer-sub">Ett riktigt larvigt ord för en konstig maträtt — och Amaru sa det på ett väldigt roligt sätt</div>
-      <div class="points-row"><span class="point-badge">+1 POÄNG</span></div>
+      <div class="answer-sub">A properly silly word for a strange food — and Amaru said it in a very funny way</div>
+      <div class="points-row"><span class="point-badge">+1 point</span></div>
     </div>
   </div>
 
-  <!-- QUIZ FINAL SCORE -->
+  <!-- ─── AUDIENCE ROUND ─── -->
+
   <div class="slide" id="slide-15">
-    <div class="chapter-title">
-      Slutresultat
+    <div class="chapter-title">Audience Round</div>
+    <div class="rainbow-text" style="color:var(--audience);">Now everyone plays</div>
+    <div class="body-text mt" style="max-width:620px;">
+      <p>No more spectating. For these, <span class="lav" style="font-weight:600;">the whole room votes</span> — by a show of hands.</p>
+      <br>
+      <p>Vote first. Then Amaru &amp; Josephine reveal the truth.</p>
+      <p style="color:var(--ink-dim);font-size:0.85em;margin-top:10px;">Give <span class="lav">The Room</span> a point each time the majority guesses right.</p>
     </div>
+    <div class="mt blink" style="font-family:var(--serif);font-style:italic;color:var(--audience);">Press Next to play</div>
+  </div>
+
+  <div class="slide" id="slide-16">
+    <div class="quiz-header aud-q">🙌 AUDIENCE ROUND · everyone votes · Q1 / 3</div>
+    <div class="quiz-question">
+      Which does Josephine love more — <strong>cats</strong> or <strong>dogs</strong>?
+    </div>
+    <div class="audience-cue">🙌 <span>Vote now — hands up for cats… then hands up for dogs.</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
+    <div class="quiz-answer">
+      <div class="answer-line">Dogs 🐕</div>
+      <div class="answer-sub">Every single one. It was never close.</div>
+      <div class="points-row"><span class="aud-badge">+1 to The Room if the majority got it</span></div>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-17">
+    <div class="quiz-header aud-q">🙌 AUDIENCE ROUND · everyone votes · Q2 / 3</div>
+    <div class="quiz-question">
+      Board game night — does Amaru usually <strong>win</strong> or <strong>lose</strong>?
+    </div>
+    <div class="audience-cue">🙌 <span>Vote now — hands up for win… then hands up for lose.</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
+    <div class="quiz-answer">
+      <div class="answer-line">Wins. Every time. 🎲</div>
+      <div class="answer-sub">Allegedly. Ask anyone who has ever played him.</div>
+      <div class="points-row"><span class="aud-badge">+1 to The Room if the majority got it</span></div>
+    </div>
+  </div>
+
+  <div class="slide" id="slide-18">
+    <div class="quiz-header aud-q">🙌 AUDIENCE ROUND · everyone votes · Q3 / 3</div>
+    <div class="quiz-question">
+      Was Josephine <strong>cool</strong> in high school?
+    </div>
+    <div class="audience-cue">🙌 <span>Vote now — hands up for cool… then hands up for not cool.</span></div>
+    <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
+    <div class="quiz-answer">
+      <div class="answer-line">Yes — but her own kind of cool</div>
+      <div class="answer-sub">Not mainstream-popular cool — the "I love my own style" kind. Even her now-friends found her cool and a little intimidating.</div>
+      <div class="points-row"><span class="aud-badge">+1 to The Room if the majority got it</span></div>
+    </div>
+  </div>
+
+  <!-- FINAL SCORE -->
+  <div class="slide" id="slide-19">
+    <div class="chapter-title">Final Result</div>
     <div class="scoreboard">
       <div class="team-score amaru-team">
-        <div class="team-name">◆ AMARUS SIDA</div>
-        <div class="score-big">?</div>
-        <div class="score-label">MAX ~8 POÄNG (+3 om jackfrågan fylls i)</div>
+        <div class="team-name">◆ Amaru</div>
+        <div class="score-big" id="final-a">0</div>
+        <div class="score-label">points</div>
       </div>
       <div style="align-self:center;font-family:var(--serif);font-style:italic;font-size:2.2em;color:var(--ink-dim);">vs</div>
       <div class="team-score jose-team">
-        <div class="team-name">◆ JOSEPHINES SIDA</div>
-        <div class="score-big">?</div>
-        <div class="score-label">MAX ~7 POÄNG</div>
+        <div class="team-name">◆ Josephine</div>
+        <div class="score-big" id="final-j">0</div>
+        <div class="score-label">points</div>
       </div>
     </div>
+    <div class="winner-line" id="winner"></div>
+    <div class="aud-stat">🙌 The Room called <span id="final-aud">0</span> right</div>
     <div class="body-text" style="max-width:600px;">
-      <p class="highlight" style="letter-spacing:0.08em;text-transform:uppercase;font-size:0.9em;">Maxpoäng: ~15 totalt</p>
-      <p style="color:var(--ink-dim);font-size:0.85em;margin-top:6px;">
-        (Jackfrågan om Amarus jackmärke räknas inte förrän svaret är ifyllt)
-      </p>
-      <br>
-      <p>Vinnarlaget köper nästa omgång. 🍻</p>
-      <p class="pink" style="margin-top:8px;">Oavsett — Amaru &amp; Josephine vinner alltid. 💍</p>
+      <p>The winning side buys the next round. 🍻</p>
+      <p class="pink" style="margin-top:8px;">Either way — Amaru &amp; Josephine always win. 💍</p>
     </div>
-    <div class="mt highlight blink" style="font-family:var(--serif);font-style:italic;font-size:1.2em;">Grattis till bröllopet ❤</div>
+    <div class="mt highlight blink" style="font-family:var(--serif);font-style:italic;font-size:1.2em;">Congratulations on the wedding ❤</div>
   </div>
 
 </div><!-- /slideshow -->
 
 <div class="marquee-bar">
   <span class="marquee-inner">
-    ✦ Amaru &amp; Josephine ✦ Quiz-kväll ✦ Ormen Korte ✦ Indie-pojke ✦ Brune kartofler ✦ Smørrebrød ✦ Squash &amp; bågskytte ✦ Bäverne ✦ Remoulade ✦ Berlin ✦ Vinnaren bjuder ✦ Grattis till bröllopet ✦
+    ✦ Amaru &amp; Josephine ✦ Quiz Night ✦ Ormen Korte ✦ Indie boy ✦ Brune kartofler ✦ Smørrebrød ✦ Squash &amp; archery ✦ Bäverne ✦ Remoulade ✦ Berlin ✦ The Room plays too ✦ Winner buys the round ✦ Congratulations ✦
   </span>
 </div>
 
 <div class="nav">
-  <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)">← Bakåt</button>
-  <span class="slide-counter" id="counter">1 / 15</span>
-  <button class="nav-btn" id="next-btn" onclick="changeSlide(1)">Nästa →</button>
+  <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)">← Back</button>
+  <span class="slide-counter" id="counter">1 / 19</span>
+  <button class="nav-btn" id="next-btn" onclick="changeSlide(1)">Next →</button>
 </div>
 
 <script>
-/* ── Quiz reveal ── */
+/* ── Scores (persisted) ── */
+const STORAGE = 'quiz_scores_v1';
+const scores = { a: 0, j: 0, aud: 0 };
+
+function loadScores() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STORAGE));
+    if (s) { scores.a = s.a || 0; scores.j = s.j || 0; scores.aud = s.aud || 0; }
+  } catch (e) {}
+}
+function saveScores() {
+  try { localStorage.setItem(STORAGE, JSON.stringify(scores)); } catch (e) {}
+}
+function addScore(who, n) {
+  scores[who] = Math.max(0, scores[who] + n);
+  renderScores(); saveScores();
+}
+function resetScores() {
+  if (!confirm('Reset all scores to zero?')) return;
+  scores.a = 0; scores.j = 0; scores.aud = 0;
+  renderScores(); saveScores();
+}
+function setText(id, v) { const el = document.getElementById(id); if (el) el.textContent = v; }
+function renderScores() {
+  setText('sb-a', scores.a); setText('sb-j', scores.j); setText('sb-aud', scores.aud);
+  setText('final-a', scores.a); setText('final-j', scores.j); setText('final-aud', scores.aud);
+  const w = document.getElementById('winner');
+  if (w) {
+    if (scores.a === 0 && scores.j === 0) w.textContent = 'Keep score with the bar up top.';
+    else if (scores.a > scores.j) w.textContent = "Amaru's side wins! 🎉";
+    else if (scores.j > scores.a) w.textContent = "Josephine's side wins! 🎉";
+    else w.textContent = "It's a tie — the couple wins either way. 💍";
+  }
+}
+
+/* ── Reveal ── */
 function reveal(btn) {
   btn.style.display = 'none';
   btn.nextElementSibling.classList.add('visible');
@@ -544,13 +744,17 @@ function showSlide(n) {
   document.getElementById('counter').textContent = `${cur + 1} / ${total}`;
   document.getElementById('prev-btn').style.visibility = cur === 0       ? 'hidden' : 'visible';
   document.getElementById('next-btn').style.visibility = cur === total-1 ? 'hidden' : 'visible';
+  window.scrollTo(0, 0);
 }
 function changeSlide(dir) { showSlide(cur + dir); }
 document.addEventListener('keydown', e => {
-  if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); changeSlide(1); }
   if (e.key === 'ArrowLeft') changeSlide(-1);
 });
 
+/* ── Init ── */
+loadScores();
+renderScores();
 showSlide(0);
 </script>
 </body>
