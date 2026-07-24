@@ -181,6 +181,25 @@
       z-index: 200;
     }
 
+    /* ── Sound toggle ── */
+    .sound-toggle {
+      position: fixed;
+      top: 34px;
+      right: 10px;
+      background: #000;
+      color: #FF00FF;
+      border: 2px solid #FF00FF;
+      box-shadow: 0 0 8px #FF00FF;
+      font-family: 'Comic Sans MS', cursive;
+      font-size: clamp(0.7em, 1.2vw, 0.95em);
+      padding: 5px 10px;
+      cursor: pointer;
+      z-index: 200;
+      letter-spacing: 0.05em;
+    }
+    .sound-toggle.on { color: #00FF00; border-color: #00FF00; box-shadow: 0 0 10px #00FF00; }
+    .sound-toggle:hover { background: #220022; }
+
     /* ── Language toggle ── */
     .lang-toggle {
       position: fixed;
@@ -348,6 +367,7 @@
       }
       canvas#stars { position: fixed; }
       .hit-counter { display: none; }
+      .sound-toggle { top: 8px; right: 8px; }
       .lang-toggle { top: 6px; left: 6px; flex-wrap: wrap; max-width: 60vw; }
       .lang-btn { font-size: 1.1em; padding: 5px 8px; }
       .chars-row, .photo-row, .row { flex-direction: column; align-items: center; }
@@ -370,6 +390,8 @@
 
 <div class="hit-counter">BESÖKARE: <b>1&thinsp;337&thinsp;420</b></div>
 
+<button class="sound-toggle" id="soundToggle" onclick="toggleSound()" title="Ljud på/av">🔇 LJUD</button>
+
 <div class="lang-toggle">
   <button class="lang-btn active" data-lang="sv" onclick="setLang('sv')">🇸🇪</button>
   <button class="lang-btn" data-lang="en" onclick="setLang('en')">🇬🇧</button>
@@ -377,6 +399,7 @@
   <button class="lang-btn" data-lang="es" onclick="setLang('es')">🇪🇸</button>
   <button class="lang-btn" data-lang="qu" onclick="setLang('qu')">🇵🇪</button>
   <button class="lang-btn" data-lang="et" onclick="setLang('et')">🇪🇪</button>
+  <button class="lang-btn" data-lang="pl" onclick="setLang('pl')">🇵🇱</button>
 </div>
 
 <div class="slideshow">
@@ -1005,6 +1028,59 @@ const T = {
     s12_married: `AMARU &amp; JOSEPHINE ABIELLUVAD!`,
     s12_body: `Pärast aastaid:<br>🇩🇰 Tinder Kopenhaagenis &emsp; ⛵ Purjetamine &emsp; 🐕 Mumrik &emsp; 🌸 Jaanipäev &emsp; 🎄 Inetud jõusviitreid &emsp; 🏕 Telkimine<br><br>…on aeg <span class="highlight">VIIMASEKS SEIKLUSEKS</span>.<br><span style="font-size:0.85em;color:#AAAAAA;">(Josephine loodab, et see hõlmab maja maal.)</span>`,
     s12_cta: `► VAJUTA SUUDLUS ET JÄTKATA ◄`,
+  },
+
+  pl: {
+    nav_prev: `◄ WSTECZ`, nav_next: `DALEJ ►`,
+    marquee: `★ AMARU &amp; JOSEPHINE ★ NA ZAWSZE ★ I TROCHĘ DŁUŻEJ ★ GRATULACJE Z OKAZJI ŚLUBU ★ KOCHAMY WAS ★ I MUMRIKA ★ ⛵ MIŁOŚĆ NA MORZACH ★ 💍 LEVEL UP: PO ŚLUBIE ★ SANTA ❤️ YOU ★ JOSEPHINE ❤️ YOU BARDZIEJ ★ PRZEPROWADZKA NA WIEŚ: W TOKU ★`,
+    s1_subtitle: `NAJWIĘKSZA HISTORIA MIŁOSNA`,
+    s1_premiere: `✨ ŚWIATOWA PREMIERA — DZIŚ ✨`,
+    s1_browser: `► NAJLEPIEJ OGLĄDAĆ W NETSCAPE NAVIGATOR 4.0 ◄`,
+    s1_construction: `TA PREZENTACJA JEST WCIĄŻ W BUDOWIE ALE MIŁOŚĆ JEST GOTOWA`,
+    s2_chapter: `⚔&thinsp; WYBÓR POSTACI &thinsp;⚔`,
+    s2_sub: `WYBIERZ SWOJEGO ZAWODNIKA — (wybrali siebie nawzajem)`,
+    amaru_s2: `🎲 Supermoc: <span>ZAWSZE wygrywa w gry planszowe</span>`,
+    amaru_s3: `🏙 Serce: <span>Dzieciak z centrum — nie chce opuścić miasta</span>`,
+    amaru_s4: `💸 Zasada: <span>NIGDY nie kupuje nic nowego</span>`,
+    amaru_s6: `🤝 Charakter: <span>Zawsze na tak, intelektualista, lojalny</span>`,
+    amaru_weak: `🚗 Słabość: <span>Wciąż nie zrobił prawa jazdy</span>`,
+    lovehp: `❤️ HP MIŁOŚCI:`,
+    jose_pow: `🎲 Supermoc: <span>Potrafi zamienić każde dzieło sztuki w penisa (zaprzecza temu)</span>`,
+    jose_s3: `🐕 Słabość: <span>KOCHA psy. Każdego jednego.</span>`,
+    jose_s5: `🌾 Marzenie: <span>Przeprowadzka na wieś (negocjacje w toku)</span>`,
+    jose_s6: `💪 Charakter: <span>Artystyczna, uparta, kochająca</span>`,
+    s2_result: `WYNIK: BEZ POJEDYNKU — STWORZYLI DRUŻYNĘ 💪`,
+    s3_chapter: `📼&thinsp; ROZDZIAŁ 1: JAK TO SIĘ ZACZĘŁO &thinsp;📼`,
+    s3_cap: `Josephine poznaje najważniejszych przyjaciół Amaru`,
+    s3_body: `<p style="color:#FFFF00;font-weight:bold;">SYLWESTER 2015 → 2016</p><p style="font-size:0.85em;color:#AAAAFF;">Kopenhaga, Dania</p><br><p>Josephine — fajna duńska dziewczyna z kredką do oczu i kolczykiem w nosie — urządziła imprezę sylwestrową ze swoimi przyjaciółmi.</p><br><p>Amaru — przez <span class="highlight">TINDERA</span> — pojawił się.</p><br><p>O północy, gdy na zewnątrz wybuchały fajerwerki,<br>coś kliknęło w środku.</p><br><p style="color:#00FF00;">To nie był tylko szampan.<br><em class="pink">(Choć szampan na pewno pomógł.)</em></p>`,
+    s3_tag1: `MATCH: UDANY`, s3_tag2: `SWIPE W PRAWO: SŁUSZNA DECYZJA`,
+    s4_chapter: `🏙&thinsp; ROZDZIAŁ 2: WIELKA PRZEPROWADZKA &thinsp;🏙`,
+    s4_cap: `Kopenhaga → Sztokholm = ULEPSZENIE`,
+    s4_body: `<p>Josephine została w Kopenhadze jeszcze parę lat.</p><p>Amaru dojeżdżał. Miłość bije bilety kolejowe.</p><br><p>Aż w końcu: <span class="highlight">ZAMIESZKALI RAZEM W SZTOKHOLMIE</span>.</p><br><p>Małe mieszkanie. Dużo książek. Idealnie.</p><br><p style="color:#FF6666;font-weight:bold;">Marzenie Josephine: przeprowadzka na wieś 🌾</p><p style="color:#00FF00;font-weight:bold;">Odpowiedź Amaru: nie 🏢</p><br><p style="font-size:0.85em;color:#AAAAAA;">Status dziś: <em>wciąż to samo małe mieszkanie.</em><br>Wyprowadzka z miasta: <em>wciąż aktywnie negocjowana.</em></p>`,
+    s4_tag: `KONFLIKT TRWA DO DZIŚ`,
+    s5_chapter: `🗺&thinsp; ROZDZIAŁ 3: ZDOBYWCY ŚWIATA &thinsp;🗺`,
+    s5_cap1: `Komary: 1 — My: 0 🦟`, s5_cap2: `Trolle w Rumunii`,
+    s5_cap3: `Flaxenvik, noc świętojańska ⭐⭐⭐⭐⭐`, s5_cap4: `Tallinn, sylwester 🖕`,
+    s5_body: `Amaru &amp; Josephine odwiedzili: <span class="highlight">WSZĘDZIE</span>.<br>Wyniki bywają różne.`,
+    s6_chapter: `⛵&thinsp; ROZDZIAŁ 4: MIŁOŚĆ W KAŻDĄ POGODĘ &thinsp;❄️`,
+    s6_cap: `Amaru: Skupiony. Josephine: ✌️🍉`,
+    s6_cap2: `"Santa ❤️ YOU" — i Josephine też`,
+    s6_body: `☀️ Lato: znak pokoju i arbuz na morzu.<br>❄️ Zima: rywalizacja o najbrzydszy świąteczny sweter.<br><br>Bez względu na porę roku — miłość daje radę.`,
+    s7_chapter: `🌸&thinsp; ROZDZIAŁ 4: 100% SZWEDZKIE TRADYCJE &thinsp;🌸`,
+    s7_cap1: `Pierwszy snus Josephine 🤢→😍`, s7_cap2: `Imprezowa czapeczka: Obowiązkowa 🎉`, s7_cap3: `Sauna: Klasyka 🧖`,
+    s7_body: `🦷 Snus — uzależniona po jednej próbie ✅&emsp;🦞 Impreza rakowa w czapeczce ✅&emsp;🧖 Sauna w ręczniku ✅<br><span class="highlight">INTEGRACJA: ZAKOŃCZONA</span>`,
+    s8_chapter: `🐾&thinsp; ROZDZIAŁ 5: MUMRIK — TRZECI CZŁONEK RODZINY &thinsp;🐾`,
+    s8_cap1: `2022 — Dzień 1. "Co myśmy zrobili?"`, s8_cap2: `Transport: Rozwiązany`, s8_cap3: `Mumrik akceptuje Amaru`,
+    s8_body: `<span class="pink">MUMRIK</span> — najbardziej puchaty i najbardziej wymagający w rodzinie. Zwerbowany w 2022.<br>Siedzi w koszyku rowerowym ✅ &nbsp; Liże cię po twarzy ✅ &nbsp; Decyduje kto wygrywa kłótnie ✅<br><span class="blink highlight">10/10 — POLECAM.</span>`,
+    s10_chapter: `🎉&thinsp; ROZDZIAŁ 6: DRUŻYNA WOKÓŁ DRUŻYNY &thinsp;🎉`,
+    s10_cap1: `Sylwester 🥂`, s10_cap2: `Wszyscy przebrani za Amaru 🧔`,
+    s10_cap3: `Przyjaciele w wielkim stylu 😎`, s10_cap4: `Niepokonana ekipa 🏆`,
+    s10_body: `Wokół tej dwójki jest banda absolutnie <span class="highlight">NIEZASTĄPIONYCH LEGEND</span>.<br>Organizują imprezy wąsów, oglądają wątpliwe filmy i wiedzą jak wznieść dobry toast.<br>Dokładnie tacy przyjaciele, jakich chcesz na weselu. 🏆`,
+    s11_sub: `a teraz biorą ślub`,
+    s12_level: `POZIOM UKOŃCZONY: ŚLUB`,
+    s12_married: `AMARU &amp; JOSEPHINE BIORĄ ŚLUB!`,
+    s12_body: `Po latach:<br>🇩🇰 Tinder w Kopenhadze &emsp; ⛵ Żeglowanie &emsp; 🐕 Mumrik &emsp; 🌸 Noc świętojańska &emsp; 🎄 Brzydkie swetry &emsp; 🏕 Biwakowanie<br><br>…nadszedł czas na <span class="highlight">NAJWIĘKSZĄ PRZYGODĘ</span>.<br><span style="font-size:0.85em;color:#AAAAAA;">(Josephine ma nadzieję, że obejmuje to dom na wsi.)</span>`,
+    s12_cta: `► NACIŚNIJ POCAŁUNEK ABY KONTYNUOWAĆ ◄`,
   }
 };
 
@@ -1068,9 +1144,106 @@ function showSlide(n) {
   document.getElementById('counter').textContent = `${cur + 1} / ${total}`;
   document.getElementById('prev-btn').style.visibility = cur === 0       ? 'hidden' : 'visible';
   document.getElementById('next-btn').style.visibility = cur === total-1 ? 'hidden' : 'visible';
+  updateMusicForSlide();
 }
 
 function changeSlide(dir) { showSlide(cur + dir); }
+
+/* ══════════════════════════════════════
+   Fight-intro music (Web Audio synth).
+   Original driving techno riff — plays on the
+   first and last slide, off in between.
+   Sound is off by default; the operator flips
+   the "LJUD" toggle (a user gesture unlocks audio).
+══════════════════════════════════════ */
+let actx = null, master = null;
+let soundOn = false, audioUnlocked = false;
+let musicPlaying = false, musicTimer = null, step16 = 0, nextTime = 0;
+
+const BPM = 128;
+const SIXTEENTH = 15 / BPM;              // 60 / BPM / 4 seconds
+const KICK_STEPS = [0, 4, 8, 12];
+// E-minor flavoured pattern (MIDI note numbers, null = rest)
+const BASS = [28, null, 28, 28, 28, null, 28, 31, 28, null, 28, 28, 26, null, 23, 23];
+const LEAD = [76, 79, 83, 88, 86, 83, 79, 83, 77, 81, 84, 89, 88, 84, 81, 77];
+
+function midiFreq(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+
+function ensureCtx() {
+  if (!actx) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) return;
+    actx = new AC();
+    master = actx.createGain();
+    master.gain.value = 0.5;
+    master.connect(actx.destination);
+  }
+  if (actx.state === 'suspended') actx.resume();
+}
+
+function playKick(t) {
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.frequency.setValueAtTime(155, t);
+  o.frequency.exponentialRampToValueAtTime(45, t + 0.12);
+  g.gain.setValueAtTime(0.9, t);
+  g.gain.exponentialRampToValueAtTime(0.001, t + 0.16);
+  o.connect(g).connect(master); o.start(t); o.stop(t + 0.18);
+}
+function playBass(f, t) {
+  const o = actx.createOscillator(), g = actx.createGain(), lp = actx.createBiquadFilter();
+  o.type = 'sawtooth'; o.frequency.value = f;
+  lp.type = 'lowpass'; lp.frequency.value = 700;
+  g.gain.setValueAtTime(0.0, t);
+  g.gain.linearRampToValueAtTime(0.32, t + 0.008);
+  g.gain.exponentialRampToValueAtTime(0.001, t + SIXTEENTH * 0.95);
+  o.connect(lp).connect(g).connect(master); o.start(t); o.stop(t + SIXTEENTH);
+}
+function playLead(f, t) {
+  const o = actx.createOscillator(), g = actx.createGain();
+  o.type = 'square'; o.frequency.value = f;
+  g.gain.setValueAtTime(0.0, t);
+  g.gain.linearRampToValueAtTime(0.14, t + 0.005);
+  g.gain.exponentialRampToValueAtTime(0.001, t + SIXTEENTH * 1.1);
+  o.connect(g).connect(master); o.start(t); o.stop(t + SIXTEENTH * 1.2);
+}
+
+function musicLoop() {
+  if (!musicPlaying || !actx) return;
+  const lookahead = 0.12;
+  while (nextTime < actx.currentTime + lookahead) {
+    if (KICK_STEPS.includes(step16)) playKick(nextTime);
+    const b = BASS[step16]; if (b != null) playBass(midiFreq(b), nextTime);
+    const l = LEAD[step16]; if (l != null) playLead(midiFreq(l), nextTime);
+    nextTime += SIXTEENTH;
+    step16 = (step16 + 1) % 16;
+  }
+  musicTimer = setTimeout(musicLoop, 25);
+}
+function startMusic() {
+  if (musicPlaying) return;
+  ensureCtx(); if (!actx) return;
+  musicPlaying = true; step16 = 0; nextTime = actx.currentTime + 0.06;
+  musicLoop();
+}
+function stopMusic() {
+  musicPlaying = false;
+  if (musicTimer) { clearTimeout(musicTimer); musicTimer = null; }
+}
+
+function updateMusicForSlide() {
+  const isMusicSlide = (cur === 0 || cur === total - 1);
+  if (isMusicSlide && soundOn && audioUnlocked) startMusic();
+  else stopMusic();
+}
+
+function toggleSound() {
+  soundOn = !soundOn;
+  if (soundOn) { ensureCtx(); audioUnlocked = true; }
+  const btn = document.getElementById('soundToggle');
+  btn.classList.toggle('on', soundOn);
+  btn.textContent = (soundOn ? '🔊' : '🔇') + ' LJUD';
+  updateMusicForSlide();
+}
 
 document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
