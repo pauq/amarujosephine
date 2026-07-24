@@ -43,7 +43,7 @@
     .slide {
       display: none; position: absolute; inset: 0;
       flex-direction: column; align-items: center; justify-content: center;
-      text-align: center; padding: 84px 20px 116px 20px;
+      text-align: center; padding: 84px 20px 92px 20px;
     }
     .slide.active { display: flex; }
 
@@ -125,27 +125,6 @@
     }
     .blink { animation: fade 1.6s ease-in-out infinite; }
     @keyframes fade { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
-
-    /* ── Marquee ── */
-    .marquee-bar {
-      position: fixed; bottom: 62px; width: 100%;
-      background: transparent;
-      border-top: 1px solid var(--panel-border);
-      border-bottom: 1px solid var(--panel-border);
-      color: var(--ink-dim);
-      font-family: var(--serif); font-style: italic;
-      font-size: clamp(0.85em, 1.4vw, 1.1em); padding: 9px 0; z-index: 100;
-      overflow: hidden; white-space: nowrap;
-      letter-spacing: 0.04em;
-    }
-    .marquee-inner {
-      display: inline-block; white-space: nowrap;
-      animation: marquee 38s linear infinite;
-    }
-    @keyframes marquee {
-      from { transform: translateX(100vw); }
-      to   { transform: translateX(-100%); }
-    }
 
     /* ── Navigation ── */
     .nav {
@@ -312,7 +291,7 @@
       .slide {
         position: relative; inset: auto;
         min-height: 100dvh;
-        padding: 118px 14px 150px 14px;
+        padding: 118px 14px 92px 14px;
         overflow: visible;
       }
       canvas#stars { position: fixed; }
@@ -324,7 +303,6 @@
       .quiz-answer { padding: 18px 20px; }
       .scoreboard { gap: 16px; }
       .team-score { min-width: 42vw; padding: 16px 18px; }
-      .marquee-bar { bottom: 66px; font-size: 0.8em; padding: 8px 0; }
       .nav { bottom: 6px; padding: 0 10px; }
       .nav-btn { font-size: 0.8em; padding: 12px 18px; }
     }
@@ -655,12 +633,6 @@
   </div>
 
 </div><!-- /slideshow -->
-
-<div class="marquee-bar">
-  <span class="marquee-inner">
-    ✦ Amaru &amp; Josephine ✦ Quiz Night ✦ Ormen Korte ✦ Indie boy ✦ Brune kartofler ✦ Smørrebrød ✦ Squash &amp; archery ✦ Bäverne ✦ Remoulade ✦ Berlin ✦ The Room plays too ✦ Winner buys the round ✦ Congratulations ✦
-  </span>
-</div>
 
 <div class="nav">
   <button class="nav-btn" id="prev-btn" onclick="changeSlide(-1)">← Back</button>
