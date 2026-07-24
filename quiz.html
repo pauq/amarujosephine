@@ -282,6 +282,19 @@
     }
     .aud-stat { color: var(--audience); font-size: clamp(0.82em, 1.5vw, 1em); margin-bottom: 6px; flex-shrink: 0; }
 
+    /* ── Quiz images ── */
+    .quiz-img-row {
+      display: flex; gap: 16px; justify-content: center; align-items: flex-end;
+      flex-wrap: wrap; flex-shrink: 0; margin-bottom: 4px;
+    }
+    .quiz-img {
+      max-height: 220px; max-width: 260px;
+      border-radius: 12px; object-fit: cover;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      border: 1px solid var(--panel-border);
+    }
+    .quiz-img.tall { max-height: 260px; max-width: 180px; }
+
     /* ══════════════════════════════════
        MOBILE
     ══════════════════════════════════ */
@@ -621,6 +634,10 @@
 
   <div class="slide" id="slide-22">
     <div class="quiz-header aud-q">🙌 AUDIENCE ROUND · everyone votes · Q7 / 7</div>
+    <div class="quiz-img-row">
+      <img class="quiz-img" src="quiz-imgs/aj_animation.gif" alt="">
+      <img class="quiz-img tall" src="quiz-imgs/j_kindergarten.jpg" alt="">
+    </div>
     <div class="quiz-question">
       Was Josephine <strong>cool</strong> in high school?
     </div>
@@ -628,6 +645,7 @@
     <button class="reveal-btn" onclick="reveal(this)">Reveal</button>
     <div class="quiz-answer">
       <div class="answer-line">Yes. Very cool.</div>
+      <img class="quiz-img" src="quiz-imgs/j_cool_answer.jpg" alt="" style="max-height:240px;max-width:300px;margin-top:6px;">
       <div class="points-row"><span class="aud-badge">+1 to The Room if the majority got it</span></div>
     </div>
   </div>
