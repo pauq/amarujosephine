@@ -23,8 +23,7 @@
     --break-label: #6ec9a3;
     --note: #6a6a76;
     --dim: #4a4a55;
-    safe-top: env(safe-area-inset-top, 0px);
-    safe-bottom: env(safe-area-inset-bottom, 0px);
+    --line: rgba(255,255,255,0.08);
   }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
   html, body {
@@ -34,9 +33,8 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     height: 100%;
     overscroll-behavior: none;
-    user-select: none;
-    -webkit-user-select: none;
   }
+  body { user-select: none; -webkit-user-select: none; }
   #app {
     position: fixed;
     inset: 0;
@@ -45,34 +43,37 @@
     overflow: hidden;
   }
 
-  /* ── top bar ── */
-  .topbar {
+  /* ── view tabs ── */
+  .tabs {
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: calc(14px + env(safe-area-inset-top, 0px)) 14px 8px 14px;
+    justify-content: center;
+    gap: 6px;
+    padding: calc(12px + env(safe-area-inset-top, 0px)) 12px 8px 12px;
     flex-shrink: 0;
-    z-index: 20;
+    z-index: 30;
   }
-  .menu-btn {
-    background: transparent;
+  .tab {
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 9px 20px;
+    border-radius: 999px;
     border: 1px solid var(--dim);
+    background: transparent;
     color: var(--dim);
-    border-radius: 50%;
-    width: 40px; height: 40px;
-    font-size: 20px;
-    line-height: 1;
-    display: flex; align-items: center; justify-content: center;
     cursor: pointer;
+    font-family: inherit;
   }
-  .menu-btn:active { background: rgba(255,255,255,0.06); }
+  .tab.active { color: var(--script-label); border-color: var(--script-label); }
 
-  /* ── card viewport ── */
-  .viewport {
-    flex: 1;
-    position: relative;
-    overflow: hidden;
-  }
+  /* ── views ── */
+  .view { display: none; flex: 1; min-height: 0; flex-direction: column; }
+  .view.active { display: flex; }
+
+  /* ══════════════════════════════════
+     CARD VIEW
+  ══════════════════════════════════ */
+  .viewport { flex: 1; position: relative; overflow: hidden; }
   .card {
     position: absolute;
     inset: 0;
@@ -80,7 +81,7 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 20px 28px;
+    padding: 44px 28px 24px 28px;
     overflow-y: auto;
     transition: transform 0.28s ease, opacity 0.28s ease;
   }
@@ -89,6 +90,16 @@
   .card.leaving-left   { transform: translateX(-100%); opacity: 0; }
   .card.leaving-right  { transform: translateX(100%); opacity: 0; }
   .card.active { transform: translateX(0); opacity: 1; }
+
+  .card-time {
+    position: absolute;
+    top: 14px; left: 20px;
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+    color: var(--dim);
+  }
+  .card-time b { color: var(--script-label); font-weight: 600; }
 
   .card-inner {
     margin: auto 0;
@@ -99,7 +110,6 @@
     max-width: 42em;
     flex-shrink: 0;
   }
-
   .label {
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -108,14 +118,11 @@
     margin-bottom: 22px;
     opacity: 0.85;
   }
-  .text {
-    white-space: pre-line;
-    line-height: 1.5;
-  }
+  .text { white-space: pre-line; line-height: 1.5; }
   .note {
     margin-top: 24px;
     padding-top: 12px;
-    border-top: 1px solid rgba(255,255,255,0.08);
+    border-top: 1px solid var(--line);
     color: var(--note);
     font-size: 14px;
     font-style: italic;
@@ -124,162 +131,137 @@
     align-self: center;
   }
 
-  /* ── card type: script ── */
   .card--script .label { color: var(--script-label); }
-  .card--script .text {
-    color: var(--script-text);
-    font-size: clamp(22px, 5vw, 30px);
-    font-weight: 500;
-  }
+  .card--script .text { color: var(--script-text); font-size: clamp(22px, 5vw, 30px); font-weight: 500; }
 
-  /* ── card type: cue ── */
   .card--cue .label { color: var(--cue-label); }
   .card--cue .label::before { content: "○ "; }
-  .card--cue .text {
-    color: var(--cue-text);
-    font-size: clamp(18px, 4vw, 22px);
-    font-style: italic;
-    font-weight: 400;
-  }
-  .card--cue {
-    border: 1px dashed rgba(255,255,255,0.10);
-    margin: 14px;
-    border-radius: 18px;
-  }
+  .card--cue .text { color: var(--cue-text); font-size: clamp(18px, 4vw, 22px); font-style: italic; font-weight: 400; }
+  .card--cue { border: 1px dashed rgba(255,255,255,0.10); margin: 10px; border-radius: 18px; }
 
-  /* ── card type: break ── */
   .card--break .label { color: var(--break-label); }
-  .card--break .text {
-    color: var(--break-text);
-    font-size: clamp(20px, 4.5vw, 25px);
-    font-weight: 400;
-  }
-  .card--break .card-inner::before {
-    content: "☕";
-    font-size: 40px;
-    margin-bottom: 18px;
-    filter: grayscale(0.3);
-    opacity: 0.8;
-  }
-  .card--break {
-    background: radial-gradient(circle at 50% 40%, rgba(110,201,163,0.06), transparent 70%);
-  }
+  .card--break .text { color: var(--break-text); font-size: clamp(20px, 4.5vw, 25px); font-weight: 400; }
+  .card--break .card-inner::before { content: "☕"; font-size: 40px; margin-bottom: 18px; filter: grayscale(0.3); opacity: 0.8; }
+  .card--break { background: radial-gradient(circle at 50% 40%, rgba(110,201,163,0.06), transparent 70%); }
 
-  /* ── position indicator ── */
-  .position {
-    text-align: center;
+  .cardbar {
+    display: flex; align-items: center; justify-content: center; gap: 14px;
     padding: 6px 0 calc(10px + env(safe-area-inset-bottom, 0px)) 0;
-    font-size: 12px;
-    letter-spacing: 0.08em;
-    color: var(--dim);
-    font-variant-numeric: tabular-nums;
-    flex-shrink: 0;
-    z-index: 20;
+    flex-shrink: 0; z-index: 20;
   }
+  .position { font-size: 12px; letter-spacing: 0.08em; color: var(--dim); font-variant-numeric: tabular-nums; }
+  #card-delta { font-size: 12px; letter-spacing: 0.04em; color: var(--cue-label); }
+  #card-delta.behind { color: #d98a6a; }
+  #card-delta.ahead { color: var(--break-label); }
+  #card-delta.ontime { color: var(--dim); }
 
-  /* ── swipe hint zones (invisible, for click nav) ── */
-  .tap-zone {
-    position: absolute;
-    top: 0; bottom: 0;
-    width: 22%;
-    z-index: 5;
-  }
+  .tap-zone { position: absolute; top: 0; bottom: 0; width: 22%; z-index: 5; }
   .tap-zone.left { left: 0; }
   .tap-zone.right { right: 0; }
 
-  /* ── menu overlay ── */
-  .menu-overlay {
-    position: fixed;
-    inset: 0;
-    background: #060608;
-    z-index: 100;
-    display: none;
-    flex-direction: column;
-    padding: calc(16px + env(safe-area-inset-top, 0px)) 0 calc(16px + env(safe-area-inset-bottom, 0px)) 0;
-  }
-  .menu-overlay.open { display: flex; }
-  .menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px 14px 20px;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+  /* ══════════════════════════════════
+     SCHEDULE VIEW
+  ══════════════════════════════════ */
+  #schedule-view { padding: 0; }
+  .sched-status {
     flex-shrink: 0;
+    text-align: center;
+    padding: 6px 16px 12px 16px;
+    border-bottom: 1px solid var(--line);
   }
-  .menu-title {
-    font-size: 14px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--dim);
-  }
-  .menu-close {
-    background: transparent;
-    border: none;
-    color: var(--script-text);
-    font-size: 26px;
-    line-height: 1;
-    cursor: pointer;
-    padding: 4px 8px;
-  }
-  .menu-list {
-    overflow-y: auto;
-    flex: 1;
-    padding: 6px 0;
-  }
-  .menu-item {
-    display: flex;
-    align-items: baseline;
-    gap: 12px;
-    width: 100%;
-    background: transparent;
-    border: none;
+  .sched-now { font-size: 15px; color: var(--script-text); font-variant-numeric: tabular-nums; }
+  .sched-now b { color: var(--script-label); }
+  .sched-delta { font-size: 14px; margin-top: 3px; }
+  .sched-delta.behind { color: #d98a6a; }
+  .sched-delta.ahead { color: var(--break-label); }
+  .sched-delta.ontime { color: var(--dim); }
+  .sched-hint { font-size: 12px; color: var(--dim); margin-top: 6px; }
+
+  .sched-list { flex: 1; overflow-y: auto; padding: 4px 0; }
+  .sched-row {
+    display: flex; align-items: stretch; gap: 4px;
     border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .sched-row.current { background: rgba(212,175,110,0.10); }
+  .sched-row.current .time-input { color: var(--script-label); }
+  .time-input {
+    width: 4.6em; flex-shrink: 0;
+    background: transparent; border: none;
+    border-right: 1px solid var(--line);
     color: var(--script-text);
-    text-align: left;
-    padding: 14px 20px;
-    font-size: 16px;
-    cursor: pointer;
+    font-family: inherit; font-size: 17px; font-variant-numeric: tabular-nums;
+    text-align: center; padding: 15px 4px;
+    letter-spacing: 0.03em;
   }
-  .menu-item:active { background: rgba(255,255,255,0.05); }
-  .menu-item .idx {
-    font-variant-numeric: tabular-nums;
-    color: var(--dim);
-    font-size: 13px;
-    min-width: 1.6em;
+  .time-input:focus { outline: none; background: rgba(212,175,110,0.14); border-radius: 6px; }
+  .sched-label {
+    flex: 1; text-align: left;
+    background: transparent; border: none;
+    color: var(--script-text); font-family: inherit; font-size: 15px;
+    padding: 13px 16px 13px 12px; cursor: pointer; line-height: 1.3;
+    display: flex; align-items: center; gap: 9px;
   }
-  .menu-item .dot {
-    width: 7px; height: 7px;
-    border-radius: 50%;
-    flex-shrink: 0;
+  .sched-label:active { background: rgba(255,255,255,0.04); }
+  .sched-label .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .sched-row.type-script .dot { background: var(--script-label); }
+  .sched-row.type-cue .dot { background: var(--cue-label); }
+  .sched-row.type-break .dot { background: var(--break-label); }
+  .sched-label .l-text { flex: 1; }
+  .sched-label .chev { color: var(--dim); font-size: 13px; }
+
+  .sched-footer { flex-shrink: 0; border-top: 1px solid var(--line); padding: 12px 16px calc(14px + env(safe-area-inset-bottom, 0px)) 16px; }
+  #reset-times {
+    width: 100%; padding: 11px; margin-bottom: 12px;
+    background: transparent; border: 1px solid var(--dim); border-radius: 10px;
+    color: var(--cue-text); font-family: inherit; font-size: 14px; cursor: pointer;
   }
-  .menu-item.type-script .dot { background: #f2ede1; }
-  .menu-item.type-cue .dot { background: var(--cue-label); }
-  .menu-item.type-break .dot { background: var(--break-label); }
-  .menu-item.current { color: var(--script-label); }
-  .menu-item .lbl { flex: 1; }
+  #reset-times:active { background: rgba(255,255,255,0.05); }
+  .cut-order { background: rgba(255,255,255,0.03); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; }
+  .cut-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--cue-label); margin-bottom: 8px; }
+  .cut-order ol { margin: 0; padding-left: 20px; color: var(--cue-text); font-size: 14px; line-height: 1.6; }
 </style>
 </head>
 <body>
 
 <div id="app">
-  <div class="topbar">
-    <button class="menu-btn" id="menuBtn" aria-label="Meny">⋮</button>
+  <div class="tabs">
+    <button class="tab active" data-view="cards" id="tab-cards">Manus</button>
+    <button class="tab" data-view="schedule" id="tab-schedule">Schema</button>
   </div>
 
-  <div class="viewport" id="viewport">
-    <div class="tap-zone left" id="tapLeft"></div>
-    <div class="tap-zone right" id="tapRight"></div>
+  <!-- CARD VIEW -->
+  <div id="card-view" class="view active">
+    <div class="viewport" id="viewport">
+      <div class="tap-zone left" id="tapLeft"></div>
+      <div class="tap-zone right" id="tapRight"></div>
+    </div>
+    <div class="cardbar">
+      <span class="position" id="position"></span>
+      <span id="card-delta"></span>
+    </div>
   </div>
 
-  <div class="position" id="position"></div>
-</div>
-
-<div class="menu-overlay" id="menuOverlay">
-  <div class="menu-header">
-    <span class="menu-title">Alla kort</span>
-    <button class="menu-close" id="menuClose" aria-label="Stäng">×</button>
+  <!-- SCHEDULE VIEW -->
+  <div id="schedule-view" class="view">
+    <div class="sched-status">
+      <div class="sched-now" id="sched-now"></div>
+      <div class="sched-delta" id="sched-delta"></div>
+      <div class="sched-hint">Tryck på en tid för att ändra den.</div>
+    </div>
+    <div class="sched-list" id="sched-list"></div>
+    <div class="sched-footer">
+      <button id="reset-times">Återställ alla tider</button>
+      <div class="cut-order">
+        <div class="cut-title">Strykordning vid tidsbrist</div>
+        <ol>
+          <li>Uppgångslåtarna</li>
+          <li>Medley del 2 (kort 12)</li>
+          <li>Richard och Jaanas presentation (kort 14)</li>
+          <li>Filmen (kort 18) flyttas till minglet efter middagen</li>
+        </ol>
+      </div>
+    </div>
   </div>
-  <div class="menu-list" id="menuList"></div>
 </div>
 
 <script>
@@ -289,12 +271,14 @@ const DATA = {
     {
       "id": 1,
       "type": "cue",
+      "time": "17.00",
       "label": "Innan du börjar",
       "text": "Vänta tills alla sitter. Fånga blicken hos brudparet. Andas ut. Din totala taltid ikväll är elva minuter — du har gott om tid."
     },
     {
       "id": 2,
       "type": "script",
+      "time": "17.05",
       "label": "1 — Öppning + välkomstskål",
       "text": "Ladies and gentlemen — this is your toastmaster speaking. My name is Paul. We have a turbulent evening ahead of us, with a flight time of around four hours. The weather at the destination is the same as here: glorious. The in-flight entertainment system is packed to the brim — emotional dramas, game shows, musicals, and at least one documentary I have not been allowed to preview. Bathrooms are at the entrance, life vests are under your seats, and remember to wipe your own tears before assisting the person next to you. Let's raise a glass before we begin. To the gorgeous couple — Amaru and Josephine!",
       "note": "Lägg in praktisk info här om det behövs. Höj glaset tydligt så rummet följer med."
@@ -302,6 +286,7 @@ const DATA = {
     {
       "id": 3,
       "type": "script",
+      "time": "17.10",
       "label": "2 — Mette + Morten, tal",
       "text": "They gave her wings so she could fly,\nand love to reach the open sky.\nA root to hold along the way,\nfrom first steps to her wedding day.\n\nThe first speakers of the evening are Josephine's lookalikes — I mean parents — Mette and Morten!",
       "note": "Läs dikten långsamt. Paus före sista raden."
@@ -309,131 +294,169 @@ const DATA = {
     {
       "id": 4,
       "type": "break",
-      "label": "Paus",
-      "text": "Förrätten serveras. Cirka 10 minuter.",
+      "time": "17.20",
+      "label": "Förrätten serveras",
+      "text": "Cirka 30 minuter. Ingen programpunkt.",
       "note": "Stäm av med köket att varmrätten ligger i fas."
     },
     {
       "id": 5,
       "type": "script",
+      "time": "17.50",
       "label": "3 — Amaru, brudgummens tal",
       "text": "Our next speaker is my best friend in the world. As a ten-year-old I proudly walked onto the schoolyard of my new school with a bag full of glass marbles — only to find out that at this school you were supposed to play Pokémon on a Gameboy. Amaru was the one who put his Gameboy aside, said hi, and took me under his wing. In 2016 I was demoted to second place after Josephine, and in 2022 I dropped to third when Mumrik joined the family. But you're still at the top of my list. Ladies and gentlemen — the groom!",
       "note": "Säg inte hans namn för tidigt. Rummet ska tro att det är en kompis."
     },
     {
       "id": 6,
-      "type": "script",
-      "label": "4 — Anne-Marie + Signe, medley del 1",
-      "text": "The seatbelt sign is now on. What follows is a musical number in three parts, which means it will be interrupting your meal at regular intervals for the rest of the flight. Cabin crew, prepare champagne. Anne-Marie and Signe!",
-      "note": "Champagnen — se till att flaskor och glas är framme innan du börjar prata."
+      "type": "cue",
+      "time": "17.58",
+      "label": "Andas",
+      "text": "Låt applåderna klinga ut helt innan du fortsätter. Amarus föräldrar ska inte behöva följa direkt på hans tal — ge dem tio sekunders tystnad."
     },
     {
       "id": 7,
-      "type": "break",
-      "label": "Andrum",
-      "text": "Cirka 10 minuter. Folk äter och pratar."
-    },
-    {
-      "id": 8,
       "type": "script",
-      "label": "5 — Katarina + Salustio, tal",
+      "time": "18.00",
+      "label": "4 — Katarina + Salustio, tal",
       "text": "In my head I spent as much time in Amaru's kitchen as I did in my own. That can't be true — but that's how I remember it. In the Cuba Gyllensten household you were never treated as a guest. The table just got longer. The next speakers formed Amaru into the person he is today — and honestly had a big hand in shaping me too. Please welcome the most welcoming people I know — Katarina and Salustio!"
     },
     {
-      "id": 9,
+      "id": 8,
       "type": "break",
+      "time": "18.05",
       "label": "Andrum",
-      "text": "Cirka 10 minuter."
+      "text": "Cirka 25 minuter. Folk äter, pratar, går på toa.",
+      "note": "Se till att champagne och glas är framme inför nästa punkt."
+    },
+    {
+      "id": 9,
+      "type": "script",
+      "time": "18.30",
+      "label": "5 — Anne-Marie + Signe, medley del 1",
+      "text": "The seatbelt sign is now on. What follows is a musical number in three parts, which means it will be interrupting your meal at regular intervals for the rest of the flight. Cabin crew, prepare champagne. Anne-Marie and Signe!",
+      "note": "Champagnen. Kontrollera att flaskorna är framme innan du börjar prata."
     },
     {
       "id": 10,
       "type": "script",
-      "label": "6 — Anne-Marie + Signe, medley del 2",
-      "text": "We're now passing through the second band of turbulence. Please remain seated. Anne-Marie and Signe, part two!",
-      "note": "Varmrätten serveras under. Detta är första strykningen om ni ligger efter."
-    },
-    {
-      "id": 11,
-      "type": "break",
-      "label": "Ät i lugn och ro",
-      "text": "Låt gästerna äta ostört en stund."
-    },
-    {
-      "id": 12,
-      "type": "script",
-      "label": "7 — Severin, quiz",
+      "time": "18.40",
+      "label": "6 — Severin, quiz",
       "text": "Our next speaker is a childhood friend of Amaru's, and a qualified psychologist. He has prepared a scientific compatibility assessment. It has not been peer reviewed. I'm told that's not required at a wedding. Josephine, Amaru: you are the subjects. There is no control group and there is no right of appeal. Severin!",
       "note": "Cirka 10 min. Severin sköter allt själv — gå undan."
     },
     {
-      "id": 13,
+      "id": 11,
+      "type": "break",
+      "time": "18.55",
+      "label": "Andrum",
+      "text": "Cirka 20 minuter."
+    },
+    {
+      "id": 12,
       "type": "script",
+      "time": "19.15",
+      "label": "7 — Anne-Marie + Signe, medley del 2",
+      "text": "We're now passing through the second band of turbulence. Please remain seated. Anne-Marie and Signe, part two!",
+      "note": "Varmrätten serveras under. Detta är första strykningen om ni ligger efter."
+    },
+    {
+      "id": 13,
+      "type": "break",
+      "time": "19.45",
+      "label": "Ät i lugn och ro",
+      "text": "Cirka 20 minuter utan program."
+    },
+    {
+      "id": 14,
+      "type": "script",
+      "time": "20.05",
       "label": "8 — Richard + Jaana, presentation",
       "text": "For the next segment — I've commissioned a team with long-standing careers in psychology and communications to analyse and present Amaru and Josephine's relationship in a visual format. Consider it a second opinion. Please give it up for Richard and Jaana!",
       "note": "Måste komma efter Severin — \"second opinion\" hänger på det."
     },
     {
-      "id": 14,
-      "type": "script",
-      "label": "Skål till föräldrarna + tack till köket",
-      "text": "Improvisera kort. Höj ett glas för båda föräldraparen, tacka köket och personalen vid namn om du kan.",
-      "note": "Cirka en minut. Sedan andrum, cirka 10 min."
-    },
-    {
       "id": 15,
       "type": "script",
-      "label": "9 — Ollanta + Karin, tal",
-      "text": "As a ten-year-old, Amaru's brothers were the coolest people in the world — and sort of intimidating. I'm not going to lie, I'm a little bit starstruck here tonight. Our next speaker has been Amaru's older brother, then roommate, then neighbour, then brother again. I'm starting to realize he might be ahead of me in the Best Friend competition — that's me down to fourth. Welcome to the stage — Ollanta, and his lovely wife Karin!"
+      "time": "20.15",
+      "label": "9 — Anne-Marie + Signe, medley del 3",
+      "text": "Third and final instalment. And this time it's for everybody — you don't need to be good, you need to be loud. Anne-Marie and Signe!",
+      "note": "OBS: inte längre finalen. Ingen \"final descent\" här — den repliken hör hemma i slutskålen."
     },
     {
       "id": 16,
-      "type": "script",
-      "label": "10 — Illapha, tal",
-      "text": "And now — the eldest son of House Cuba Gyllensten, first of his name, rightful heir to the Peruvian-Swedish throne, protector of the realm, and yet another contender for best friend. I'm now at fifth place. Illapha!",
-      "note": "Leverera titlarna med pompa. Sedan tallrikar ut."
+      "type": "break",
+      "time": "20.25",
+      "label": "Andrum",
+      "text": "Cirka 25 minuter. Tallrikar ut.",
+      "note": "Skål till föräldrarna och tack till köket ca 20.35 — se nästa kort."
     },
     {
       "id": 17,
       "type": "script",
-      "label": "11 — Mathias, tal",
-      "text": "When our friend group first met Josephine, a number of us were terrified. She was a cool kid, and we were... trying our best. But underneath all that effortless cool, she's the warmest, most laid-back and loyal friend you could ask for. We haven't made her any less cool — though I'd like to think a little of it rubbed off on us.\n\nOur next speaker knew her long before any of that. A witness to the awkward years. Her brother — Mathias!",
-      "note": "Pausen efter \"and we were...\" är hela skämtet. Ta den."
+      "time": "20.35",
+      "label": "Skål till föräldrarna + tack till köket",
+      "text": "Improvisera kort. Höj ett glas för båda föräldraparen, tacka köket och personalen vid namn om du kan.",
+      "note": "Cirka en minut. Sedan tillbaka till andrum."
     },
     {
       "id": 18,
       "type": "script",
-      "label": "12 — Mette + Morten, sång",
-      "text": "We began this evening with Mette and Morten, and they've asked for one more moment — though not in speech form this time. Mette and Morten."
-    },
-    {
-      "id": 19,
-      "type": "break",
-      "label": "Paus",
-      "text": "Cirka 10 minuter. Kaffe, folk rör på sig."
-    },
-    {
-      "id": 20,
-      "type": "script",
-      "label": "13 — Svensexefilmen",
+      "time": "20.50",
+      "label": "10 — Svensexefilmen",
       "text": "You can't just let a man get married. There are procedures. Regulations. This is the documentary — a world premiere, never shown before and never to be shown again. A film by Severin.",
       "note": "Cirka 6 min. Kolla att uppspelningen fungerar innan du säger något."
     },
     {
-      "id": 21,
+      "id": 19,
       "type": "script",
-      "label": "14 — Anne-Marie + Signe, medley del 3 (allsång)",
-      "text": "We have begun our final descent. Please return your seat backs to the upright position — and this time, everybody sings. You don't need to be good. You need to be loud. Anne-Marie and Signe!"
+      "time": "21.00",
+      "label": "11 — Ollanta + Karin, tal",
+      "text": "As a ten-year-old, Amaru's brothers were the coolest people in the world — and sort of intimidating. I'm not going to lie, I'm a little bit starstruck here tonight. Our next speaker has been Amaru's older brother, then roommate, then neighbour, then brother again. I'm starting to realize he might be ahead of me in the Best Friend competition — that's me down to fourth. Welcome to the stage — Ollanta, and his lovely wife Karin!",
+      "note": "Desserten serveras nu."
+    },
+    {
+      "id": 20,
+      "type": "script",
+      "time": "21.10",
+      "label": "12 — Illapha, tal",
+      "text": "And now — the eldest son of House Cuba Gyllensten, first of his name, rightful heir to the Peruvian-Swedish throne, protector of the realm, and yet another contender for best friend. I'm now at fifth place. Illapha!",
+      "note": "Leverera titlarna med pompa."
+    },
+    {
+      "id": 21,
+      "type": "break",
+      "time": "21.20",
+      "label": "Kaffe, kort paus",
+      "text": "Cirka 15 minuter. Folk rör på sig."
     },
     {
       "id": 22,
       "type": "script",
-      "label": "15 — Slutskål",
-      "text": "That's the last of them. And if we include Jaana, Richard and Severin as claimants, I'm down to eighth. I'd like to stop before I leave the list entirely. Ladies and gentlemen, we have arrived. On behalf of the entire crew, thank you for flying with Josephine and Amaru. Raise your glasses — to the two of them. The bar is open, and the floor is yours.",
-      "note": "Håll den kort. DJ:n startar direkt efter."
+      "time": "21.35",
+      "label": "13 — Mathias, tal",
+      "text": "When our friend group first met Josephine, a number of us were terrified. She was a cool kid, and we were... trying our best. But underneath all that effortless cool, she's the warmest, most laid-back and loyal friend you could ask for. We haven't made her any less cool — though I'd like to think a little of it rubbed off on us.\n\nOur next speaker knew her long before any of that. A witness to the awkward years. Her brother — Mathias!",
+      "note": "Pausen efter \"and we were...\" är hela skämtet. Ta den."
     },
     {
       "id": 23,
+      "type": "script",
+      "time": "21.45",
+      "label": "14 — Mette + Morten, sång",
+      "text": "We began this evening with Mette and Morten, and they've asked for one more moment — though not in speech form this time. Mette and Morten."
+    },
+    {
+      "id": 24,
+      "type": "script",
+      "time": "21.55",
+      "label": "15 — Slutskål",
+      "text": "That's the last of them. And if we include Jaana, Richard and Severin as claimants, I'm down to eighth. I'd like to stop before I leave the list entirely. Ladies and gentlemen, we have begun our final descent — and we have arrived. On behalf of the entire crew, thank you for flying with Josephine and Amaru. Raise your glasses — to the two of them. The bar is open, and the floor is yours.",
+      "note": "Håll den kort. DJ:n startar direkt efter."
+    },
+    {
+      "id": 25,
       "type": "cue",
+      "time": "22.00",
       "label": "Klart",
       "text": "Dansgolvet öppnar. Ditt jobb är gjort. Ta ett glas."
     }
@@ -442,35 +465,71 @@ const DATA = {
 
 const CARDS = DATA.cards;
 const TOTAL = CARDS.length;
-const STORAGE_KEY = 'toastmaster_card_index';
+const IDX_KEY = 'toastmaster_card_index';
+const TIMES_KEY = 'toastmaster_times_v1';
 
-const viewport = document.getElementById('viewport');
-const positionEl = document.getElementById('position');
-const menuBtn = document.getElementById('menuBtn');
-const menuOverlay = document.getElementById('menuOverlay');
-const menuClose = document.getElementById('menuClose');
-const menuList = document.getElementById('menuList');
-const tapLeft = document.getElementById('tapLeft');
-const tapRight = document.getElementById('tapRight');
+/* ── time overrides ── */
+let timeOverrides = {};
+function loadTimes() {
+  try {
+    const s = JSON.parse(localStorage.getItem(TIMES_KEY));
+    if (s && typeof s === 'object') timeOverrides = s;
+  } catch (e) {}
+}
+function saveTimes() { try { localStorage.setItem(TIMES_KEY, JSON.stringify(timeOverrides)); } catch (e) {} }
+function effectiveTime(id) {
+  return Object.prototype.hasOwnProperty.call(timeOverrides, id) ? timeOverrides[id] : CARDS.find(c => c.id === id).time;
+}
+function timeToMin(t) {
+  const m = /^(\d{1,2})[.:](\d{2})$/.exec((t || '').trim());
+  if (!m) return null;
+  const h = parseInt(m[1], 10), mi = parseInt(m[2], 10);
+  if (h > 29 || mi > 59) return null;
+  return h * 60 + mi;
+}
+function nowMin() { const d = new Date(); return d.getHours() * 60 + d.getMinutes(); }
+function pad2(n) { return String(n).padStart(2, '0'); }
+
+/* ── live status (ahead/behind for the current card) ── */
+function deltaFor(id, opts) {
+  opts = opts || {};
+  const t = timeToMin(effectiveTime(id));
+  if (t == null) return { cls: 'ontime', text: '' };
+  const d = nowMin() - t;
+  const abs = Math.abs(d);
+  if (abs < 1) return { cls: 'ontime', text: 'i fas med schemat' };
+  const unit = opts.short ? 'min' : (abs === 1 ? 'minut' : 'minuter');
+  return { cls: d > 0 ? 'behind' : 'ahead', text: abs + ' ' + unit + (d > 0 ? ' efter schemat' : ' före schemat') };
+}
+
+const els = {
+  viewport: document.getElementById('viewport'),
+  position: document.getElementById('position'),
+  cardDelta: document.getElementById('card-delta'),
+  schedList: document.getElementById('sched-list'),
+  schedNow: document.getElementById('sched-now'),
+  schedDelta: document.getElementById('sched-delta')
+};
 
 let cur = loadIndex();
 let currentEl = null;
+let currentView = 'cards';
 
 function loadIndex() {
-  try {
-    const saved = parseInt(localStorage.getItem(STORAGE_KEY), 10);
-    if (!isNaN(saved) && saved >= 0 && saved < TOTAL) return saved;
-  } catch (e) {}
+  try { const n = parseInt(localStorage.getItem(IDX_KEY), 10); if (!isNaN(n) && n >= 0 && n < TOTAL) return n; } catch (e) {}
   return 0;
 }
+function saveIndex(i) { try { localStorage.setItem(IDX_KEY, String(i)); } catch (e) {} }
 
-function saveIndex(i) {
-  try { localStorage.setItem(STORAGE_KEY, String(i)); } catch (e) {}
-}
-
+/* ══ CARD VIEW ══ */
 function buildCardEl(card) {
   const el = document.createElement('div');
   el.className = 'card card--' + card.type;
+
+  const time = document.createElement('div');
+  time.className = 'card-time';
+  time.innerHTML = '<b>' + effectiveTime(card.id) + '</b>';
+  el.appendChild(time);
 
   const inner = document.createElement('div');
   inner.className = 'card-inner';
@@ -495,162 +554,196 @@ function buildCardEl(card) {
   return el;
 }
 
-function render(dir) {
-  const card = CARDS[cur];
-  const newEl = buildCardEl(card);
-
+function renderCard(dir) {
+  const newEl = buildCardEl(CARDS[cur]);
   if (currentEl) {
     if (dir === 1) {
       newEl.classList.add('entering-right');
-      viewport.appendChild(newEl);
+      els.viewport.appendChild(newEl);
       requestAnimationFrame(() => {
-        currentEl.classList.add('leaving-left');
-        currentEl.classList.remove('active');
-        newEl.classList.remove('entering-right');
-        newEl.classList.add('active');
+        currentEl.classList.add('leaving-left'); currentEl.classList.remove('active');
+        newEl.classList.remove('entering-right'); newEl.classList.add('active');
       });
     } else if (dir === -1) {
       newEl.classList.add('entering-left');
-      viewport.appendChild(newEl);
+      els.viewport.appendChild(newEl);
       requestAnimationFrame(() => {
-        currentEl.classList.add('leaving-right');
-        currentEl.classList.remove('active');
-        newEl.classList.remove('entering-left');
-        newEl.classList.add('active');
+        currentEl.classList.add('leaving-right'); currentEl.classList.remove('active');
+        newEl.classList.remove('entering-left'); newEl.classList.add('active');
       });
     } else {
-      newEl.classList.add('active');
-      viewport.appendChild(newEl);
+      newEl.classList.add('active'); els.viewport.appendChild(newEl);
     }
     const old = currentEl;
     setTimeout(() => { if (old && old.parentNode) old.parentNode.removeChild(old); }, 320);
   } else {
-    newEl.classList.add('active');
-    viewport.appendChild(newEl);
+    newEl.classList.add('active'); els.viewport.appendChild(newEl);
   }
-
   currentEl = newEl;
-  positionEl.textContent = (cur + 1) + ' / ' + TOTAL;
+  els.position.textContent = (cur + 1) + ' / ' + TOTAL;
   saveIndex(cur);
-  renderMenuHighlight();
+  updateLiveStatus();
 }
-
-function goTo(i, dir) {
-  if (i < 0 || i >= TOTAL || i === cur) return;
-  cur = i;
-  render(dir);
-}
-
+function goTo(i, dir) { if (i < 0 || i >= TOTAL || i === cur) return; cur = i; renderCard(dir); }
 function next() { goTo(cur + 1, 1); }
 function prev() { goTo(cur - 1, -1); }
 
-/* ── keyboard ── */
-document.addEventListener('keydown', e => {
-  if (menuOverlay.classList.contains('open')) {
-    if (e.key === 'Escape') closeMenu();
-    return;
+/* ══ SCHEDULE VIEW ══ */
+function buildSchedule() {
+  els.schedList.innerHTML = '';
+  CARDS.forEach((card, i) => {
+    const row = document.createElement('div');
+    row.className = 'sched-row type-' + card.type;
+    row.dataset.index = i;
+
+    const input = document.createElement('input');
+    input.className = 'time-input';
+    input.type = 'text';
+    input.value = effectiveTime(card.id);
+    input.setAttribute('aria-label', 'Tid för ' + card.label);
+    input.addEventListener('focus', () => input.select());
+    input.addEventListener('change', () => commitTime(card.id, input));
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') { input.blur(); } });
+    row.appendChild(input);
+
+    const btn = document.createElement('button');
+    btn.className = 'sched-label';
+    btn.innerHTML = '<span class="dot"></span><span class="l-text"></span><span class="chev">›</span>';
+    btn.querySelector('.l-text').textContent = card.label;
+    btn.addEventListener('click', () => jumpToCard(i));
+    row.appendChild(btn);
+
+    els.schedList.appendChild(row);
+  });
+  updateLiveStatus();
+}
+
+function commitTime(id, input) {
+  const min = timeToMin(input.value);
+  if (min == null) { input.value = effectiveTime(id); return; }
+  const norm = pad2(Math.floor(min / 60)) + '.' + pad2(min % 60);
+  timeOverrides[id] = norm;
+  input.value = norm;
+  saveTimes();
+  // reflect on the current card's corner time if it's this card
+  if (currentEl && CARDS[cur].id === id) {
+    const t = currentEl.querySelector('.card-time');
+    if (t) t.innerHTML = '<b>' + norm + '</b>';
   }
+  updateLiveStatus();
+}
+
+function resetTimes() {
+  if (!confirm('Återställ alla tider till ursprungsvärdena?')) return;
+  timeOverrides = {};
+  saveTimes();
+  els.schedList.querySelectorAll('.sched-row').forEach((row, i) => {
+    row.querySelector('.time-input').value = effectiveTime(CARDS[i].id);
+  });
+  if (currentEl) {
+    const t = currentEl.querySelector('.card-time');
+    if (t) t.innerHTML = '<b>' + effectiveTime(CARDS[cur].id) + '</b>';
+  }
+  updateLiveStatus();
+}
+
+function jumpToCard(i) {
+  cur = i;
+  saveIndex(cur);
+  switchView('cards');
+  // rebuild the visible card without a slide animation
+  if (currentEl && currentEl.parentNode) currentEl.parentNode.removeChild(currentEl);
+  currentEl = null;
+  renderCard(0);
+}
+
+function currentRowIndex() {
+  const now = nowMin();
+  let idx = -1;
+  for (let i = 0; i < CARDS.length; i++) {
+    const t = timeToMin(effectiveTime(CARDS[i].id));
+    if (t == null) continue;
+    if (t <= now) idx = i; else break;
+  }
+  return idx;
+}
+
+function updateLiveStatus() {
+  // card-view delta chip (for the card you're on)
+  const d = deltaFor(CARDS[cur].id, { short: true });
+  els.cardDelta.textContent = d.text;
+  els.cardDelta.className = '';
+  els.cardDelta.classList.add(d.cls);
+
+  // schedule view
+  if (els.schedNow) {
+    const n = new Date();
+    els.schedNow.innerHTML = 'Klockan är <b>' + pad2(n.getHours()) + '.' + pad2(n.getMinutes()) + '</b>';
+    const dl = deltaFor(CARDS[cur].id, {});
+    els.schedDelta.textContent = dl.text ? ('Kort ' + (cur + 1) + ' — ' + dl.text) : '';
+    els.schedDelta.className = 'sched-delta ' + dl.cls;
+  }
+  if (els.schedList) {
+    const ci = currentRowIndex();
+    els.schedList.querySelectorAll('.sched-row').forEach((row, i) => {
+      row.classList.toggle('current', i === ci);
+    });
+  }
+}
+
+/* ── view switching ── */
+function switchView(view) {
+  currentView = view;
+  document.getElementById('card-view').classList.toggle('active', view === 'cards');
+  document.getElementById('schedule-view').classList.toggle('active', view === 'schedule');
+  document.getElementById('tab-cards').classList.toggle('active', view === 'cards');
+  document.getElementById('tab-schedule').classList.toggle('active', view === 'schedule');
+  updateLiveStatus();
+}
+document.getElementById('tab-cards').addEventListener('click', () => switchView('cards'));
+document.getElementById('tab-schedule').addEventListener('click', () => switchView('schedule'));
+document.getElementById('reset-times').addEventListener('click', resetTimes);
+
+/* ── keyboard (card view only) ── */
+document.addEventListener('keydown', e => {
+  if (currentView !== 'cards') return;
+  if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
   if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); next(); }
   if (e.key === 'ArrowLeft') { e.preventDefault(); prev(); }
 });
 
 /* ── swipe ── */
-let touchStartX = 0, touchStartY = 0, touching = false;
-viewport.addEventListener('touchstart', e => {
+let tsx = 0, tsy = 0, touching = false;
+els.viewport.addEventListener('touchstart', e => {
   if (e.touches.length !== 1) return;
-  touching = true;
-  touchStartX = e.touches[0].clientX;
-  touchStartY = e.touches[0].clientY;
+  touching = true; tsx = e.touches[0].clientX; tsy = e.touches[0].clientY;
 }, { passive: true });
-
-viewport.addEventListener('touchend', e => {
-  if (!touching) return;
-  touching = false;
-  const dx = e.changedTouches[0].clientX - touchStartX;
-  const dy = e.changedTouches[0].clientY - touchStartY;
-  if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) {
-    if (dx < 0) next(); else prev();
-  }
+els.viewport.addEventListener('touchend', e => {
+  if (!touching) return; touching = false;
+  const dx = e.changedTouches[0].clientX - tsx, dy = e.changedTouches[0].clientY - tsy;
+  if (Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy)) { if (dx < 0) next(); else prev(); }
 }, { passive: true });
+document.getElementById('tapLeft').addEventListener('click', prev);
+document.getElementById('tapRight').addEventListener('click', next);
 
-/* ── tap zones (desktop / fallback) ── */
-tapLeft.addEventListener('click', prev);
-tapRight.addEventListener('click', next);
-
-/* ── menu ── */
-function buildMenu() {
-  menuList.innerHTML = '';
-  CARDS.forEach((card, i) => {
-    const item = document.createElement('button');
-    item.className = 'menu-item type-' + card.type;
-    item.dataset.index = i;
-
-    const idx = document.createElement('span');
-    idx.className = 'idx';
-    idx.textContent = i + 1;
-    item.appendChild(idx);
-
-    const dot = document.createElement('span');
-    dot.className = 'dot';
-    item.appendChild(dot);
-
-    const lbl = document.createElement('span');
-    lbl.className = 'lbl';
-    lbl.textContent = card.label;
-    item.appendChild(lbl);
-
-    item.addEventListener('click', () => {
-      const i2 = parseInt(item.dataset.index, 10);
-      const dir = i2 > cur ? 1 : (i2 < cur ? -1 : 0);
-      cur = i2;
-      render(dir);
-      closeMenu();
-    });
-    menuList.appendChild(item);
-  });
-}
-
-function renderMenuHighlight() {
-  const items = menuList.querySelectorAll('.menu-item');
-  items.forEach((item, i) => item.classList.toggle('current', i === cur));
-}
-
-function openMenu() {
-  buildMenu();
-  renderMenuHighlight();
-  menuOverlay.classList.add('open');
-  const currentItem = menuList.querySelector('.menu-item.current');
-  if (currentItem) currentItem.scrollIntoView({ block: 'center' });
-}
-function closeMenu() { menuOverlay.classList.remove('open'); }
-
-menuBtn.addEventListener('click', openMenu);
-menuClose.addEventListener('click', closeMenu);
-menuOverlay.addEventListener('click', e => { if (e.target === menuOverlay) closeMenu(); });
-
-/* ── wake lock (silent fallback) ── */
+/* ── wake lock ── */
 let wakeLock = null;
 async function requestWakeLock() {
-  try {
-    if ('wakeLock' in navigator) {
-      wakeLock = await navigator.wakeLock.request('screen');
-    }
-  } catch (e) { /* unsupported or blocked — silently ignore */ }
+  try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch (e) {}
 }
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'visible') requestWakeLock();
-});
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') requestWakeLock(); });
 requestWakeLock();
 
 /* ── service worker ── */
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  });
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
 }
 
 /* ── init ── */
-render(0);
+loadTimes();
+buildSchedule();
+renderCard(0);
+setInterval(updateLiveStatus, 20000);
 </script>
 </body>
 </html>
