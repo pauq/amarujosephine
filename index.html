@@ -2,6 +2,7 @@
 <html lang="sv">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>💘 AMARU & JOSEPHINE 💘 DEN ULTIMATA KÄRLEKSHISTORIEN</title>
   <style>
     /* ====== VÄLKOMMEN TILL INTERNETS HÄFTIGASTE HEMSIDA 1997 ====== */
@@ -14,6 +15,7 @@
       color: #00FF00;
       overflow: hidden;
       height: 100vh;
+      height: 100dvh;
       width: 100vw;
     }
 
@@ -153,18 +155,19 @@
     }
     .nav-btn {
       font-family: 'Comic Sans MS', cursive;
-      font-size: 1em;
-      padding: 6px 18px;
+      font-size: clamp(1.1em, 2.4vw, 1.9em);
+      padding: clamp(12px, 1.6vw, 22px) clamp(24px, 3.4vw, 48px);
       background: #000000;
       color: #00FF00;
-      border: 3px solid #00FF00;
+      border: 4px solid #00FF00;
       cursor: pointer;
       text-shadow: 0 0 8px #00FF00;
       box-shadow: 0 0 8px #00FF00;
       transition: background 0.15s, color 0.15s;
+      min-height: 48px;
     }
     .nav-btn:hover { background: #00FF00; color: #000; }
-    .slide-counter { color: #FFFF00; font-size: 0.95em; text-shadow: 0 0 5px #FFFF00; }
+    .slide-counter { color: #FFFF00; font-size: clamp(1em, 1.6vw, 1.4em); text-shadow: 0 0 5px #FFFF00; }
 
     /* ── Hit counter ── */
     .hit-counter {
@@ -190,11 +193,11 @@
     }
     .lang-btn {
       font-family: 'Comic Sans MS', cursive;
-      font-size: 1em;
-      padding: 3px 7px;
+      font-size: clamp(1.2em, 2vw, 1.8em);
+      padding: clamp(6px, 0.9vw, 12px) clamp(10px, 1.4vw, 18px);
       background: #000;
       color: #00FF00;
-      border: 2px solid #00FF00;
+      border: 3px solid #00FF00;
       cursor: pointer;
       box-shadow: 0 0 5px #00FF00;
       line-height: 1;
@@ -223,10 +226,10 @@
     .polaroid:nth-child(2) { transform: rotate(2deg); }
     .polaroid:nth-child(3) { transform: rotate(-1.5deg); }
 
-    .polaroid.xs img { width: 240px; height: 255px; object-fit: cover; display: block; }
-    .polaroid.sm img { width: 290px; height: 310px; object-fit: cover; display: block; }
-    .polaroid.md img { width: 360px; height: 395px; object-fit: cover; display: block; }
-    .polaroid.lg img { width: 440px; height: 480px; object-fit: cover; display: block; }
+    .polaroid.xs img { width: clamp(190px, 21vw, 420px); aspect-ratio: 240 / 255; object-fit: cover; display: block; }
+    .polaroid.sm img { width: clamp(220px, 25vw, 480px); aspect-ratio: 290 / 310; object-fit: cover; display: block; }
+    .polaroid.md img { width: clamp(260px, 31vw, 600px); aspect-ratio: 360 / 395; object-fit: cover; display: block; }
+    .polaroid.lg img { width: clamp(300px, 37vw, 720px); aspect-ratio: 440 / 480; object-fit: cover; display: block; }
 
     .polaroid .caption {
       text-align: center;
@@ -250,8 +253,8 @@
     .char-card {
       background: rgba(0,0,0,0.75);
       border: 3px solid;
-      padding: 12px;
-      width: 265px;
+      padding: clamp(12px, 1.4vw, 22px);
+      width: clamp(265px, 26vw, 480px);
       text-align: left;
       flex-shrink: 0;
     }
@@ -267,13 +270,13 @@
     .josephine .char-name { color: #00FFFF; text-shadow: 0 0 10px #00FFFF; }
     .char-card img {
       width: 100%;
-      height: 250px;
+      height: clamp(250px, 26vw, 480px);
       object-fit: cover;
       object-position: center top;
       margin-bottom: 8px;
       display: block;
     }
-    .stat { color: #FFFF00; font-size: 0.8em; margin: 3px 0; }
+    .stat { color: #FFFF00; font-size: clamp(0.8em, 1vw, 1.05em); margin: 3px 0; }
     .stat span { color: #FFFFFF; }
     .love-bar-wrap { background: #333; border: 1px solid #fff; height: 12px; margin: 4px 0; }
     .love-bar {
@@ -292,11 +295,11 @@
     }
 
     .couple-finale {
-      max-height: 68vh;
-      max-width: 70vw;
+      max-height: 78vh;
+      max-width: 82vw;
       object-fit: cover;
-      border: 6px solid #FFFFFF;
-      box-shadow: 0 0 50px rgba(255,255,255,0.4), 0 0 100px rgba(255,255,255,0.2);
+      border: 8px solid #FFFFFF;
+      box-shadow: 0 0 60px rgba(255,255,255,0.45), 0 0 120px rgba(255,255,255,0.25);
     }
 
     .game-over {
@@ -331,6 +334,35 @@
     .cyan      { color: #00FFFF; }
     .pink      { color: #FF69B4; }
     .neon-tag  { display: inline-block; background: #FF00FF; color: #000; padding: 2px 10px; font-weight: bold; font-size: 0.82em; }
+
+    /* ══════════════════════════════════
+       MOBILE
+    ══════════════════════════════════ */
+    @media (max-width: 760px) {
+      body { overflow-y: auto; overflow-x: hidden; height: auto; min-height: 100dvh; }
+      .slideshow { height: auto; min-height: 100dvh; }
+      .slide {
+        position: relative; inset: auto;
+        min-height: 100dvh;
+        padding: 68px 12px 150px 12px;
+        overflow: visible;
+      }
+      canvas#stars { position: fixed; }
+      .hit-counter { display: none; }
+      .lang-toggle { top: 6px; left: 6px; flex-wrap: wrap; max-width: 60vw; }
+      .lang-btn { font-size: 1.1em; padding: 5px 8px; }
+      .chars-row, .photo-row, .row { flex-direction: column; align-items: center; }
+      .vs-text { margin: 4px 0; }
+      .polaroid.xs img, .polaroid.sm img, .polaroid.md img, .polaroid.lg img {
+        width: min(84vw, 380px);
+      }
+      .char-card { width: min(90vw, 400px); }
+      .char-card img { height: min(84vw, 380px); }
+      .couple-finale { max-width: 92vw; max-height: 55vh; }
+      .marquee-bar { bottom: 66px; font-size: 0.85em; padding: 8px 0; }
+      .nav { bottom: 6px; padding: 0 10px; }
+      .nav-btn { font-size: 1.1em; padding: 12px 20px; }
+    }
   </style>
 </head>
 <body>

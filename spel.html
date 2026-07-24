@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>💘 DO YOU KNOW YOUR SPOUSE? 💘</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Comic Sans MS', 'Chalkboard SE', cursive;
       background: #000022; color: #00FF00;
-      overflow: hidden; height: 100vh; width: 100vw;
+      overflow: hidden; height: 100vh; height: 100dvh; width: 100vw;
     }
     canvas#stars { position: fixed; top: 0; left: 0; z-index: 0; pointer-events: none; }
     .slideshow { position: relative; width: 100vw; height: 100vh; z-index: 1; }
@@ -36,35 +37,36 @@
     /* ── Live scoreboard widget (always visible) ── */
     #scoreboard {
       position: fixed;
-      bottom: 46px;
+      bottom: 64px;
       right: 12px;
       z-index: 300;
       background: rgba(0,0,0,0.92);
-      border: 2px solid #444;
-      padding: 6px 10px;
+      border: 3px solid #444;
+      padding: 10px 16px;
       display: flex;
-      gap: 10px;
+      gap: 18px;
       align-items: center;
-      font-size: 0.8em;
+      font-size: 1em;
     }
     .score-col { text-align: center; }
-    .score-col .s-name { font-size: 0.75em; font-weight: bold; letter-spacing: 0.05em; }
+    .score-col .s-name { font-size: clamp(0.85em, 1.2vw, 1.05em); font-weight: bold; letter-spacing: 0.05em; }
     .score-col.am .s-name { color: #FF00FF; }
     .score-col.jo .s-name { color: #00FFFF; }
     .score-col .s-val {
-      font-size: 1.8em; font-weight: 900; color: #FFFF00;
+      font-size: clamp(2.2em, 3.4vw, 3em); font-weight: 900; color: #FFFF00;
       text-shadow: 0 0 8px #FFFF00; line-height: 1;
-      margin: 2px 0;
+      margin: 4px 0;
     }
-    .score-btns { display: flex; gap: 3px; justify-content: center; }
+    .score-btns { display: flex; gap: 6px; justify-content: center; }
     .score-btns button {
       font-family: 'Comic Sans MS', cursive;
-      font-size: 0.85em; padding: 1px 7px;
-      cursor: pointer; border: 1px solid #888;
+      font-size: clamp(1em, 1.6vw, 1.3em); padding: 8px 14px;
+      cursor: pointer; border: 2px solid #888;
       background: #111; color: #fff;
+      min-height: 40px;
     }
     .score-btns button:hover { background: #333; }
-    .score-sep { color: #444; font-size: 1.5em; align-self: center; }
+    .score-sep { color: #444; font-size: 2em; align-self: center; }
 
     /* ── Nav ── */
     .nav {
@@ -73,36 +75,37 @@
       padding: 0 16px; z-index: 200;
     }
     .nav-btn {
-      font-family: 'Comic Sans MS', cursive; font-size: 0.95em;
-      padding: 5px 16px; background: #000; color: #00FF00;
-      border: 3px solid #00FF00; cursor: pointer;
+      font-family: 'Comic Sans MS', cursive; font-size: clamp(1.05em, 2.2vw, 1.7em);
+      padding: clamp(11px, 1.5vw, 20px) clamp(20px, 3vw, 40px); background: #000; color: #00FF00;
+      border: 4px solid #00FF00; cursor: pointer;
       text-shadow: 0 0 8px #00FF00; box-shadow: 0 0 8px #00FF00;
+      min-height: 46px;
     }
     .nav-btn:hover { background: #00FF00; color: #000; }
-    .slide-counter { color: #FFFF00; font-size: 0.9em; text-shadow: 0 0 5px #FFFF00; }
+    .slide-counter { color: #FFFF00; font-size: clamp(0.95em, 1.5vw, 1.3em); text-shadow: 0 0 5px #FFFF00; }
 
     /* ── Typography ── */
     .wordart {
-      font-size: clamp(1.8em,5.5vw,4.2em); font-weight: 900; font-style: italic;
+      font-size: clamp(2em,6.2vw,4.8em); font-weight: 900; font-style: italic;
       color: #FFFF00; text-shadow: -3px -3px 0 #FF0000, 3px 3px 0 #0000FF, 0 0 30px #FFF;
       letter-spacing: 0.04em; line-height: 1.1;
     }
     .rainbow-text {
-      font-size: clamp(1em,2.8vw,2em); font-weight: 900;
+      font-size: clamp(1.15em,3.2vw,2.4em); font-weight: 900;
       background: linear-gradient(to right,#FF0000,#FF7F00,#FFFF00,#00FF00,#0000FF,#FF00FF);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .body-box {
       background: rgba(0,0,0,0.72); border: 2px solid #00FF00;
-      box-shadow: 0 0 10px #00FF00; padding: 11px 18px;
-      max-width: 720px; color: #FFF;
-      font-size: clamp(0.82em,1.7vw,1.05em); line-height: 1.65; flex-shrink: 0;
+      box-shadow: 0 0 10px #00FF00; padding: 14px 22px;
+      max-width: 760px; color: #FFF;
+      font-size: clamp(0.92em,1.9vw,1.25em); line-height: 1.65; flex-shrink: 0;
     }
 
     /* ── Round badge ── */
     .round-badge {
-      font-size: clamp(0.65em,1.2vw,0.85em); font-weight: bold;
-      letter-spacing: 0.14em; padding: 4px 16px; margin-bottom: 9px; flex-shrink: 0;
+      font-size: clamp(0.8em,1.5vw,1.05em); font-weight: bold;
+      letter-spacing: 0.14em; padding: 8px 20px; margin-bottom: 12px; flex-shrink: 0;
     }
     .round-badge.am { background: #FF00FF; color: #000; box-shadow: 0 0 12px #FF00FF; }
     .round-badge.jo { background: #00FFFF; color: #000; box-shadow: 0 0 12px #00FFFF; }
@@ -110,56 +113,58 @@
 
     /* ── Question ── */
     .question {
-      font-size: clamp(1.1em,2.9vw,1.9em); color: #FFFF00;
-      text-shadow: 2px 2px 0 #220000; max-width: 800px;
-      line-height: 1.4; margin-bottom: 10px; flex-shrink: 0;
+      font-size: clamp(1.25em,3.3vw,2.2em); color: #FFFF00;
+      text-shadow: 2px 2px 0 #220000; max-width: 840px;
+      line-height: 1.4; margin-bottom: 12px; flex-shrink: 0;
     }
     .sub-q { font-size: 0.65em; color: #AAAAFF; display: block; margin-top: 4px; }
 
     /* ── Photos ── */
     .photo-frame {
-      background: white; padding: 6px 6px 26px 6px;
-      box-shadow: 5px 5px 18px rgba(0,0,0,0.9), 0 0 22px #FF00FF;
-      flex-shrink: 0; margin-bottom: 9px;
+      background: white; padding: 8px 8px 32px 8px;
+      box-shadow: 6px 6px 22px rgba(0,0,0,0.9), 0 0 26px #FF00FF;
+      flex-shrink: 0; margin-bottom: 10px;
     }
-    .photo-frame img { display: block; max-height: 36vh; max-width: 52vw; object-fit: cover; }
-    .photo-frame .cap { color: #333; font-size: 0.72em; text-align: center; margin-top: 4px; }
+    .photo-frame img { display: block; max-height: 48vh; max-width: 64vw; object-fit: cover; }
+    .photo-frame .cap { color: #333; font-size: clamp(0.75em, 1.2vw, 0.95em); text-align: center; margin-top: 6px; }
 
-    .photo-row { display: flex; gap: 12px; align-items: flex-start; justify-content: center; flex-shrink: 0; margin-bottom: 9px; }
-    .photo-row .photo-frame img { max-height: 29vh; max-width: 26vw; }
+    .photo-row { display: flex; gap: 16px; align-items: flex-start; justify-content: center; flex-shrink: 0; margin-bottom: 10px; flex-wrap: wrap; }
+    .photo-row .photo-frame img { max-height: 38vh; max-width: 34vw; }
 
     /* ── Write prompt ── */
     .write-prompt {
       background: rgba(0,0,0,0.8); border: 2px solid #00FF00;
-      box-shadow: 0 0 12px #00FF00; padding: 8px 18px;
-      color: #00FF00; font-size: clamp(0.82em,1.7vw,1.05em); flex-shrink: 0;
+      box-shadow: 0 0 12px #00FF00; padding: 11px 22px;
+      color: #00FF00; font-size: clamp(0.92em,1.9vw,1.25em); flex-shrink: 0;
     }
 
     /* ── Reveal ── */
     .reveal-btn {
       font-family: 'Comic Sans MS', cursive;
-      font-size: clamp(0.85em,1.7vw,1.05em); padding: 7px 22px;
+      font-size: clamp(1em,2vw,1.4em); padding: clamp(11px,1.6vw,18px) clamp(26px,4vw,44px);
       background: #000; color: #FF00FF; border: 3px solid #FF00FF;
       cursor: pointer; box-shadow: 0 0 12px #FF00FF; margin-top: 9px; flex-shrink: 0;
+      min-height: 46px;
     }
     .reveal-btn:hover { background: #FF00FF; color: #000; }
     .fact-answer {
       display: none; background: rgba(0,0,0,0.9); border: 3px solid #00FF00;
-      box-shadow: 0 0 20px #00FF00; padding: 11px 22px;
-      margin-top: 7px; max-width: 640px; flex-shrink: 0;
+      box-shadow: 0 0 20px #00FF00; padding: 16px 26px;
+      margin-top: 7px; max-width: 680px; flex-shrink: 0;
     }
     .fact-answer.vis { display: block; }
-    .ans-text { font-size: clamp(1em,2.6vw,1.7em); color: #00FF00; text-shadow: 0 0 10px #00FF00; font-weight: bold; }
-    .ans-sub  { color: #AAAAAA; font-size: 0.8em; margin-top: 3px; }
-    .pt { display: inline-block; background: #FFFF00; color: #000; font-weight: bold; padding: 2px 10px; font-size: 0.78em; margin-top: 5px; }
+    .ans-text { font-size: clamp(1.2em,3vw,2em); color: #00FF00; text-shadow: 0 0 10px #00FF00; font-weight: bold; }
+    .ans-sub  { color: #AAAAAA; font-size: clamp(0.8em, 1.3vw, 1em); margin-top: 3px; }
+    .pt { display: inline-block; background: #FFFF00; color: #000; font-weight: bold; padding: 4px 12px; font-size: clamp(0.8em, 1.2vw, 0.95em); margin-top: 6px; }
 
     /* ── Points buttons on question slides ── */
     .award-row {
-      display: flex; gap: 12px; margin-top: 9px; flex-shrink: 0; align-items: center;
+      display: flex; gap: 12px; margin-top: 9px; flex-shrink: 0; align-items: center; flex-wrap: wrap; justify-content: center;
     }
     .award-btn {
-      font-family: 'Comic Sans MS', cursive; font-size: 0.85em;
-      padding: 5px 14px; border: 2px solid; cursor: pointer; font-weight: bold;
+      font-family: 'Comic Sans MS', cursive; font-size: clamp(0.9em, 1.4vw, 1.1em);
+      padding: 8px 18px; border: 2px solid; cursor: pointer; font-weight: bold;
+      min-height: 40px;
     }
     .award-btn.am-btn { border-color: #FF00FF; color: #FF00FF; background: #000; }
     .award-btn.am-btn:hover { background: #FF00FF; color: #000; }
@@ -178,14 +183,14 @@
     #final-table .subtotal td { background: #0a0a2a; color: #FFFF00; font-weight: bold; }
     #final-table .grand td { background: #1a0a00; color: #FF6600; font-weight: bold; font-size: 1.1em; }
 
-    .scoreboard-big { display: flex; gap: 20px; justify-content: center; flex-shrink: 0; }
-    .team-box { background: rgba(0,0,0,0.8); border: 3px solid; padding: 12px 22px; text-align: center; min-width: 160px; }
+    .scoreboard-big { display: flex; gap: 26px; justify-content: center; flex-shrink: 0; flex-wrap: wrap; }
+    .team-box { background: rgba(0,0,0,0.8); border: 4px solid; padding: 18px 30px; text-align: center; min-width: 200px; }
     .team-box.am { border-color: #FF00FF; box-shadow: 0 0 18px #FF00FF; }
     .team-box.jo { border-color: #00FFFF; box-shadow: 0 0 18px #00FFFF; }
-    .team-box .t-name { font-size: 0.9em; font-weight: bold; margin-bottom: 5px; }
+    .team-box .t-name { font-size: clamp(1em, 1.6vw, 1.3em); font-weight: bold; margin-bottom: 6px; }
     .am .t-name { color: #FF00FF; } .jo .t-name { color: #00FFFF; }
-    .team-box .t-score { font-size: 2.8em; color: #FFFF00; font-weight: bold; }
-    .team-box .t-max { font-size: 0.68em; color: #888; }
+    .team-box .t-score { font-size: clamp(3em, 5.5vw, 4.4em); color: #FFFF00; font-weight: bold; }
+    .team-box .t-max { font-size: 0.72em; color: #888; }
 
     /* ── Misc ── */
     .blink { animation: blink 0.85s step-start infinite; }
@@ -199,6 +204,34 @@
     @keyframes glow { from{text-shadow:0 0 12px #FF0000,0 0 25px #FF6600} to{text-shadow:0 0 22px #FFFF00,0 0 45px #FF6600,0 0 70px #FF0000} }
     .photo-bg { position: absolute; inset: 0; object-fit: cover; width: 100%; height: 100%; opacity: 0.13; z-index: 0; }
     .slide > *:not(.photo-bg) { position: relative; z-index: 1; }
+
+    /* ══════════════════════════════════
+       MOBILE
+    ══════════════════════════════════ */
+    @media (max-width: 760px) {
+      body { overflow-y: auto; overflow-x: hidden; height: auto; min-height: 100dvh; }
+      .slideshow { height: auto; min-height: 100dvh; }
+      .slide {
+        position: relative; inset: auto;
+        min-height: 100dvh;
+        padding: 14px 14px 190px 14px;
+        overflow: visible;
+      }
+      canvas#stars { position: fixed; }
+      #scoreboard {
+        position: fixed; bottom: 62px; left: 0; right: 0;
+        justify-content: center; border-left: none; border-right: none;
+        width: 100%;
+      }
+      .photo-frame img { max-height: 30vh; max-width: 84vw; }
+      .photo-row { flex-direction: column; align-items: center; }
+      .photo-row .photo-frame img { max-height: 26vh; max-width: 84vw; }
+      .award-row { gap: 8px; }
+      .nav { bottom: 6px; padding: 0 10px; }
+      .nav-btn { font-size: 1.05em; padding: 10px 18px; }
+      .scoreboard-big { gap: 12px; }
+      .team-box { min-width: 42vw; padding: 12px 14px; }
+    }
   </style>
 </head>
 <body>
