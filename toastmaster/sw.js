@@ -1,4 +1,4 @@
-const CACHE = 'toastmaster-v2';
+const CACHE = 'toastmaster-v3';
 const ASSETS = [
   './',
   './index.html',
