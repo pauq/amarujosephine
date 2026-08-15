@@ -235,6 +235,11 @@ async function wake(){ try{ if('wakeLock' in navigator) wl=await navigator.wakeL
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') wake(); });
 wake();
 
+// self-updating: register a network-first service worker so edits show up
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{ navigator.serviceWorker.register('jaana-sw.js').catch(()=>{}); });
+}
+
 render(0);
 </script>
 </body>
