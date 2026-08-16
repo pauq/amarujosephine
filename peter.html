@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0b0f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="P&E Speech">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<link rel="icon" href="data:image/png;base64,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">
+<title>Peter &amp; Ellie — Best Man Speech</title>
+<style>
+  :root{
+    --bg:#0d0b0f;
+    --ink:#f4efe6;
+    --dim:#928c82;
+    --faint:#4c4640;
+    --accent:#d4b06a;
+    --accent-soft:rgba(212,176,106,0.5);
+    --line:rgba(255,255,255,0.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    overscroll-behavior:none;user-select:none;-webkit-user-select:none;}
+  #app{position:fixed;inset:0;display:flex;flex-direction:column;overflow:hidden;}
+
+  .topbar{display:flex;align-items:center;justify-content:space-between;
+    padding:calc(12px + env(safe-area-inset-top,0px)) 18px 8px 18px;flex-shrink:0;z-index:20;}
+  .brand{font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:var(--dim);font-weight:600;}
+  .brand b{color:var(--accent);}
+  .menu-btn{background:transparent;border:1px solid var(--faint);color:var(--dim);
+    border-radius:50%;width:38px;height:38px;font-size:19px;line-height:1;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;}
+  .menu-btn:active{background:rgba(255,255,255,0.06);}
+
+  .viewport{flex:1;position:relative;overflow:hidden;}
+  .card{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+    text-align:center;padding:20px 30px;overflow-y:auto;
+    transition:transform .28s ease,opacity .28s ease;}
+  .card.enter-r{transform:translateX(100%);opacity:0;}
+  .card.enter-l{transform:translateX(-100%);opacity:0;}
+  .card.leave-l{transform:translateX(-100%);opacity:0;}
+  .card.leave-r{transform:translateX(100%);opacity:0;}
+  .card.active{transform:translateX(0);opacity:1;}
+
+  .card-inner{margin:auto 0;display:flex;flex-direction:column;align-items:center;
+    width:100%;max-width:40em;flex-shrink:0;}
+
+  .kicker{font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:var(--accent);
+    margin-bottom:22px;}
+
+  .say{font-size:clamp(21px,4.6vw,32px);line-height:1.5;font-weight:500;white-space:pre-line;}
+  .card.punch .say{font-weight:700;color:#fff;font-size:clamp(24px,6vw,40px);}
+  .note{margin-top:24px;padding-top:12px;border-top:1px solid var(--line);
+    color:var(--accent);font-size:clamp(13px,2.6vw,16px);font-style:italic;letter-spacing:0.02em;}
+
+  .botbar{display:flex;align-items:center;justify-content:center;gap:14px;
+    padding:8px 0 calc(12px + env(safe-area-inset-bottom,0px)) 0;flex-shrink:0;z-index:20;}
+  .dots{display:flex;gap:4px;align-items:center;max-width:70vw;overflow:hidden;justify-content:center;flex-wrap:wrap;}
+  .dot{width:5px;height:5px;border-radius:50%;background:var(--faint);transition:background .2s,transform .2s;}
+  .dot.on{background:var(--accent);transform:scale(1.5);}
+  .pos{font-size:12px;letter-spacing:0.1em;color:var(--dim);font-variant-numeric:tabular-nums;flex-shrink:0;}
+
+  .tap{position:absolute;top:0;bottom:0;width:26%;z-index:5;}
+  .tap.l{left:0;} .tap.r{right:0;}
+
+  .menu-overlay{position:fixed;inset:0;background:#080609;z-index:100;display:none;
+    flex-direction:column;padding:calc(16px + env(safe-area-inset-top,0px)) 0 calc(16px + env(safe-area-inset-bottom,0px)) 0;}
+  .menu-overlay.open{display:flex;}
+  .menu-head{display:flex;justify-content:space-between;align-items:center;
+    padding:0 20px 14px 20px;border-bottom:1px solid var(--line);flex-shrink:0;}
+  .menu-title{font-size:13px;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);}
+  .menu-close{background:transparent;border:none;color:var(--ink);font-size:26px;cursor:pointer;padding:4px 8px;line-height:1;}
+  .menu-list{overflow-y:auto;flex:1;padding:6px 0;}
+  .menu-item{display:flex;gap:12px;align-items:baseline;width:100%;background:transparent;border:none;
+    border-bottom:1px solid rgba(255,255,255,0.05);color:var(--ink);text-align:left;
+    padding:13px 20px;font-size:14px;cursor:pointer;line-height:1.35;}
+  .menu-item:active{background:rgba(255,255,255,0.05);}
+  .menu-item .n{color:var(--faint);font-size:12px;min-width:1.9em;font-variant-numeric:tabular-nums;}
+  .menu-item.cur{color:var(--accent);}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="topbar">
+    <div class="brand"><b>House Nyrén</b> · Peter &amp; Ellie</div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu">☰</button>
+  </div>
+  <div class="viewport" id="viewport">
+    <div class="tap l" id="tapL"></div>
+    <div class="tap r" id="tapR"></div>
+  </div>
+  <div class="botbar">
+    <span class="pos" id="pos"></span>
+    <div class="dots" id="dots"></div>
+  </div>
+</div>
+
+<div class="menu-overlay" id="menu">
+  <div class="menu-head">
+    <span class="menu-title">All cards</span>
+    <button class="menu-close" id="menuClose" aria-label="Close">×</button>
+  </div>
+  <div class="menu-list" id="menuList"></div>
+</div>
+
+<script>
+const CARDS = [
+  { text:"My lords, my ladies." },
+  { kicker:"Who am I", text:"I am Paul of House Nyrén.\nFirst of my Name.\nElder Brother to the Groom.\nProtector of the Sea.\nFixer of All Things IT.", note:"pause" },
+  { text:"And Best Man.", punch:true, note:"pause" },
+
+  { text:"There's one thing you should know about Peter, and it will save you time later." },
+  { text:"Peter is the most comfortable man I have ever met. I don't mean relaxed — I mean comfortable, as a way of life.\n\nHe has never done a difficult thing when an easier one was available. I once asked him for a small favour, and he chose to have a bath instead. Not afterwards. Instead." },
+  { text:"And he wasn't sorry. That's the thing about Peter. He doesn't let you down with guilt. He lets you down with complete serenity.", note:"pause" },
+
+  { text:"And to be fair to Peter — losing things runs in the family.\n\nWhen Peter was a toddler in the US, there was a tornado warning. My father, home alone with both of us, gathered blankets, flashlights, food, water, and got me to the shelter.", note:"pause" },
+  { text:"He forgot Peter.", punch:true, note:"pause for laugh" },
+  { text:"So in fairness — he learned from the best.", note:"pause" },
+
+  { kicker:"The knife", text:"Which brings me to the knife." },
+  { text:"When we were kids, Peter borrowed my pocket knife and lost it.\n\nThat Christmas, I opened a present from him, and inside was a note. Saying that I would be receiving a new pocket knife as compensation.", note:"pause" },
+  { text:"I want to stress that the note was the present.\n\nI have never received the knife.", punch:true, note:"pause" },
+
+  { kicker:"The bicycles", text:"Now. My brother has had ten bicycles stolen.\n\nI have had none." },
+  { text:"One of the ten was our mother's. It went missing, and it stayed missing for over a year." },
+  { text:"Then one day I walked past the underground station, five hundred metres from our flat, and I saw a bicycle that looked exactly like it.\n\nAnd we only ever had one key to that bike. So I walked home, got the key, walked back.", note:"pause" },
+  { text:"It fit.", punch:true, note:"pause" },
+  { text:"At some point, my brother had cycled five hundred metres, decided that was enough, locked the bike up, taken the underground home, put the key back in the drawer, and never thought about it again.\n\nFor over a year.", note:"pause" },
+
+  { kicker:"The guitar", text:"Then there's the guitar." },
+  { text:"Peter once found a guitar in his own wardrobe. Not his guitar — he doesn't play. A guitar, in his home, that he could not account for.\n\nIf it belongs to anyone here, see him after the speeches.", note:"pause" },
+  { text:"A couple of years ago, we also misplaced the family tortoise.\n\nTwenty years old. Gone.", note:"pause" },
+
+  { kicker:"The flat", text:"And then there's the flat." },
+  { text:"When Peter was a student in Uppsala, the lease on his shared house ran out. Everyone he lived with sorted themselves out months in advance, like adults.\n\nPeter did nothing. Absolutely nothing." },
+  { text:"The day before he was due to be evicted, a man called Björn — who he knew from squash — happened to say:\n\n\"Don't you study in Uppsala? I've got a flat going spare.\"", note:"pause" },
+  { text:"He didn't lift a finger. It arrived on a plate.", note:"pause" },
+
+  { text:"And this is the thing about my brother that I want you all to understand.\n\nPeter loses things — and the universe brings them back. Every time. Bicycles. Guitars he never owned in the first place. Somewhere to live.", note:"pause" },
+  { text:"Not that he kept any of it. The bike went missing again. The flat is long gone. The guitar, I assume, is still in the closet.", note:"pause" },
+
+  { text:"Now — I know a lot of you wonder how someone gets through life like this. How you become a doctor. How you get married. When you're this — sorglös.", note:"pause" },
+  { text:"I'll let you in on the secret. The universe picks up his slack.\n\nAnd when the universe is busy, the rest of us do. His support network.", note:"pause" },
+
+  { text:"Why do we do it? Because behind all of it, he is the warmest, funniest, loveliest man you'll meet. Easy to talk to. Always in a good mood. Genuinely a joy to be around.", note:"pause" },
+  { text:"And he's clever. He's learned to make the rest of us want to pick up his slack. Cognitive offloading, with a smile.\n\nMy brother is a man of shortcuts.", note:"pause" },
+
+  { kicker:"Ellie", text:"Which brings me to Ellie." },
+  { text:"They met in a corridor in Uppsala. And then, in the great tradition of my brother's relationship with his own belongings —", note:"pause" },
+  { text:"— he lost her too. For years.", punch:true, note:"pause" },
+  { text:"And then Peter got Covid.", note:"pause" },
+  { text:"He had a temperature of nearly forty degrees. He was delirious.\n\nAnd in that state, he picked up his phone and messaged Ellie to tell her he missed her.", note:"pause" },
+  { text:"She ignored him. Correctly.", punch:true, note:"pause for laugh" },
+  { text:"He has no memory of sending it. None. To this day.", note:"pause" },
+  { text:"Six months later, they started writing to each other again.", note:"pause" },
+  { text:"The universe brought Covid. Covid brought the fever. The fever brought him back to Ellie.", note:"pause" },
+  { text:"The single most important thing my brother has ever done — he did unconscious.\n\nAnd he can't remember it.", punch:true, note:"slow down" },
+
+  { kicker:"The handover", text:"Ellie — I hand him over to you now." },
+  { text:"You're the one who picks up the slack now. Who remembers where he parked. Who throws out unexplained guitars. Who keeps the pets inside during tornado warnings." },
+  { text:"His burdens are now yours.", note:"pause" },
+  { text:"Oh — and you owe me a pocket knife.", punch:true },
+];
+
+const vp=document.getElementById('viewport');
+const posEl=document.getElementById('pos');
+const dotsEl=document.getElementById('dots');
+const KEY='peter_speech_card';
+let cur=load(), curEl=null;
+function load(){ try{ const n=parseInt(localStorage.getItem(KEY),10); if(!isNaN(n)&&n>=0&&n<CARDS.length) return n; }catch(e){} return 0; }
+function save(){ try{ localStorage.setItem(KEY,String(cur)); }catch(e){} }
+function escapeHtml(s){ return s.replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+function build(c){
+  const el=document.createElement('div'); el.className='card'+(c.punch?' punch':'');
+  const inner=document.createElement('div'); inner.className='card-inner'; el.appendChild(inner);
+  if(c.kicker){ const k=document.createElement('div'); k.className='kicker'; k.textContent=c.kicker; inner.appendChild(k); }
+  const s=document.createElement('div'); s.className='say'; s.textContent=c.text; inner.appendChild(s);
+  if(c.note){ const nn=document.createElement('div'); nn.className='note'; nn.textContent='— '+c.note; inner.appendChild(nn); }
+  return el;
+}
+function render(dir){
+  const el=build(CARDS[cur]);
+  if(curEl){
+    if(dir===1){ el.classList.add('enter-r'); vp.appendChild(el);
+      requestAnimationFrame(()=>{ curEl.classList.add('leave-l'); curEl.classList.remove('active'); el.classList.remove('enter-r'); el.classList.add('active'); }); }
+    else if(dir===-1){ el.classList.add('enter-l'); vp.appendChild(el);
+      requestAnimationFrame(()=>{ curEl.classList.add('leave-r'); curEl.classList.remove('active'); el.classList.remove('enter-l'); el.classList.add('active'); }); }
+    else { el.classList.add('active'); vp.appendChild(el); }
+    const old=curEl; setTimeout(()=>{ if(old&&old.parentNode) old.parentNode.removeChild(old); },320);
+  } else { el.classList.add('active'); vp.appendChild(el); }
+  curEl=el;
+  posEl.textContent=(cur+1)+' / '+CARDS.length;
+  [...dotsEl.children].forEach((d,i)=>d.classList.toggle('on',i===cur));
+  save();
+}
+function go(i,dir){ if(i<0||i>=CARDS.length||i===cur) return; cur=i; render(dir); }
+function next(){ go(cur+1,1); } function prev(){ go(cur-1,-1); }
+CARDS.forEach(()=>{ const d=document.createElement('div'); d.className='dot'; dotsEl.appendChild(d); });
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('menu').classList.contains('open')){ if(e.key==='Escape') closeMenu(); return; }
+  if(e.key==='ArrowRight'||e.key===' '){ e.preventDefault(); next(); }
+  if(e.key==='ArrowLeft') prev();
+});
+let sx=0,sy=0,tp=false;
+vp.addEventListener('touchstart',e=>{ if(e.touches.length!==1)return; tp=true; sx=e.touches[0].clientX; sy=e.touches[0].clientY; },{passive:true});
+vp.addEventListener('touchend',e=>{ if(!tp)return; tp=false;
+  const dx=e.changedTouches[0].clientX-sx, dy=e.changedTouches[0].clientY-sy;
+  if(Math.abs(dx)>55&&Math.abs(dx)>Math.abs(dy)){ if(dx<0) next(); else prev(); } },{passive:true});
+document.getElementById('tapL').addEventListener('click',prev);
+document.getElementById('tapR').addEventListener('click',next);
+const menu=document.getElementById('menu'), menuList=document.getElementById('menuList');
+function buildMenu(){ menuList.innerHTML=''; CARDS.forEach((c,i)=>{
+  const it=document.createElement('button'); it.className='menu-item'+(i===cur?' cur':'');
+  const label=c.kicker? c.kicker : c.text.split('\n')[0];
+  it.innerHTML='<span class="n">'+(i+1)+'</span><span>'+escapeHtml(label)+'</span>';
+  it.addEventListener('click',()=>{ const dir=i>cur?1:(i<cur?-1:0); cur=i; render(dir); closeMenu(); });
+  menuList.appendChild(it);
+}); }
+function openMenu(){ buildMenu(); menu.classList.add('open'); const c=menuList.querySelector('.cur'); if(c) c.scrollIntoView({block:'center'}); }
+function closeMenu(){ menu.classList.remove('open'); }
+document.getElementById('menuBtn').addEventListener('click',openMenu);
+document.getElementById('menuClose').addEventListener('click',closeMenu);
+menu.addEventListener('click',e=>{ if(e.target===menu) closeMenu(); });
+let wl=null;
+async function wake(){ try{ if('wakeLock' in navigator) wl=await navigator.wakeLock.request('screen'); }catch(e){} }
+document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible') wake(); });
+wake();
+if('serviceWorker' in navigator){ window.addEventListener('load',()=>{ navigator.serviceWorker.register('peter-sw.js').catch(()=>{}); }); }
+render(0);
+</script>
+</body>
+</html>
