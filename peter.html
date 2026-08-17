@@ -110,60 +110,52 @@
 <script>
 const CARDS = [
   { text:"My lords, my ladies." },
-  { kicker:"Who am I", text:"I am Paul of House Nyrén.\nFirst of my Name.\nElder Brother to the Groom.\nProtector of the Sea.\nFixer of All Things IT.", note:"pause" },
+  { kicker:"Who am I", text:"I am Paul, the eldest son of House Nyrén. First of my Name. Protector of the Sea. Fixer of All Things IT.", note:"pause" },
   { text:"And Best Man.", punch:true, note:"pause" },
 
-  { text:"There's one thing you should know about Peter, and it will save you time later." },
-  { text:"Peter is the most comfortable man I have ever met. I don't mean relaxed — I mean comfortable, as a way of life.\n\nHe has never done a difficult thing when an easier one was available. I once asked him for a small favour, and he chose to have a bath instead. Not afterwards. Instead." },
-  { text:"And he wasn't sorry. That's the thing about Peter. He doesn't let you down with guilt. He lets you down with complete serenity.", note:"pause" },
+  { text:"This speech really wrote itself, but I ended up with hours of content. Consider this a teaser for the upcoming documentary called My Brother — The Man Who Would Never Be Bothered. I've tried to distill his essence into a few short anecdotes." },
+  { text:"Peter is the most comfortable man I have ever met. I don't mean relaxed — I mean comfortable, as a way of life." },
+  { text:"Ask Peter for a favour and there is a 76% chance he will take a bath instead. Not before the favour — instead of it." },
+  { text:"He is never really sorry for it either. He doesn't let you down with guilt. He lets you down with complete serenity.", note:"pause" },
 
-  { text:"And to be fair to Peter — losing things runs in the family.\n\nWhen Peter was a toddler in the US, there was a tornado warning. My father, home alone with both of us, gathered blankets, flashlights, food, water, and got me to the shelter.", note:"pause" },
-  { text:"He forgot Peter.", punch:true, note:"pause for laugh" },
-  { text:"So in fairness — he learned from the best.", note:"pause" },
+  { kicker:"The knife", text:"One summer when we were kids, Peter borrowed my Swiss army knife to do something outdoorsy. He misplaced it. That Christmas, my gift from him was a note saying that I would be receiving a new pocket knife as compensation.", note:"pause" },
+  { text:"I want to stress that the note was the present.", note:"pause" },
+  { text:"I have never received the knife.", punch:true, note:"pause" },
 
-  { kicker:"The knife", text:"Which brings me to the knife." },
-  { text:"When we were kids, Peter borrowed my pocket knife and lost it.\n\nThat Christmas, I opened a present from him, and inside was a note. Saying that I would be receiving a new pocket knife as compensation.", note:"pause" },
-  { text:"I want to stress that the note was the present.\n\nI have never received the knife.", punch:true, note:"pause" },
+  { kicker:"The bicycles", text:"I have never had a bike stolen in my life. Peter has had ten bicycles stolen." },
+  { text:"One of the ten was our mother's. It went missing mysteriously, and it stayed missing for well over a year." },
+  { text:"Then one day I walked past the underground station, about five hundred metres from our flat, and I saw a bicycle that looked remarkably similar — neatly locked up and ready to go. And we only ever had one key to that bike. So I walked home, got the key, walked back.", note:"pause" },
+  { text:"Would you believe it. It fit.", punch:true, note:"pause" },
+  { text:"So at some point, my brother had cycled five hundred metres, given up, locked the bike, taken the underground instead. Come home, put the key back in the drawer, forgotten about the whole endeavour, and then assumed it had been stolen. I don't know anything about the fate of the other nine bikes, but I do find theft hard to believe.", note:"pause" },
 
-  { kicker:"The bicycles", text:"Now. My brother has had ten bicycles stolen.\n\nI have had none." },
-  { text:"One of the ten was our mother's. It went missing, and it stayed missing for over a year." },
-  { text:"Then one day I walked past the underground station, five hundred metres from our flat, and I saw a bicycle that looked exactly like it.\n\nAnd we only ever had one key to that bike. So I walked home, got the key, walked back.", note:"pause" },
-  { text:"It fit.", punch:true, note:"pause" },
-  { text:"At some point, my brother had cycled five hundred metres, decided that was enough, locked the bike up, taken the underground home, put the key back in the drawer, and never thought about it again.\n\nFor over a year.", note:"pause" },
-
-  { kicker:"The guitar", text:"Then there's the guitar." },
-  { text:"Peter once found a guitar in his own wardrobe. Not his guitar — he doesn't play. A guitar, in his home, that he could not account for.\n\nIf it belongs to anyone here, see him after the speeches.", note:"pause" },
-  { text:"A couple of years ago, we also misplaced the family tortoise.\n\nTwenty years old. Gone.", note:"pause" },
+  { kicker:"The guitar", text:"Peter once found a guitar in his own wardrobe. Not his guitar — he doesn't play. A guitar, in his home, that he could not account for. A wild guitar suddenly appeared in his not very deep wardrobe." },
+  { text:"If anyone here has had a guitar go missing — let me know.", note:"pause" },
 
   { kicker:"The flat", text:"And then there's the flat." },
-  { text:"When Peter was a student in Uppsala, the lease on his shared house ran out. Everyone he lived with sorted themselves out months in advance, like adults.\n\nPeter did nothing. Absolutely nothing." },
-  { text:"The day before he was due to be evicted, a man called Björn — who he knew from squash — happened to say:\n\n\"Don't you study in Uppsala? I've got a flat going spare.\"", note:"pause" },
-  { text:"He didn't lift a finger. It arrived on a plate.", note:"pause" },
+  { text:"When Peter was a student in Uppsala, a city notoriously difficult to get apartments in, the lease on his shared house ran out. Everyone he lived with sorted themselves out months in advance, like adults. Peter did nothing. Absolutely nothing." },
+  { text:"The day before he was due to be evicted, he bumped into Björn at our squash court, who asked him: \"Don't you study in Uppsala? Do you want an apartment?\"", note:"pause" },
+  { text:"He didn't lift a finger. The universe served him an apartment on a plate.", note:"pause" },
 
-  { text:"And this is the thing about my brother that I want you all to understand.\n\nPeter loses things — and the universe brings them back. Every time. Bicycles. Guitars he never owned in the first place. Somewhere to live.", note:"pause" },
+  { text:"And this is the thing about my brother that I want you all to understand. Peter loses things — and the universe brings them back. Every time. Bicycles. Guitars he never owned. Somewhere to live.", note:"pause" },
   { text:"Not that he kept any of it. The bike went missing again. The flat is long gone. The guitar, I assume, is still in the closet.", note:"pause" },
 
-  { text:"Now — I know a lot of you wonder how someone gets through life like this. How you become a doctor. How you get married. When you're this — sorglös.", note:"pause" },
-  { text:"I'll let you in on the secret. The universe picks up his slack.\n\nAnd when the universe is busy, the rest of us do. His support network.", note:"pause" },
-
-  { text:"Why do we do it? Because behind all of it, he is the warmest, funniest, loveliest man you'll meet. Easy to talk to. Always in a good mood. Genuinely a joy to be around.", note:"pause" },
-  { text:"And he's clever. He's learned to make the rest of us want to pick up his slack. Cognitive offloading, with a smile.\n\nMy brother is a man of shortcuts.", note:"pause" },
+  { text:"Now — I know a lot of you wonder how someone gets through life like this. How you become a doctor. How you get married. When you're this fundamentally unbothered.", note:"pause" },
+  { text:"I'll let you in on the secret. The universe picks up his slack. And when the universe is busy, the rest of us do. His support network.", note:"pause" },
+  { text:"Why do we do it? Because behind all of it, he is the warmest, funniest, loveliest man you'll meet. Sensitive, caring. Easy to talk to and always in a good mood. Genuinely a joy to be around.", note:"pause" },
+  { text:"And he's clever. He's learned to make the rest of us want to pick up his slack. Cognitive offloading, with a smile. My brother is a man of shortcuts.", note:"pause" },
 
   { kicker:"Ellie", text:"Which brings me to Ellie." },
-  { text:"They met in a corridor in Uppsala. And then, in the great tradition of my brother's relationship with his own belongings —", note:"pause" },
+  { text:"They met in a corridor in Uppsala. Dated for a while. And then, in the great tradition of my brother's relationship with things around him —", note:"pause" },
   { text:"— he lost her too. For years.", punch:true, note:"pause" },
-  { text:"And then Peter got Covid.", note:"pause" },
-  { text:"He had a temperature of nearly forty degrees. He was delirious.\n\nAnd in that state, he picked up his phone and messaged Ellie to tell her he missed her.", note:"pause" },
-  { text:"She ignored him. Correctly.", punch:true, note:"pause for laugh" },
-  { text:"He has no memory of sending it. None. To this day.", note:"pause" },
-  { text:"Six months later, they started writing to each other again.", note:"pause" },
-  { text:"The universe brought Covid. Covid brought the fever. The fever brought him back to Ellie.", note:"pause" },
-  { text:"The single most important thing my brother has ever done — he did unconscious.\n\nAnd he can't remember it.", punch:true, note:"slow down" },
+  { text:"Years went by, and then the universe gave us Covid. Covid gave Peter a fever. And in a delirious state, that Peter doesn't even remember today, he found some courage and texted Ellie.", note:"pause" },
+  { text:"Thank you, Covid. Thank you, universe.", note:"pause" },
+  { text:"Ellie says yes to anything. She is dependable. Fiercely loyal. Where Peter underpromises and underdelivers, Ellie overpromises and overdelivers. She is highly organised, and she knows where she parked her bike.", note:"pause" },
 
   { kicker:"The handover", text:"Ellie — I hand him over to you now." },
-  { text:"You're the one who picks up the slack now. Who remembers where he parked. Who throws out unexplained guitars. Who keeps the pets inside during tornado warnings." },
-  { text:"His burdens are now yours.", note:"pause" },
-  { text:"Oh — and you owe me a pocket knife.", punch:true },
+  { text:"You're the one who picks up the slack now. Your happy moments are his to share. His burdens are now yours.", note:"pause" },
+  { text:"Oh — and you owe me a pocket knife.", punch:true, note:"let the laugh land" },
+
+  { kicker:"The toast", text:"Ladies and gentlemen, please be upstanding.\n\nTo Peter and Ellie.", note:"raise your glass" },
 ];
 
 const vp=document.getElementById('viewport');
